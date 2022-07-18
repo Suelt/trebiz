@@ -1,0 +1,38 @@
+IP1s:
+  node0: 172.21.139.138
+  node1: 172.31.101.174
+  node2: 172.31.30.111
+  node3: 172.27.105.188
+  node4: 172.20.180.72
+  node5: 172.31.181.68
+  node6: 172.31.181.67
+IP2s:
+  node0: 8.213.130.191
+  node1: 8.215.67.53
+  node2: 47.74.84.224
+  node3: 8.212.183.112
+  node4: 47.253.51.165
+  node5: 147.139.43.108
+  node6: 149.129.174.162
+peers_p2p_port:
+  node0: 9000
+  node1: 9000
+  node2: 9000
+  node3: 9000
+  node4: 9000
+  node5: 9000
+  node6: 9000
+rpc_listen_port: 9500
+batchSize: 100
+batchtimeout: 2000
+viewChangetimeout: 2
+checkpoint_t: 10
+log_k: 20
+maxpool: 3
+fast_path_timeout: 90
+sameiptimeout: 0
+evilpr: 5
+bgnum: 1
+abmnum: 0
+pbmnum: 0
+

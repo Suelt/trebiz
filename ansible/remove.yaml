@@ -1,0 +1,5 @@
+- hosts: remote
+  remote_user: vagrant
+  tasks:
+    - name: remove the code
+      shell: rm -rf /vagrant/pbft/
