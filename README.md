@@ -3,24 +3,6 @@ An implementation for PBFT (Practical Byzantine Fault Tolerance) and Trebiz.
 
 The function implementing the inter-node communications utilizes the code from the project `https://github.com/hashicorp/raft`. Many thanks for this project's developers.
 
-## Contents
-
-[Description](#Description)
-
-[Contents](#Contents)
-
-[Usage](#Usage)
-
-- [1. Machine types](#1.Machine types)
-- [2. Precondition](#2.Precondition)
-- [3. Steps to run trebiz](#3.Steps to run trebiz)
-  - [3.1 Install ansible on the work computer](#3.1 Install ansible on the work computer)
-  - [3.2 Login without passwords](#3.2 Login without passwords)
-  - [3.3 Generate configurations](#3.3 Generate configurations)
-  - [3.4 Configure servers via ansible tool](#3.4 Configure servers via ansible tool)
-  - [3.5 Run trebiz servers via ansible tool](#3.5 Run trebiz servers via ansible tool)
-  - [3.6 Run Client](#3.6 Run Client)
-
 ## Usage
 ### 1. Machine types
 Machines are divided into two types:
