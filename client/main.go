@@ -18,7 +18,9 @@ type CMD struct {
 func (cmd *CMD) sendRequest() {
 	client, err := rpc.DialHTTP("tcp", cmd.rpcAddress+":"+strconv.Itoa(cmd.rpcPort))
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		fmt.Println("Please check if your rpcaddress and rpcport are set correctly,if yes, wait 30s for the cluster to start and try again! ")
+		return
 	}
 
 	req := []byte(cmd.reqText)
@@ -59,7 +61,7 @@ func (cmd *CMD) Run() {
 		// send request CMD
 		{
 			Name:        "sendrequest",
-			Usage:       "send a request to be executed by yimchain",
+			Usage:       "send a request to be executed by trebiz",
 			Description: "Send a request",
 			Flags: []cli.Flag{
 				cli.StringFlag{
@@ -70,7 +72,7 @@ func (cmd *CMD) Run() {
 				},
 				cli.IntFlag{
 					Name:        "requestNum, n",
-					Usage:       "the number of requests the client should send",
+					Usage:       "the number of requests the client should send,",
 					Required:    false,
 					Value:       -1,
 					Destination: &requestNum,

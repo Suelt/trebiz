@@ -1,5 +1,4 @@
-module github.com/seafooler/trebiz
-
+module github.com/treble-h/trebiz
 go 1.12
 
 require (

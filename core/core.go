@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"github.com/seafooler/trebiz/sign"
+	"github.com/treble-h/trebiz/sign"
 	"math"
 	"strconv"
 	"time"
@@ -62,7 +62,7 @@ func (n *Node) broadcastPrePrepareMsg(reqBatch *RequestBatch, err chan error) {
 		}
 	}()
 
-	fmt.Printf("Node %d broadcast pre-prepare, sn:%d, v:%d\n",
+	fmt.Printf("node %d broadcast pre-prepare, sn:%d, v:%d\n",
 		n.replicaId, ppm.SN, ppm.View)
 
 	if errBC := n.broadcast(PrePrepareType, ppm, nil, ppm.SN); errBC != nil {
@@ -424,7 +424,7 @@ func (n *Node) handleCommitMsg(cmsg *CommitMsg, err chan error) {
 			return
 		}
 	*/
-	fmt.Printf("node %d receive Commit of sn:%d  from node %d\n", n.replicaId, cmsg.Vote.SN, cmsg.ReplicaId)
+	fmt.Printf("node %d receive commit of sn:%d  from node %d\n", n.replicaId, cmsg.Vote.SN, cmsg.ReplicaId)
 
 	if !n.activeView {
 		err <- errors.New("node is in viewchange and ignores the commit msg")

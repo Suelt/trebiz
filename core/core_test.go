@@ -4,8 +4,8 @@ import (
 	"crypto/ed25519"
 	"errors"
 	"fmt"
-	"github.com/seafooler/trebiz/config"
-	"github.com/seafooler/trebiz/sign"
+	"github.com/treble-h/trebiz/config"
+	"github.com/treble-h/trebiz/sign"
 	"testing"
 	"time"
 )

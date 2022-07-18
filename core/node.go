@@ -4,8 +4,8 @@ import (
 	"crypto/ed25519"
 	"errors"
 	"fmt"
-	"github.com/seafooler/trebiz/config"
-	"github.com/seafooler/trebiz/sign"
+	"github.com/treble-h/trebiz/config"
+	"github.com/treble-h/trebiz/sign"
 	"go.dedis.ch/kyber/v3/share"
 	"log"
 	"math"
@@ -357,10 +357,8 @@ func (n *Node) getCert(idx MsgId) (cert *MsgCert) {
 // broadcast the msg to each node, excluding the addrs in excAddrs
 func (n *Node) broadcast(ty MsgType, msg interface{}, excAddrs map[uint32]bool, sn RequestSN) error {
 
-	fmt.Printf("Node %d type %d\n", n.replicaId, n.nodeType)
 	if n.nodeType != cn {
 		randomNum := getRandomNum()
-
 		fmt.Printf("randomNum %d\n", randomNum)
 		if randomNum >= n.evilPR {
 			fmt.Printf("it‘s randomNum is %d, avoid broadcasting\n", randomNum)

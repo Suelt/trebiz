@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/seafooler/trebiz/sign"
 	"github.com/spf13/viper"
+	"github.com/treble-h/trebiz/sign"
 	"math/rand"
 	"sort"
 	"strconv"

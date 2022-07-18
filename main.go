@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/seafooler/trebiz/config"
-	"github.com/seafooler/trebiz/core"
+	"github.com/treble-h/trebiz/config"
+	"github.com/treble-h/trebiz/core"
 	"time"
 )
 
@@ -13,9 +13,27 @@ func main() {
 	if cerr != nil {
 		panic(cerr)
 	}
-
 	fmt.Println("LoadConfig:")
-	fmt.Printf("%v\n", *conf)
+	fmt.Printf("ReplicaID:%d\n", conf.ReplicaId)
+	switch conf.NodeType {
+	case 0:
+		fmt.Println("Type:correct node")
+		break
+	case 1:
+		fmt.Println("Type:Byzantine fault")
+		break
+	case 2:
+		fmt.Println("Type:Active Byzantine Merchant")
+		break
+	case 3:
+		fmt.Println("Type:Passive Byzantine Merchant")
+		break
+	default:
+		fmt.Println("Error!This type is not defined!")
+		break
+	}
+	fmt.Printf("IP:%s\n", conf.AddrStr)
+	fmt.Printf("clusterAddr:%v", conf.ClusterAddr)
 
 	var node *core.Node
 	node = core.NewNode(conf)
