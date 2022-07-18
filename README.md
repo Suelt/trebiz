@@ -11,9 +11,9 @@ The function implementing the inter-node communications utilizes the code from t
 
 [Usage](#Usage)
 
-- [1. Machine types](#1. Machine types)
-- [2. Precondition](#2. Precondition)
-- [3. Steps to run trebiz](#3. Steps to run trebiz)
+- [1. Machine types](#1.Machine types)
+- [2. Precondition](#2.Precondition)
+- [3. Steps to run trebiz](#3.Steps to run trebiz)
   - [3.1 Install ansible on the work computer](#3.1 Install ansible on the work computer)
   - [3.2 Login without passwords](#3.2 Login without passwords)
   - [3.3 Generate configurations](#3.3 Generate configurations)
