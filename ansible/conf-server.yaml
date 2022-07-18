@@ -1,0 +1,21 @@
+- hosts: remote
+  remote_user: hh
+  tasks:
+    - name: copy trebiz
+      copy:
+        src: /vagrant/trebiz/trebiz
+        dest: /home/hh/trebiz{{item}}/
+      loop:
+        - 0
+
+    - name: chmod trebiz
+      shell: chmod +x /home/hh/trebiz{{item}}/trebiz
+      loop:
+        - 0
+
+    - name: copy configuration file
+      synchronize:
+        src: /vagrant/trebiz/{{inventory_hostname}}_{{item}}.yaml
+        dest: /home/hh/trebiz{{item}}/config.yaml
+      loop:
+        - 0

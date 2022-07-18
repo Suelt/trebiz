@@ -1,0 +1,15 @@
+- hosts: remote
+  remote_user: hh
+  tasks:
+    - name: create testbed dirs
+      file:
+        path: /home/hh/testbed
+        state: directory
+
+    - name: run trebiz as a daemon
+      shell: "(nohup ./trebiz> /home/hh/testbed/{{inventory_hostname}}_{{item}}.txt 2>&1 &)"
+      args:
+        chdir: /home/hh/trebiz{{item}}
+      loop:
+        - 0
+

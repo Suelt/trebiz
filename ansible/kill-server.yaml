@@ -1,0 +1,7 @@
+- hosts: remote
+  remote_user: hh
+  gather_facts: false
+  tasks:
+    - name: kill trebiz
+      shell: killall trebiz
+      ignore_errors: yes
