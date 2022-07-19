@@ -54,10 +54,10 @@ func main() {
 
 	viperRead := viper.New()
 
-	viperRead.SetConfigName("config_template_local") // name of config file (without extension)
-	viperRead.AddConfigPath("./config_gen")          // path to look for the config file in
-	err := viperRead.ReadInConfig()                  // Find and read the config file
-	if err != nil {                                  // Handle errors reading the config file
+	viperRead.SetConfigName("config_template") // name of config file (without extension)
+	viperRead.AddConfigPath("./config_gen")    // path to look for the config file in
+	err := viperRead.ReadInConfig()            // Find and read the config file
+	if err != nil {                            // Handle errors reading the config file
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
 
