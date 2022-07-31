@@ -114,10 +114,11 @@ type Node struct {
 	chkpts          map[uint32]string                    // state checkpoints，key is the sequence, value is state
 	checkpointStore map[RequestSN]map[CheckpointMsg]bool //track checkpoints as set
 
-	rpcListenPort int
-	p2pListenPort int
-	shutdownCh    chan struct{}
-	execReqBuffer map[RequestSN][]byte
+	rpcListenPort   int
+	p2pListenPort   int
+	shutdownCh      chan struct{}
+	execReqBuffer   map[RequestSN][]byte
+	execReqIdBuffer map[RequestSN]MsgId
 
 	fastTimeout   int
 	fastQcQuorum  int
@@ -168,6 +169,7 @@ func NewNode(conf *config.Config) *Node {
 	n.p2pListenPort = conf.P2PListenPort
 
 	n.execReqBuffer = make(map[RequestSN][]byte)
+	n.execReqIdBuffer = make(map[RequestSN]MsgId)
 	n.prepareTimer = make(map[MsgId]*fastTimer)
 
 	n.reqPool = &Pool{}

@@ -63,7 +63,7 @@ func main() {
 
 	clusterInnerAddr := viperRead.GetStringMap("ip1s")
 
-	//IP分配
+	//IP
 	tempClusterMapInterface := viperRead.GetStringMap("ip2s")
 	clusterMapInterface := make(map[string]string)
 	for name, addr := range tempClusterMapInterface {
@@ -106,10 +106,9 @@ func main() {
 	if nodeNumber != len(tempP2pPortMapInterface) {
 		panic("p2p_listen_port does not match with cluster")
 	}
-	//处理监听端口，同一个Ip下监听端口不一样
+	//handle listen port
 	p2pPortMapInterface := make(map[string]int)
 
-	//获得ip对应的端口，配置文件中只给出单个ip对应的name
 	mapNameToP2PPort := make(map[string]int, nodeNumber)
 	for name, _ := range clusterMapString {
 		portAsInterface, ok := tempP2pPortMapInterface[name]
@@ -117,7 +116,7 @@ func main() {
 			panic("p2p_listen_port does not match with cluster")
 		}
 		if portAsInt, ok := portAsInterface.(int); ok {
-			//单机器起始端口
+
 			mapNameToP2PPort[name] = portAsInt
 			rs := []rune(name)
 			ipIndex, _ := strconv.Atoi(string(rs[4:]))
@@ -140,7 +139,6 @@ func main() {
 	privateKeysRsa := make(map[string]string)
 	publicKeysRsa := make(map[string]string)
 
-	//生成49个公私钥对
 	for i := 0; i < nodeNumber; i++ {
 		for j := 0; j < ProcessCount; j++ {
 			privateKey, publicKey, err := sign.GenKeys()
@@ -186,7 +184,7 @@ func main() {
 	fmt.Println("pbmodes", pbmodes)
 
 	for _, name := range clusterName {
-		fmt.Printf("sssss")
+
 		viperWrite := viper.New()
 		for j := 0; j < ProcessCount; j++ {
 			index := strconv.Itoa(j)
@@ -204,7 +202,7 @@ func main() {
 			if ipIndex == 0 {
 				replicaId = 0
 			} else {
-				//计算节点下标
+				//calculate ID
 				replicaId = (ipIndex-1)*ProcessCount + j + 1
 			}
 
@@ -233,20 +231,16 @@ func main() {
 			viperWrite.Set("name", "node"+strconv.Itoa(replicaId))
 			viperWrite.Set("replicaId", replicaId)
 
-			//同一个ip下节点共用同一个地址
 			viperWrite.Set("address", clusterMapString[name])
 
-			//同一个ip下进程监听端口不一样
 			viperWrite.Set("p2p_listen_port", mapNameToP2PPort[name]+j*10)
 
 			viperWrite.Set("peers_p2p_port", p2pPortMapInterface)
 
-			//同一个ip下进程监听端口不一样
 			viperWrite.Set("rpc_listen_port", rpcListenPort+j)
 
 			viperWrite.Set("cluster_ips", clusterMapInterface)
 
-			//分发公私钥
 			viperWrite.Set("ed_prikey", privateKeysRsa["node"+strconv.Itoa(replicaId)])
 			viperWrite.Set("cluster_ed_pubkey", publicKeysRsa)
 
@@ -266,7 +260,6 @@ func main() {
 			viperWrite.Set("fastpathtimeout", viperRead.GetInt("fast_path_timeout"))
 			viperWrite.Set("sameiptimeout", viperRead.GetInt("sameiptimeout"))
 
-			//viperWrite.Set("nodetype", viperRead.GetInt("fast_path_timeout"))
 			viperWrite.Set("evilpr", viperRead.GetInt("evilpr"))
 			viperWrite.Set("fastqcquorum", fastNum)
 

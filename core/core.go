@@ -634,11 +634,12 @@ func (n *Node) checkIfCommitted(Id MsgId, err chan error) {
 
 func (n *Node) executeRequest(Id MsgId, err chan error) {
 	//buffer the command
-	cert := n.getCert(Id)
-	n.execReqBuffer[Id.Sn] = cert.reqBatchDigest
+	n.execReqIdBuffer[Id.Sn] = Id
+	n.execReqBuffer[Id.Sn] = n.getCert(Id).reqBatchDigest
 	if n.exeSn.lastExec < Id.Sn {
 		n.exeSn.num.Lock()
 		for i := n.exeSn.lastExec + 1; n.execReqBuffer[i] != nil; i++ {
+			cert := n.getCert(n.execReqIdBuffer[i])
 			timePast := calTimeDuration(cert.prePrepareStore.TimeStamp)
 			fmt.Printf(time.Now().Format("2006-01-02 15:04:05")+"The request with sn: %d has been executed at node %d!\n", n.exeSn.lastExec+1, n.replicaId)
 			fmt.Printf("TimePast:sn:%d,millisecend:%d\n", n.exeSn.lastExec+1, timePast/1000000)
