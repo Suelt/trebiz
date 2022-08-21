@@ -7,10 +7,8 @@ import (
 	"github.com/spf13/viper"
 	"github.com/treble-h/trebiz/sign"
 	"go.dedis.ch/kyber/v3/share"
-	"math/rand"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type Config struct {
@@ -37,47 +35,24 @@ type Config struct {
 	LogK         uint32
 	MaxPool      int
 
-	NodeType      int //0bc  1bg   2abm  3pbm
-	EvilPR        int
-	FastTimeout   int //fast path timeout
-	FastQcQuorum  int //fast path timeout
-	SameIpTimeout int
-}
+	NodeType              int //0bc  1bg   2abm  3pbm
+	EvilPR                int
+	FastTimeout           int //fast path timeout
+	FastQcQuorum          int //fast path timeout
+	ViewChangeQuorum      int //number of viewchangeMsg for ViewChange Protocol
+	PrePrepareSubsetCount int
+	SameIpTimeout         int
 
-func generateRandomNumber(start int, end int, count int) []int {
-	//范围检查
-	if end < start || (end-start) < count {
-		return nil
-	}
-
-	//存放结果的slice
-	nums := make([]int, 0)
-	//随机数生成器，加入时间戳保证每次生成的随机数不一样
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for len(nums) < count {
-		//生成随机数
-		num := r.Intn((end - start)) + start
-
-		//查重
-		exist := false
-		for _, v := range nums {
-			if v == num {
-				exist = true
-				break
-			}
-		}
-
-		if !exist {
-			nums = append(nums, num)
-		}
-	}
-	return nums
+	ViewChangeTimeout int
+	LastNewVewTimeout int
+	AutoViewChange    int
 }
 
 func New(addrStr string, clusterAddr map[uint32]string, clusterPort map[uint32]int, replicaId uint32,
 	myPrivateKey ed25519.PrivateKey, publicKeyMap map[uint32]ed25519.PublicKey, tsPriKey *share.PriShare,
 	tsPubKey *share.PubPoly, fastPriKey *share.PriShare, fastPubKey *share.PubPoly, p2PListenPort int, rPCListenPort int, batchTimeout int, batchSize int,
-	checkPointT uint32, logL uint32, maxPool int, pr int, fastTimeout int, fastQcQuorum int, sameIpTimeout int) *Config {
+	checkPointT uint32, logL uint32, maxPool int, pr int, fastTimeout int, fastQcQuorum int, viewChangeQuorum,
+	prePrepareSubsetCount, sameIpTimeout int, viewChangeTimeout int, lastNewVewTimeout int, autoViewChange int) *Config {
 	return &Config{
 		AddrStr:     addrStr,
 		ClusterAddr: clusterAddr,
@@ -91,17 +66,22 @@ func New(addrStr string, clusterAddr map[uint32]string, clusterPort map[uint32]i
 		FastPriKey:   fastPriKey,
 		FastPubKey:   fastPubKey,
 
-		P2PListenPort: p2PListenPort,
-		RPCListenPort: rPCListenPort,
-		BatchTimeout:  batchTimeout,
-		BatchSize:     batchSize,
-		CheckPointT:   checkPointT,
-		LogK:          logL,
-		MaxPool:       maxPool,
-		EvilPR:        pr,
-		FastTimeout:   fastTimeout,
-		FastQcQuorum:  fastQcQuorum,
-		SameIpTimeout: sameIpTimeout,
+		P2PListenPort:         p2PListenPort,
+		RPCListenPort:         rPCListenPort,
+		BatchTimeout:          batchTimeout,
+		BatchSize:             batchSize,
+		CheckPointT:           checkPointT,
+		LogK:                  logL,
+		MaxPool:               maxPool,
+		EvilPR:                pr,
+		FastTimeout:           fastTimeout,
+		FastQcQuorum:          fastQcQuorum,
+		ViewChangeQuorum:      viewChangeQuorum,
+		PrePrepareSubsetCount: prePrepareSubsetCount,
+		SameIpTimeout:         sameIpTimeout,
+		ViewChangeTimeout:     viewChangeTimeout,
+		LastNewVewTimeout:     lastNewVewTimeout,
+		AutoViewChange:        autoViewChange,
 	}
 }
 
@@ -176,18 +156,23 @@ func LoadConfig(configPrefix, configName string) (*Config, error) {
 		FastPriKey:   fastShareKey,
 		FastPubKey:   fastPubKey,
 
-		RPCListenPort: viperConfig.GetInt("rpc_listen_port"),
-		P2PListenPort: viperConfig.GetInt("p2p_listen_port"),
-		BatchTimeout:  viperConfig.GetInt("batchtimeout"),
-		BatchSize:     viperConfig.GetInt("batchsize"),
-		CheckPointT:   uint32(viperConfig.GetInt("checkpoint_t")),
-		LogK:          uint32(viperConfig.GetInt("log_k")),
-		MaxPool:       viperConfig.GetInt("maxpool"),
-		NodeType:      viperConfig.GetInt("nodetype"), //0bc  1bg   2abm  3pbm
-		EvilPR:        viperConfig.GetInt("evilpr"),
-		FastTimeout:   viperConfig.GetInt("fastpathtimeout"), //fast path timeout
-		FastQcQuorum:  viperConfig.GetInt("fastqcquorum"),
-		SameIpTimeout: viperConfig.GetInt("sameiptimeout"),
+		RPCListenPort:         viperConfig.GetInt("rpc_listen_port"),
+		P2PListenPort:         viperConfig.GetInt("p2p_listen_port"),
+		BatchTimeout:          viperConfig.GetInt("batchtimeout"),
+		BatchSize:             viperConfig.GetInt("batchsize"),
+		CheckPointT:           uint32(viperConfig.GetInt("checkpoint_t")),
+		LogK:                  uint32(viperConfig.GetInt("log_k")),
+		MaxPool:               viperConfig.GetInt("maxpool"),
+		NodeType:              viperConfig.GetInt("nodetype"), //0bc  1bg   2abm  3pbm
+		EvilPR:                viperConfig.GetInt("evilpr"),
+		FastTimeout:           viperConfig.GetInt("fastpathtimeout"), //fast path timeout
+		FastQcQuorum:          viperConfig.GetInt("fastqcquorum"),
+		PrePrepareSubsetCount: viperConfig.GetInt("prePrepareSubsetCount"),
+		ViewChangeQuorum:      viperConfig.GetInt("viewChangeQuorum"),
+		SameIpTimeout:         viperConfig.GetInt("sameiptimeout"),
+		ViewChangeTimeout:     viperConfig.GetInt("viewchangetimeout"),
+		LastNewVewTimeout:     viperConfig.GetInt("lastnewvewtimeout"),
+		AutoViewChange:        viperConfig.GetInt("autoviewchange"),
 	}
 
 	peersP2PPortMapString := viperConfig.GetStringMap("peers_p2p_port")

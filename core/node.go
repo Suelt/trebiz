@@ -54,9 +54,6 @@ type MsgCert struct {
 	commitStore     map[uint32]*CommitMsg
 }
 
-type prepareCert struct {
-}
-
 const (
 	received MsgStage = iota
 	prepared
@@ -84,12 +81,19 @@ type Node struct {
 
 	viewChangeSeqNumber uint32
 	viewChangePeriod    uint32
+	autoViewChange      int
 	currenView          uint32
 	activeView          bool
 	viewChangeStore     map[Vcidx]*ViewChangeMsg //store all viewchangeMsg
 	viewChangeStage     map[uint32]bool          //record if have sent the ViewChangeMsg
 	newViewStore        map[uint32]*NewViewMsg   //key is the view number
 	newViewStage        map[uint32]bool          //record if have sent the NewViewMsg
+
+	newViewTimer       Timer
+	viewChangeTimeout  time.Duration
+	LastNewVewTimeout  time.Duration
+	newViewTimerReason string // what triggered the timer
+	timerActive        bool   // is the timer running?
 
 	myPrivateKey ed25519.PrivateKey
 	publicKey    map[uint32]ed25519.PublicKey //publicKey of all the nodes in the clusterAddr,key replicaId
@@ -120,12 +124,14 @@ type Node struct {
 	execReqBuffer   map[RequestSN][]byte
 	execReqIdBuffer map[RequestSN]MsgId
 
-	fastTimeout   int
-	fastQcQuorum  int
-	prepareTimer  map[MsgId]*fastTimer
-	nodeType      int
-	evilPR        int
-	SameIpTimeout int
+	fastTimeout           int
+	fastQcQuorum          int
+	viewChangeQuorum      int
+	prePrepareSubsetCount int
+	prepareTimer          map[MsgId]*fastTimer
+	nodeType              int
+	evilPR                int
+	SameIpTimeout         int
 }
 
 func NewNode(conf *config.Config) *Node {
@@ -178,13 +184,23 @@ func NewNode(conf *config.Config) *Node {
 		BatchSize:    conf.BatchSize,
 		NodeName:     "Node" + strconv.Itoa(int(n.replicaId)),
 		ReqPool:      n.reqPool,
+		Leader:       n.clusterAddr[0],
 	}
 	n.maxPool = conf.MaxPool
 	n.fastTimeout = conf.FastTimeout
 	n.fastQcQuorum = conf.FastQcQuorum
+	n.viewChangeQuorum = conf.ViewChangeQuorum
+	n.prePrepareSubsetCount = conf.PrePrepareSubsetCount
 	n.nodeType = conf.NodeType
 	n.evilPR = conf.EvilPR
+
 	n.SameIpTimeout = conf.SameIpTimeout
+	n.viewChangeSeqNumber = n.T + n.T/2
+	n.viewChangePeriod = 1
+	n.timerActive = false
+	n.viewChangeTimeout = time.Duration(conf.ViewChangeTimeout) * time.Millisecond
+	n.LastNewVewTimeout = time.Duration(conf.ViewChangeTimeout) * time.Millisecond
+	n.autoViewChange = conf.AutoViewChange
 
 	return &n
 }
@@ -228,6 +244,7 @@ func (n *Node) StartListen() error {
 	if err != nil {
 		return err
 	}
+	n.newViewTimer = n.CreateTimer(n.trans)
 	return nil
 
 }
@@ -530,7 +547,10 @@ func (n *Node) sendBatch() {
 	n.reqPool.BatchStore = n.reqPool.BatchStore[endNum:]
 	n.reqPool.BatchStoreLock.Unlock()
 
-	go n.broadcastPrePrepareMsg(RequestBatch, nil)
+	if n.activeView && n.primary(n.currenView) == n.replicaId {
+		go n.broadcastPrePrepareMsg(RequestBatch, nil)
+	}
+
 }
 
 func (n *Node) HandleReqBatchLoop() {
@@ -538,6 +558,7 @@ func (n *Node) HandleReqBatchLoop() {
 	n.rHandler.TimeOutControl = time.NewTimer(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
 
 	for {
+		n.rHandler.Leader = n.clusterAddr[n.primary(n.currenView)]
 		if len(n.reqPool.BatchStore) >= n.rHandler.BatchSize {
 			n.sendBatch()
 			fmt.Println(time.Now().Format("2006-01-02 15:04:05"), "send a batch because of batchSize")
@@ -568,6 +589,6 @@ func (rh *ReqHandler) ReceiveNewRequest(Cmd []byte, reply *string) error {
 	rh.ReqPool.BatchStoreLock.Lock()
 	rh.ReqPool.BatchStore = append(rh.ReqPool.BatchStore, req)
 	rh.ReqPool.BatchStoreLock.Unlock()
-	*reply = "response from " + rh.NodeName
+	*reply = "response from " + rh.NodeName + " and current leaderIp is " + rh.Leader
 	return nil
 }

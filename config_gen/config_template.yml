@@ -31,7 +31,9 @@ rpc_listen_port: 9500
 batchSize: 100
 #the rate at which the leader produces a block, in milliseconds
 batchtimeout: 2000
-viewChangetimeout: 2
+autoviewchange: 0
+viewChangetimeout: 3000
+lastnewvewtimeout: 3000
 checkpoint_t: 10
 log_k: 20
 maxpool: 3
@@ -45,7 +47,7 @@ evilpr: 8
 #the number of Byzantine nodes
 bgnum: 1
 #the number of active Byzantine Merchants
-abmnum: 0
+abmnum: 1
 #the number of passive Byzantine Merchants
 pbmnum: 0
 

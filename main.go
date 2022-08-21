@@ -33,7 +33,7 @@ func main() {
 		break
 	}
 	fmt.Printf("IP:%s\n", conf.AddrStr)
-	fmt.Printf("clusterAddr:%v", conf.ClusterAddr)
+	fmt.Printf("clusterAddr:%v\n", conf.ClusterAddr)
 
 	var node *core.Node
 	node = core.NewNode(conf)
@@ -59,9 +59,8 @@ func main() {
 
 	time.Sleep(time.Second * 2)
 
-	if conf.ReplicaId == 0 {
-		go node.HandleReqBatchLoop()
-	}
+	go node.HandleReqBatchLoop()
+
 	node.StartPBFT(errchan)
 
 }

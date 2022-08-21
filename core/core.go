@@ -3,7 +3,6 @@ package core
 import (
 	"bytes"
 	"encoding/hex"
-	"errors"
 	"fmt"
 	"github.com/treble-h/trebiz/sign"
 	"math"
@@ -32,7 +31,7 @@ func (n *Node) createPrePrepareMsg(reqBatch *RequestBatch) *PrePrepareMsg {
 	n.reqSn.nextSN++
 	n.reqSn.num.Unlock()
 	PPM.TimeStamp = time.Now().UnixNano()
-	fmt.Printf(time.Now().Format("2006-01-02 15:04:05")+"PrePrepareMsg with sn :%d is created.\n", PPM.SN)
+	fmt.Printf(time.Now().Format("2006-01-02 15:04:05")+" Node %d create pre-prepare, sn:%d, v:%d.\n", n.replicaId, PPM.SN, PPM.View)
 	return &PPM
 }
 
@@ -41,6 +40,11 @@ func (n *Node) broadcastPrePrepareMsg(reqBatch *RequestBatch, err chan error) {
 	if !n.inWatermarks(n.reqSn.nextSN) || uint32(n.reqSn.nextSN) > n.h+n.K/2 {
 		// We don't have the necessary stable certificates to advance our watermarks
 		fmt.Printf("Primary %d not sending pre-prepare for current batch - out of sequence numbers\n", n.replicaId)
+		return
+	}
+
+	if uint32(n.reqSn.nextSN) > n.viewChangeSeqNumber && n.autoViewChange == 1 {
+		fmt.Printf("Primary %d about to switch to next primary, not sending pre-prepare with seqno=%d\n", n.replicaId, n.reqSn.nextSN)
 		return
 	}
 
@@ -62,7 +66,7 @@ func (n *Node) broadcastPrePrepareMsg(reqBatch *RequestBatch, err chan error) {
 		}
 	}()
 
-	fmt.Printf("node %d broadcast pre-prepare, sn:%d, v:%d\n",
+	fmt.Printf("Node %d broadcast pre-prepare, sn:%d, v:%d\n",
 		n.replicaId, ppm.SN, ppm.View)
 
 	if errBC := n.broadcast(PrePrepareType, ppm, nil, ppm.SN); errBC != nil {
@@ -74,58 +78,66 @@ func (n *Node) broadcastPrePrepareMsg(reqBatch *RequestBatch, err chan error) {
 // handle the prepreparemsg
 func (n *Node) handlePrePrepareMsg(ppm *PrePrepareMsg, err chan error) {
 
-	fmt.Printf("node %d receive pre-prepare of sn:%d from node %d\n", n.replicaId, ppm.SN, ppm.ReplicaId)
+	fmt.Printf("Node %d receive pre-prepare from node %d, sn:%d, view:%d\n", n.replicaId, ppm.ReplicaId, ppm.SN, ppm.View)
 
-	msg := ppm //prepreparemsg
-	// check if the prepreparemsg is from the leader
-	if msg.ReplicaId != n.primary(n.currenView) {
-		err <- errors.New("prepreparemsg from a non-leader node")
-		return
-	}
+	preprep := ppm //prepreparemsg
 
 	if !n.activeView {
-		err <- errors.New("node is in viewchange and ignores the preprepare msg")
+		fmt.Printf("Node is in viewchange and ignores the preprepare msg")
 		return
 	}
 
-	/*
-		if !n.inWatermarks(uint32(msg.SN)){
-			fmt.Printf("The sequence %d of preprepare is out of the watermark\n",msg.SN)
-			return
-		}
-	*/
+	if uint32(preprep.SN) > n.viewChangeSeqNumber && n.autoViewChange == 1 {
+		fmt.Printf("Node %d received pre-prepare for sn: %d, which should be from the next primary\n", n.replicaId, preprep.SN)
+		n.sendViewChange(err)
+		return
+	}
 
-	Id := MsgId{msg.SN, msg.View}
+	// check if the prepreparemsg is from the leader
+	if preprep.ReplicaId != n.primary(n.currenView) {
+		fmt.Printf("pre-prepare from a non-leader node\n")
+		n.sendViewChange(err)
+		return
+	}
+
+	if !n.inWatermarks(preprep.SN) {
+		fmt.Printf("The sequence %d of preprepare is out of the watermark\n", preprep.SN)
+		return
+	}
+
+	Id := MsgId{preprep.SN, preprep.View}
 
 	cert := n.getCert(Id)
 
 	// check if a prepreparemsg with the same sn has been received before
 	if len(cert.reqBatchDigest) != 0 {
-		if !bytes.Equal(cert.reqBatchDigest, msg.BatchHash) {
-			fmt.Printf("Pre-prepare found for same view/seqNo but different digest: received %s, stored %s", msg.BatchHash, cert.reqBatchDigest)
-			//	n.sendViewChange(err)
+		if !bytes.Equal(cert.reqBatchDigest, preprep.BatchHash) {
+			fmt.Printf("Pre-prepare found for same view:%d/seqNo:%d but different digest: received %s, stored %s\n", preprep.View, preprep.SN, preprep.BatchHash, cert.reqBatchDigest)
+			n.sendViewChange(err)
 			return
 		} else {
-			fmt.Printf("An old prepreparemsg with sn: %d is received again at node%d\n", msg.SN, msg.ReplicaId)
+			fmt.Printf("An old prepreparemsg with sn: %d is received again at node%d\n", preprep.SN, preprep.ReplicaId)
 		}
 	}
 
 	// store the prepreparemsg locally
 
-	n.reqBatch[Id] = msg.ReqBatch
+	n.reqBatch[Id] = preprep.ReqBatch
 	cert.reqBatchStage = received
-	cert.reqBatchDigest = msg.BatchHash
-	cert.prePrepareStore = msg
+	cert.reqBatchDigest = preprep.BatchHash
+	cert.prePrepareStore = preprep
 
 	//receive prepareQc/commitQc before prePrepare
 	n.checkIfPrepared(Id, err)
 
+	n.softStartTimer(n.viewChangeTimeout, fmt.Sprintf("new pre-prepare for request sn %d", preprep.SN))
+
 	// the leader avoid sending the preparemsg to itself
 	if n.replicaId != n.primary(n.currenView) {
-		n.sendPrepareMsg(msg.SN, err)
+		n.sendPrepareMsg(preprep.SN, err)
 	} else {
 		//create a partial signature, and then handle it's prepareMsg
-		pm := n.createPrepareMsg(msg.SN)
+		pm := n.createPrepareMsg(preprep.SN)
 		n.handlePrepareMsg(pm, err)
 	}
 }
@@ -199,29 +211,32 @@ func (n *Node) checkIfPrePrepared(Id MsgId) bool {
 // handle the preparemsg
 func (n *Node) handlePrepareMsg(pm *PrepareMsg, err chan error) {
 
-	fmt.Printf("node %d receive prepare of sn:%d from node %d\n", n.replicaId, pm.Vote.SN, pm.ReplicaId)
+	fmt.Printf("Node %d receive prepare from node %d, sn:%d, v:%d\n", n.replicaId, pm.ReplicaId, pm.Vote.SN, pm.Vote.View)
 
-	/*
-		if !n.inWatermarks(uint32(pm.Vote.SN)){
-			fmt.Printf("The sequence %d of PrepareMsg is out of the watermark\n",pm.Vote.SN)
-			return
-		}
-	*/
-
-	msg := pm //prepareMsg
-	// check if a corresponding prepreparemsg has been received before
-	n.checkIfPrePrepared(MsgId{msg.Vote.SN, n.currenView})
-
-	// check if a preparemsg with the same sn has been received from the same sender before
-	cert := n.getCert(MsgId{msg.Vote.SN, n.currenView})
-	if _, ok := cert.prePareStore[msg.ReplicaId]; ok {
-		// has received, warn...
-		fmt.Printf("a prepare with the same sn %d  has been received from node: %d before\n", msg.Vote.SN, msg.ReplicaId)
+	if !n.activeView {
+		fmt.Printf("Node is in viewchange and ignores the prepare msg")
 		return
 	}
 
-	cert.prePareStore[msg.ReplicaId] = msg
-	n.handlePrepareVote(msg)
+	if !n.inWatermarks(pm.Vote.SN) {
+		fmt.Printf("The sequence %d of PrepareMsg is out of the watermark\n", pm.Vote.SN)
+		return
+	}
+
+	prepare := pm //prepareMsg
+	// check if a corresponding prepreparemsg has been received before
+	n.checkIfPrePrepared(MsgId{prepare.Vote.SN, n.currenView})
+
+	// check if a preparemsg with the same sn has been received from the same sender before
+	cert := n.getCert(MsgId{prepare.Vote.SN, n.currenView})
+	if _, ok := cert.prePareStore[prepare.ReplicaId]; ok {
+		// has received, warn...
+		fmt.Printf("a prepare with the same sn %d  has been received from node: %d before\n", prepare.Vote.SN, prepare.ReplicaId)
+		return
+	}
+
+	cert.prePareStore[prepare.ReplicaId] = prepare
+	n.handlePrepareVote(prepare)
 }
 
 func (n *Node) handlePrepareVote(pm *PrepareMsg) {
@@ -250,10 +265,11 @@ func (n *Node) handlePrepareVote(pm *PrepareMsg) {
 
 	if n.prepareTimer[Id].stop == false {
 		if len(n.fastPartialSigInPrepare[Id][BatchString]) >= n.fastQcQuorum && !cert.prepareQcStage {
-			fmt.Printf("node %d send fastprepareQc of sn:%d \n", n.replicaId, Id.Sn)
 			fastQcTime = time.Now().UnixNano()
 			cert.prepareQcStage = true
 			fastPrepareQcMsg := n.createFastPrepareQc(Id, BatchString)
+			fmt.Printf("Node %d broadcast fastprepareQc, sn:%d, v:%d\n",
+				n.replicaId, fastPrepareQcMsg.SN, fastPrepareQcMsg.View)
 			n.broadcast(FastPrepareQcType, fastPrepareQcMsg, nil, 0)
 		}
 	} else {
@@ -266,13 +282,14 @@ func (n *Node) checkIfPrepareQc(Id MsgId, BatchString string) {
 	cert := n.getCert(Id)
 
 	if len(n.partialSigInPrepare[Id][BatchString]) >= 2*n.f+1 && !cert.prepareQcStage {
-		fmt.Printf("node %d send prepareQc of sn:%d \n", n.replicaId, Id.Sn)
 		cert.prepareQcStage = true
 		prepareQcMsg := n.createPrepareQc(Id, BatchString)
+		fmt.Printf("Node %d broadcast prepareQc, sn:%d, v:%d\n",
+			n.replicaId, prepareQcMsg.SN, prepareQcMsg.View)
 		n.broadcast(PrepareQcType, prepareQcMsg, nil, prepareQcMsg.SN)
 	}
-
 }
+
 func (n *Node) createPrepareQc(Id MsgId, BatchString string) *PrepareQc {
 
 	batchHash, _ := hex.DecodeString(BatchString)
@@ -336,17 +353,22 @@ func (n *Node) createFastPrepareQc(Id MsgId, BatchString string) *FastPrepareQc 
 }
 
 func (n *Node) handlePrepareQc(pqc *PrepareQc, err chan error) {
-	/*
-		if !n.inWatermarks(uint32(pqc.SN)){
-			fmt.Printf("The sequence %d of prepareQc is out of the watermark\n",pqc.SN)
-			return
-		}
-	*/
-	fmt.Printf("node %d receive prepareQc of sn:%d from node %d\n", n.replicaId, pqc.SN, pqc.ReplicaId)
+
+	fmt.Printf("Node %d receive prepareQc from node %d, sn:%d, v:%d \n", n.replicaId, pqc.ReplicaId, pqc.SN, pqc.View)
+
+	if !n.activeView {
+		fmt.Printf("Node is in viewchange and ignores the prepareQc msg")
+		return
+	}
+
+	if !n.inWatermarks(pqc.SN) {
+		fmt.Printf("The sequence %d of prepareQc is out of the watermark\n", pqc.SN)
+		return
+	}
 
 	if pqc.ReplicaId != n.primary(n.currenView) {
-		fmt.Println("prepareQc from a non-leader node")
-		//send view change
+		fmt.Println("PrepareQc from a non-leader node")
+		n.sendViewChange(nil)
 		return
 	}
 
@@ -385,7 +407,7 @@ func (n *Node) checkIfPrepared(Id MsgId, err chan error) {
 	// check if the preprepared msg and prepareQc has been received
 	if cert.reqBatchStage == received && cert.fastPrepareQc != nil {
 		cert.reqBatchStage = committed
-		fmt.Printf("sn:%d can be commit in fast path\n", Id.Sn)
+		fmt.Printf("Request sn:%d, v:%d can be commit in fast path\n", Id.Sn, Id.View)
 		go n.executeRequest(Id, err)
 		return
 	}
@@ -418,16 +440,15 @@ func (n *Node) createCommitMsg(pqc *PrepareQc) *CommitMsg {
 // handle the commitmsg
 func (n *Node) handleCommitMsg(cmsg *CommitMsg, err chan error) {
 
-	/*
-		if !n.inWatermarks(uint32(cmsg.Vote.SN)){
-			fmt.Printf("The sequence %d of CommitMsg is out of the watermark\n",cmsg.Vote.SN)
-			return
-		}
-	*/
-	fmt.Printf("node %d receive commit of sn:%d  from node %d\n", n.replicaId, cmsg.Vote.SN, cmsg.ReplicaId)
+	fmt.Printf("Node %d receive commit of from node %d, sn:%d, v:%d\n", n.replicaId, cmsg.ReplicaId, cmsg.Vote.SN, cmsg.Vote.View)
 
 	if !n.activeView {
-		err <- errors.New("node is in viewchange and ignores the commit msg")
+		fmt.Printf("Node is in viewchange and ignores the commit msg")
+		return
+	}
+
+	if !n.inWatermarks(cmsg.Vote.SN) {
+		fmt.Printf("The sequence %d of CommitMsg is out of the watermark\n", cmsg.Vote.SN)
 		return
 	}
 
@@ -480,9 +501,12 @@ func (n *Node) handleCommitVote(cm *CommitMsg) {
 	n.partialSigInCommit[Id][VoteString][cm.ReplicaId] = cm.PartialSig
 	if len(n.partialSigInCommit[Id][VoteString]) >= 2*n.f+1 && !cert.commitQcStage {
 
-		fmt.Printf("node %d send commitQc of sn:%d\n", n.replicaId, Id.Sn)
 		commitQcMsg := n.createCommitQc(Id, cm.Vote)
 		cert.commitQcStage = true
+
+		fmt.Printf("Node %d broadcast commitQc, sn:%d, v:%d\n",
+			n.replicaId, commitQcMsg.SN, commitQcMsg.View)
+
 		n.broadcast(CommitQcType, commitQcMsg, nil, commitQcMsg.SN)
 	}
 }
@@ -557,17 +581,21 @@ func (n *Node) handleFastPrepareQc(fpqc *FastPrepareQc, err chan error) {
 }
 func (n *Node) handleCommitQc(cqc *CommitQc, err chan error) {
 
-	/*
-		if !n.inWatermarks(uint32(cqc.SN)){
-			fmt.Printf("The sequence %d of commitQc is out of the watermark\n",cqc.SN)
-			return
-		}
-	*/
-	fmt.Printf("node %d receive commitQc of sn:%d from node %d\n", n.replicaId, cqc.SN, cqc.ReplicaId)
+	fmt.Printf("Node %d receive commitQc from node %d, sn:%d, v:%d\n", n.replicaId, cqc.ReplicaId, cqc.SN, cqc.View)
+
+	if !n.activeView {
+		fmt.Printf("Node is in viewchange and ignores the commitQc msg")
+		return
+	}
+
+	if !n.inWatermarks(cqc.SN) {
+		fmt.Printf("The sequence %d of commitQc is out of the watermark\n", cqc.SN)
+		return
+	}
 
 	if cqc.ReplicaId != n.primary(n.currenView) {
-		fmt.Println("commitQc from a non-leader node")
-		//send view change
+		fmt.Println("CommitQc from a non-leader node")
+		n.sendViewChange(err)
 		return
 	}
 
@@ -621,6 +649,7 @@ func (n *Node) checkIfCommitted(Id MsgId, err chan error) {
 			//Todo viewchange
 			return
 		}
+		n.stopTimer()
 		cert.reqBatchStage = committed
 		fmt.Printf("sn:%d can be commit in slow path\n", Id.Sn)
 		// execute the request and reply to the client
@@ -645,11 +674,11 @@ func (n *Node) executeRequest(Id MsgId, err chan error) {
 			fmt.Printf("TimePast:sn:%d,millisecend:%d\n", n.exeSn.lastExec+1, timePast/1000000)
 			n.exeSn.lastExec++
 			n.checkIfCreateChkpt(n.exeSn.lastExec, err)
-			/*
-				if n.exeSn.lastExec==RequestSN(n.viewChangeSeqNumber) {
-					n.sendViewChange(err)
-				}
-			*/
+
+			if n.exeSn.lastExec == RequestSN(n.viewChangeSeqNumber) && n.autoViewChange == 1 {
+				n.sendViewChange(err)
+			}
+
 		}
 		n.exeSn.num.Unlock()
 	}
@@ -755,4 +784,23 @@ func (n *Node) updateViewChangeSeqNo() {
 	// Ensure the view change always occurs at middle of checkpoint boundary
 	n.viewChangeSeqNumber = uint32(n.reqSn.nextSN-1) + n.viewChangePeriod*n.K + n.T/2
 	fmt.Printf("Node %d updating view change sequence number to %d\n", n.replicaId, n.viewChangeSeqNumber)
+}
+
+func (n *Node) softStartTimer(timeout time.Duration, reason string) {
+	fmt.Printf("node %d soft starting new view timer for reason: %s\n", n.replicaId, reason)
+	n.newViewTimerReason = reason
+	n.timerActive = true
+	n.newViewTimer.SoftReset(timeout, ViewChangeTimerEvent{})
+}
+
+func (n *Node) startTimer(timeout time.Duration, reason string) {
+	fmt.Printf("node %d starting new view timer for reason: %s\n", n.replicaId, reason)
+	n.timerActive = true
+	n.newViewTimer.Reset(timeout, ViewChangeTimerEvent{})
+}
+
+func (n *Node) stopTimer() {
+	fmt.Printf("node %d stopping a running new view timer\n", n.replicaId)
+	n.timerActive = false
+	n.newViewTimer.Stop()
 }

@@ -7,6 +7,7 @@ import (
 	"net/rpc"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type CMD struct {
@@ -33,6 +34,9 @@ func (cmd *CMD) sendRequest() {
 		panic(err)
 	} else {
 		fmt.Println(reply)
+		index := strings.Index(reply, "is")
+		cmd.rpcAddress = reply[index+3:]
+		fmt.Println(cmd.rpcAddress)
 	}
 }
 

@@ -1,11 +1,14 @@
 package core
 
 import (
+	"encoding/hex"
 	"fmt"
 	"time"
 )
 
 func (n *Node) sendViewChange(err chan error) {
+
+	n.stopTimer()
 
 	n.currenView++
 	n.activeView = false
@@ -23,6 +26,7 @@ func (n *Node) sendViewChange(err chan error) {
 	count := 0
 
 	for ChkptfromNodes := range n.checkpointStore[RequestSN(n.h)] {
+		//verify if the stateDigests are consistent
 		if ChkptfromNodes.StateDigest == n.chkpts[n.h] {
 			vc.Cset = append(vc.Cset, ChkptfromNodes)
 			count++
@@ -39,15 +43,11 @@ func (n *Node) sendViewChange(err chan error) {
 	if errBC := n.broadcast(ViewChangeType, vc, nil, 0); errBC != nil {
 		err <- errBC
 	}
-
+	n.startTimer(n.LastNewVewTimeout, "new view change")
+	n.LastNewVewTimeout = n.LastNewVewTimeout * 2
 }
 
-//preprepare  and prepare in viewChange
-// Each set contains a valid pre-Prepare message (withoutthe
-//corresponding client message) and 2f +1 matching, valid
-//Prepare messages signed by different backups with the
-//same view, sequence number, and the digest.
-
+//store preprepare
 func (n *Node) calPQset() (map[RequestSN]*PrePrepareMsg, map[RequestSN]*PrepareQc) {
 
 	pset := make(map[RequestSN]*PrePrepareMsg)
@@ -62,14 +62,22 @@ func (n *Node) calPQset() (map[RequestSN]*PrePrepareMsg, map[RequestSN]*PrepareQ
 
 		if cert.prepareQc != nil {
 			pset[idx.Sn] = cert.prePrepareStore
+			//qset for Qc
 			qset[idx.Sn] = cert.prepareQc
 		}
 	}
 	return pset, qset
 }
 
+//prepared at with a sequence number higher than . Each
+//set contains a valid pre-Prepare message (withoutthe
+//corresponding client message) and 2f
+//+1 matching, valid
+//Prepare messages signed by different backups with the
+//same view, sequence number, and the digest of .
 func (n *Node) correctViewChange(vc *ViewChangeMsg) bool {
 
+	//verify preprepare
 	for _, p := range vc.Pset {
 		if !(p.View < vc.View && p.SN > RequestSN(vc.LastStableCk) && p.SN < RequestSN(vc.LastStableCk+n.K)) {
 			fmt.Printf("Node %d receive invalid p entry in view-change: vc(v:%d h:%d) p(v:%d n:%d)\n",
@@ -78,7 +86,8 @@ func (n *Node) correctViewChange(vc *ViewChangeMsg) bool {
 		}
 	}
 
-	//verify the correctness of QC
+	//todo: verify sig
+
 	for _, pqc := range vc.Qset {
 
 		voteMsg := VoteForPrepare{
@@ -163,17 +172,15 @@ func (n *Node) recvViewChange(vc *ViewChangeMsg, err chan error) {
 		}
 	}
 
-	if !n.activeView && vc.View == n.currenView && quorum >= 2*n.f+1 && n.primary(vc.View) == n.replicaId {
-		//n.vcResendTimer.Stop()
-		//n.startTimer(instance.lastNewViewTimeout, "new view change")
-		//n.lastNewViewTimeout = 2 * instance.lastNewViewTimeout
+	if !n.activeView && vc.View == n.currenView && quorum >= n.viewChangeQuorum && n.primary(vc.View) == n.replicaId {
+
 		fmt.Printf(
 			"Node %d now has %d view change requests for view %d\n",
 			n.replicaId,
 			quorum,
 			n.currenView,
 		)
-		//new leader send newView
+		//leader send new view
 		if n.replicaId == n.primary(n.currenView) {
 			n.sendNewView(err)
 		}
@@ -217,7 +224,7 @@ func (n *Node) sendNewView(err chan error) {
 	excAddrs[n.replicaId] = true
 
 	if n.newViewStage[n.currenView] {
-		fmt.Printf("Node %d has send new for view %d\n", n.replicaId, n.currenView)
+		fmt.Printf("Node %d has send newView for view %d\n", n.replicaId, n.currenView)
 		return
 	}
 
@@ -242,15 +249,15 @@ func (n *Node) recvNewView(nv *NewViewMsg, err chan error) {
 		return
 	}
 
+	//todo verify viewchange in new view
+
 	n.newViewStore[nv.View] = nv
 	n.processNewView(err)
-
 }
 
 func (n *Node) processNewView(err chan error) {
 
 	nv, ok := n.newViewStore[n.currenView]
-
 	if !ok {
 		fmt.Printf("Node %d ignoring processNewView as it could not find view %d in its newViewStore", n.replicaId, n.currenView)
 		return
@@ -261,10 +268,15 @@ func (n *Node) processNewView(err chan error) {
 		return
 	}
 
+	//Todo verify new view
+
+	n.stopTimer()
+
 	n.activeView = true
 	//update the nextSN
-	n.reqSn.nextSN = RequestSN(n.h)
-
+	n.reqSn.nextSN = RequestSN(n.h + n.K + 1)
+	fmt.Printf("Node %d update nextSn to %d\n", n.replicaId, n.reqSn.nextSN)
+	n.updateViewChangeSeqNo()
 	keySort := GetMapkey(nv.Oset)
 
 	for _, sn := range keySort {
@@ -285,37 +297,32 @@ func (n *Node) processNewView(err chan error) {
 			BatchHash: batchHash,
 			ReqBatch:  reqBatch,
 			View:      n.currenView,
-			ReplicaId: nv.ReplicaId,
+			ReplicaId: nv.ReplicaId, //new leader Id
 		}
+
+		if n.replicaId == n.primary(n.currenView) {
+			Id := MsgId{sn, n.currenView}
+			BatchString := hex.EncodeToString(prePrepare.BatchHash)
+			n.prepareTimer[Id] = &fastTimer{
+				false,
+				time.NewTimer(time.Millisecond * time.Duration(n.fastTimeout)),
+			}
+			go func() {
+				select {
+				case <-n.prepareTimer[Id].timeControl.C:
+					n.prepareTimer[Id].stop = true
+					n.prepareTimer[Id].timeControl.Stop()
+					//if prepared, send prepareQc
+					n.checkIfPrepareQc(Id, BatchString)
+				}
+			}()
+		}
+
 		prePrepare.TimeStamp = time.Now().UnixNano()
+		n.handlePrePrepareMsg(prePrepare, nil)
 
-		Id := MsgId{sn, n.currenView}
-		n.reqBatch[Id] = reqBatch
-		cert := n.getCert(Id)
-		cert.reqBatchDigest = batchHash
-		cert.prePrepareStore = prePrepare
-		fmt.Printf("node %d receive PrePrepareMsg with sn :%d from newview.\n", n.replicaId, prePrepare.SN)
-
-		//update nextSN
-		if sn > n.reqSn.nextSN {
-			n.reqSn.nextSN = sn
-		}
-
-		if n.replicaId != n.primary(n.currenView) {
-			//send a prepare for each message to leader
-			n.sendPrepareMsg(sn, err)
-		} else {
-			//create a partial signature, and then handle it's prepareMsg
-			pm := n.createPrepareMsg(sn)
-			n.handlePrepareMsg(pm, err)
-		}
 	}
 
-	n.reqSn.nextSN++
-	n.updateViewChangeSeqNo()
-	if n.replicaId == n.primary(n.currenView) {
-		//go n.SendBatchSelf()
-	}
 }
 
 func (n *Node) getViewChangeMsgs() (vset []ViewChangeMsg) {
@@ -352,10 +359,15 @@ func (n *Node) assignSequenceNumbers(vset []ViewChangeMsg, sn uint32) (msgList m
 	max_s := sn + n.K
 
 	for s := min_s; s <= max_s; s++ {
-		//if have a preprepare
+		//if has pre prepare
+		diffValues := make(map[string]int)
+		diffValuesReqBatch := make(map[string]RequestBatch)
 		for _, vc := range vset {
 			if _, ok := vc.Pset[RequestSN(s)]; ok {
-				//if prepared
+				BatchHashString := string(vc.Pset[RequestSN(s)].BatchHash)
+				diffValues[BatchHashString]++
+				diffValuesReqBatch[BatchHashString] = vc.Pset[RequestSN(s)].ReqBatch
+				//if find a valid prepareQC
 				if _, ok := vc.Qset[RequestSN(s)]; ok {
 					cmd := vc.Pset[RequestSN(s)].ReqBatch
 					msgList[RequestSN(s)] = cmd
@@ -363,7 +375,26 @@ func (n *Node) assignSequenceNumbers(vset []ViewChangeMsg, sn uint32) (msgList m
 				}
 			}
 		}
-		msgList[RequestSN(s)] = RequestBatch{}
+
+		DiffSubet := 0
+		for _, value := range diffValues {
+			if value >= n.prePrepareSubsetCount {
+				DiffSubet++
+			}
+		}
+
+		if DiffSubet == 1 {
+			for key, value := range diffValues {
+				if value >= n.prePrepareSubsetCount {
+					msgList[RequestSN(s)] = diffValuesReqBatch[key]
+				}
+			}
+		}
+
+		//null request
+		if DiffSubet == 0 {
+			msgList[RequestSN(s)] = RequestBatch{}
+		}
 	}
 	return
 }

@@ -42,6 +42,9 @@ func makeNodes(nodeNumber int, bg, abm, pbm []int) ([]*Node, error) {
 	// create the threshold keys for fast path
 
 	fastQuorum := nodeNumber - len(abm) - len(pbm)/2
+	viewChangeQuorum := 2*(len(bg)+len(abm)+len(pbm)) + 1 + len(abm) + len(pbm)
+	prePrepareSubsetCount := len(bg) + len(abm) + len(pbm) + 1 + (len(pbm)+1)/2
+
 	fastShares, fastPubPoly := sign.GenTSKeys(fastQuorum, nodeNumber)
 
 	if len(shares) != nodeNumber {
@@ -55,7 +58,7 @@ func makeNodes(nodeNumber int, bg, abm, pbm []int) ([]*Node, error) {
 
 		confs[i] = config.New(clusterAddr[uint32(i)], clusterAddr, p2pClusterPort, uint32(i),
 			privKeys[i], pubKeys, shares[i], pubPoly, fastShares[i], fastPubPoly, p2pClusterPort[uint32(i)],
-			9000+i, 10, 1, 2, 4, 3, 8, 5, fastQuorum, 1)
+			9000+i, 10, 1, 2, 4, 3, 8, 5, fastQuorum, viewChangeQuorum, prePrepareSubsetCount, 1, 200, 200, 0)
 
 		if judgeNodeType(i, bg) {
 			confs[i].NodeType = 1
@@ -118,16 +121,16 @@ func Test4NodesConstantMsg(t *testing.T) {
 	var reply string
 	go Nodes[0].HandleReqBatchLoop()
 
-	go Nodes[0].rHandler.ReceiveNewRequest([]byte("a"), &reply)
+	Nodes[0].rHandler.ReceiveNewRequest([]byte("a"), &reply)
 
-	go Nodes[0].rHandler.ReceiveNewRequest([]byte("a"), &reply)
+	Nodes[0].rHandler.ReceiveNewRequest([]byte("a"), &reply)
 
 	time.Sleep(time.Second * 5)
 }
 
 func TestCheckpoint(t *testing.T) {
 	bg := []int{}
-	abm := []int{1}
+	abm := []int{}
 	pbm := []int{1}
 	Nodes, _ := makeNodes(4, bg, abm, pbm)
 	var reply string
@@ -147,5 +150,102 @@ func TestCheckpoint(t *testing.T) {
 		} else {
 			fmt.Printf("Node %d updates low watermark to %d\n", i, Nodes[i].h)
 		}
+	}
+}
+
+func TestViewChange(t *testing.T) {
+
+	bg := []int{}
+	abm := []int{}
+	pbm := []int{}
+
+	Nodes, _ := makeNodes(4, bg, abm, pbm)
+	for i := 0; i < 4; i++ {
+		Nodes[i].autoViewChange = 1
+	}
+	var reply string
+	go Nodes[0].HandleReqBatchLoop()
+
+	for i := 0; i < 3; i++ {
+		time.Sleep(time.Millisecond * 200)
+		Nodes[0].rHandler.ReceiveNewRequest([]byte("LLL"), &reply)
+	}
+
+	time.Sleep(time.Second * 2)
+
+	targetView := uint32(1)
+	targetLowWaterMark := uint32(6)
+
+	for i := 0; i < 4; i++ {
+		if Nodes[i].currenView != targetView {
+			t.Fatalf("Node %d dosen't update view,it's view is %d\n", i, Nodes[i].currenView)
+		} else {
+			fmt.Printf("Node %d updates to view %d\n", i, Nodes[i].currenView)
+		}
+
+		if Nodes[i].h != targetLowWaterMark {
+			t.Fatalf("Node %d dosen't update low watermark,it's h is %d\n", i, Nodes[i].h)
+		} else {
+			fmt.Printf("Node %d updates low watermark to %d\n", i, Nodes[i].h)
+		}
+
+	}
+	initialS, ok := Nodes[1].selectInitialSequence(Nodes[1].getViewChangeMsgs())
+	if !ok || initialS != 2 {
+		t.Fatalf("Wrong new initial sn of checkpoint: %d",
+			initialS)
+	}
+}
+
+func TestViewChangeCheckpointSelection(t *testing.T) {
+	bg := []int{}
+	abm := []int{}
+	pbm := []int{}
+	Nodes, _ := makeNodes(1, bg, abm, pbm)
+
+	vset := make([]ViewChangeMsg, 3)
+
+	// Replica 0 sent checkpoints for 5
+	vset[0] = ViewChangeMsg{
+		LastStableCk: 5,
+		Cset: []CheckpointMsg{
+			{
+				SeqN:        10,
+				StateDigest: "ten",
+			},
+		},
+	}
+
+	// Replica 1 sent checkpoints for 5
+	vset[1] = ViewChangeMsg{
+		LastStableCk: 5,
+		Cset: []CheckpointMsg{
+			{
+				SeqN:        5,
+				StateDigest: "five",
+			},
+		},
+	}
+
+	// Replica 2 sent checkpoints for 10
+	vset[0] = ViewChangeMsg{
+		LastStableCk: 10,
+		Cset: []CheckpointMsg{
+			{
+				SeqN:        15,
+				StateDigest: "fifteen",
+			},
+		},
+	}
+
+	checkpointSn, ok := Nodes[0].selectInitialSequence(vset)
+
+	if !ok {
+		t.Fatalf("Failed to pick correct a checkpoint for view change")
+	}
+
+	expected := uint32(10)
+	if checkpointSn != expected {
+		t.Fatalf("Expected to pick checkpoint %d, but picked %d", expected, checkpointSn)
 	}
 }

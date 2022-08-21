@@ -36,7 +36,7 @@ type FastPrepareQc struct {
 type PrepareMsg struct {
 	Vote           VoteForPrepare
 	ReplicaId      uint32
-	PartialSig     []byte //对vote消息进行签名
+	PartialSig     []byte //partialsig
 	FastPartialSig []byte //fastPath partialsig
 	TimeStamp      int64
 }
@@ -54,13 +54,13 @@ type CommitQc struct {
 type CommitMsg struct {
 	Vote       PrepareQc
 	ReplicaId  uint32
-	PartialSig []byte //对prepareQc消息进行签名
+	PartialSig []byte
 	TimeStamp  int64
 }
 
 type CheckpointMsg struct {
 	SeqN        RequestSN
-	StateDigest string //当前服务状态的摘要?
+	StateDigest string
 	ReplicaId   uint32
 }
 
@@ -87,3 +87,5 @@ type NewViewMsg struct {
 }
 
 type ViewChangeQuorumMsg struct{}
+
+type ViewChangeTimerEvent struct{}

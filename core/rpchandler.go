@@ -11,6 +11,7 @@ type ReqHandler struct {
 	NodeName       string
 	TimeOutControl *time.Timer
 	ReqPool        *Pool
+	Leader         string
 }
 
 type Pool struct {

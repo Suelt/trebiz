@@ -162,22 +162,24 @@ func main() {
 	numT := TotalNodeNum - TotalNodeNum/3
 	shares, pubPoly := sign.GenTSKeys(numT, TotalNodeNum)
 
-	bgm := viperRead.GetInt("bgnum")
+	bg := viperRead.GetInt("bgnum")
 	abm := viperRead.GetInt("abmnum")
 	pbm := viperRead.GetInt("pbmnum")
 	fastNum := TotalNodeNum - abm - pbm/2
+	viewChangeQuorum := 2*(bg+abm+pbm) + 1 + abm + pbm
+	prePrepareSubsetCount := bg + abm + pbm + 1 + (pbm+1)/2
 	//fastNum := 2
 	fastShares, fastPubPoly := sign.GenTSKeys(fastNum, TotalNodeNum)
 
 	rpcListenPort := viperRead.GetInt("rpc_listen_port")
 
-	evilNode := generateRandomNumber(1, TotalNodeNum, bgm+abm+pbm)
+	evilNode := generateRandomNumber(1, TotalNodeNum, bg+abm+pbm)
 
 	fmt.Println("EVILNODES", evilNode)
 
-	bgnodes := evilNode[0:bgm]
-	abmnodes := evilNode[bgm : bgm+abm]
-	pbmodes := evilNode[bgm+abm:]
+	bgnodes := evilNode[0:bg]
+	abmnodes := evilNode[bg : bg+abm]
+	pbmodes := evilNode[bg+abm:]
 
 	fmt.Println("bgnodes", bgnodes)
 	fmt.Println("abmnodes", abmnodes)
@@ -256,13 +258,13 @@ func main() {
 			viperWrite.Set("checkPoint_t", viperRead.GetInt("checkPoint_t"))
 			viperWrite.Set("log_k", viperRead.GetInt("log_k"))
 			viperWrite.Set("maxpool", viperRead.GetInt("maxpool"))
-
+			viperWrite.Set("autoviewchange", viperRead.GetInt("autoviewchange"))
 			viperWrite.Set("fastpathtimeout", viperRead.GetInt("fast_path_timeout"))
 			viperWrite.Set("sameiptimeout", viperRead.GetInt("sameiptimeout"))
-
 			viperWrite.Set("evilpr", viperRead.GetInt("evilpr"))
 			viperWrite.Set("fastqcquorum", fastNum)
-
+			viperWrite.Set("viewChangeQuorum", viewChangeQuorum)
+			viperWrite.Set("prePrepareSubsetCount", prePrepareSubsetCount)
 			if judgeNodeType(replicaId, bgnodes) {
 				viperWrite.Set("nodetype", 1)
 			} else if judgeNodeType(replicaId, abmnodes) {
