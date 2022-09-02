@@ -228,7 +228,7 @@ func TestViewChangeCheckpointSelection(t *testing.T) {
 	}
 
 	// Replica 2 sent checkpoints for 10
-	vset[0] = ViewChangeMsg{
+	vset[2] = ViewChangeMsg{
 		LastStableCk: 10,
 		Cset: []CheckpointMsg{
 			{
@@ -248,4 +248,64 @@ func TestViewChangeCheckpointSelection(t *testing.T) {
 	if checkpointSn != expected {
 		t.Fatalf("Expected to pick checkpoint %d, but picked %d", expected, checkpointSn)
 	}
+}
+
+func TestDiffSubet(t *testing.T) {
+
+	bg := []int{}
+	abm := []int{}
+	pbm := []int{}
+	Nodes, _ := makeNodes(1, bg, abm, pbm)
+	Nodes[0].prePrepareSubsetCount = 2
+
+	vset := make([]ViewChangeMsg, 4)
+	// Replica 0 sent checkpoints for 5
+	vset[0] = ViewChangeMsg{
+		LastStableCk: 5,
+		Pset: map[RequestSN]*PrePrepareMsg{
+			6: {
+				SN:        6,
+				BatchHash: []byte("1"),
+			},
+		},
+	}
+
+	// Replica 1 sent checkpoints for 5
+	vset[1] = ViewChangeMsg{
+		LastStableCk: 5,
+		Pset: map[RequestSN]*PrePrepareMsg{
+			6: {
+				SN:        6,
+				BatchHash: []byte("1"),
+			},
+		},
+	}
+
+	// Replica 2 sent checkpoints for 10
+	vset[2] = ViewChangeMsg{
+		LastStableCk: 5,
+		Pset: map[RequestSN]*PrePrepareMsg{
+			6: {
+				SN:        6,
+				BatchHash: []byte("2"),
+			},
+		},
+	}
+
+	vset[3] = ViewChangeMsg{
+		LastStableCk: 5,
+		Pset: map[RequestSN]*PrePrepareMsg{
+			6: {
+				SN:        6,
+				BatchHash: []byte("2"),
+			},
+		},
+	}
+
+	_, ok := Nodes[0].assignSequenceNumbers(vset, 5)
+
+	if ok {
+		t.Fatalf("Failed to handle viewChange properly")
+	}
+
 }

@@ -204,9 +204,9 @@ func (n *Node) sendNewView(err chan error) {
 		return
 	}
 
-	msgList := n.assignSequenceNumbers(vset, initialS)
+	msgList, ok := n.assignSequenceNumbers(vset, initialS)
 
-	if msgList == nil {
+	if msgList == nil || ok == false {
 		fmt.Printf("Node %d could not assign sequence numbers for new view\n", n.replicaId)
 		return
 	}
@@ -351,18 +351,18 @@ func (n *Node) selectInitialSequence(vset []ViewChangeMsg) (sn uint32, ok bool) 
 	return
 }
 
-func (n *Node) assignSequenceNumbers(vset []ViewChangeMsg, sn uint32) (msgList map[RequestSN]RequestBatch) {
+func (n *Node) assignSequenceNumbers(vset []ViewChangeMsg, sn uint32) (msgList map[RequestSN]RequestBatch, err bool) {
 
 	msgList = make(map[RequestSN]RequestBatch)
-
+	var ok = true
 	min_s := sn + 1
 	max_s := sn + n.K
 
 	for s := min_s; s <= max_s; s++ {
-		//if has pre prepare
 		diffValues := make(map[string]int)
 		diffValuesReqBatch := make(map[string]RequestBatch)
 		for _, vc := range vset {
+			//if has pre prepare
 			if _, ok := vc.Pset[RequestSN(s)]; ok {
 				BatchHashString := string(vc.Pset[RequestSN(s)].BatchHash)
 				diffValues[BatchHashString]++
@@ -391,10 +391,15 @@ func (n *Node) assignSequenceNumbers(vset []ViewChangeMsg, sn uint32) (msgList m
 			}
 		}
 
+		if DiffSubet == 2 {
+			ok = false
+		}
+
 		//null request
 		if DiffSubet == 0 {
 			msgList[RequestSN(s)] = RequestBatch{}
 		}
+
 	}
-	return
+	return msgList, ok
 }
