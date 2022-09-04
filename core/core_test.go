@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/treble-h/trebiz/config"
 	"github.com/treble-h/trebiz/sign"
+	"reflect"
 	"testing"
 	"time"
 )
@@ -100,8 +101,8 @@ func makeNodes(nodeNumber int, bg, abm, pbm []int) ([]*Node, error) {
 func TestNormalCase4Nodes(t *testing.T) {
 
 	bg := []int{}
-	abm := []int{1}
-	pbm := []int{2}
+	abm := []int{}
+	pbm := []int{}
 	Nodes, _ := makeNodes(4, bg, abm, pbm)
 	var reply string
 	go Nodes[0].HandleReqBatchLoop()
@@ -110,22 +111,36 @@ func TestNormalCase4Nodes(t *testing.T) {
 
 	time.Sleep(time.Second * 2)
 
+	for i := 0; i < 4; i++ {
+		if Nodes[i].exeSn.lastExec != 1 {
+			t.Fatalf("Node %d dosen't commit request,it's lastExec is %d\n", i, Nodes[i].exeSn.lastExec)
+		} else {
+			fmt.Printf("Node %d commit request for sequence number %d\n", i, Nodes[i].exeSn.lastExec)
+		}
+	}
 }
 
 func Test4NodesConstantMsg(t *testing.T) {
 
 	bg := []int{}
-	abm := []int{1}
-	pbm := []int{2}
+	abm := []int{}
+	pbm := []int{}
 	Nodes, _ := makeNodes(4, bg, abm, pbm)
 	var reply string
 	go Nodes[0].HandleReqBatchLoop()
 
 	Nodes[0].rHandler.ReceiveNewRequest([]byte("a"), &reply)
-
 	Nodes[0].rHandler.ReceiveNewRequest([]byte("a"), &reply)
 
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * 2)
+	for i := 0; i < 4; i++ {
+		if Nodes[i].exeSn.lastExec != 2 {
+			t.Fatalf("Node %d dosen't commit request,it's lastExec is %d\n", i, Nodes[i].exeSn.lastExec)
+		} else {
+			fmt.Printf("Node %d commit request for sequence number %d\n", i, Nodes[i].exeSn.lastExec)
+		}
+	}
+
 }
 
 func TestCheckpoint(t *testing.T) {
@@ -188,13 +203,25 @@ func TestViewChange(t *testing.T) {
 		} else {
 			fmt.Printf("Node %d updates low watermark to %d\n", i, Nodes[i].h)
 		}
-
 	}
 	initialS, ok := Nodes[1].selectInitialSequence(Nodes[1].getViewChangeMsgs())
 	if !ok || initialS != 2 {
 		t.Fatalf("Wrong new initial sn of checkpoint: %d",
 			initialS)
 	}
+
+	msgList, ok := Nodes[1].assignSequenceNumbers(Nodes[1].getViewChangeMsgs(), initialS)
+
+	req := &Request{
+		[]byte("LLL"),
+	}
+
+	if ok == true && (reflect.DeepEqual(msgList[3].Batch[0], req) && reflect.DeepEqual(msgList[4], RequestBatch{}) && reflect.DeepEqual(msgList[5], RequestBatch{}) && reflect.DeepEqual(msgList[6], RequestBatch{})) {
+		fmt.Printf("New leader assign correct message list\n")
+	} else {
+		t.Fatalf("Wrong message list: %+v", msgList)
+	}
+
 }
 
 func TestViewChangeCheckpointSelection(t *testing.T) {
