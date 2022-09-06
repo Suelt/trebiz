@@ -124,6 +124,9 @@ func (et *timerImpl) loop() {
 			rpc.Command = &ViewChangeTimerEvent{}
 			select {
 			case et.EventManager.consumeCh <- rpc:
+				fmt.Println("Send viewChange")
+			default:
+				fmt.Println("Can't send viewChange")
 			}
 		case <-et.exit:
 			fmt.Println("Halting timer")

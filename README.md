@@ -14,6 +14,7 @@ Machines are divided into two types:
 - Recommended OS releases: Ubuntu 18.04 (other releases may also be OK)
 - Go version: 1.17+ (with Go module enabled)
 - Python version: 3.6.9+
+- Ansible version: 2.5.1+
 
 ### 3. Steps to run trebiz
 
@@ -38,7 +39,15 @@ ssh-keygen
 ssh-copy-id -i ~/.ssh/id_rsa.pub $IP_ADDR_OF_EACH_SERVER
 ```
 
-#### 3.3 Generate configurations
+#### 3.3 Install Go-related modules/packages
+
+```shell
+# Enter the directory `trebiz`
+go mod tidy
+```
+
+#### 3.4 Generate configurations
+
 Generate configurations for each server.
 
 Operations below are done on the *work computer*.
@@ -46,7 +55,7 @@ Operations below are done on the *work computer*.
 - Change `IPs`, `peers_p2p_port`,  `rpc_listen_port`and other parameters  in file `config_gen/config_template.yaml`
 - Enter the directory `config_gen`, and run `go run main.go`
 
-#### 3.4 Configure servers via ansible tool
+#### 3.5 Configure servers via ansible tool
 Change the `hosts` file in the directory `ansible`, the hostnames and IPs should be consistent with `config_gen/config_template.yaml`.
 
 And commands below are run on the *work computer*.
@@ -58,7 +67,7 @@ go build
 ansible-playbook -i ./hosts conf-server.yaml
 ```
 
-#### 3.5 Run trebiz servers via ansible tool
+#### 3.6 Run trebiz servers via ansible tool
 ```shell script
 # run trebiz servers
 ansible-playbook -i ./hosts run-server.yaml
@@ -71,9 +80,11 @@ You can stop servers by using command
 ansible-playbook -i ./hosts kill-server.yaml
 ```
 
-#### 3.6 Run Client
+#### 3.7 Run Client
 
-You can use the workserver as the client or run client on a remote host. The following command will start a client and the client will keep sending requests to  the primary node until you stop it:
+For stable testing, we let the primary node to package a batch by itself if it does not receive any request from the client within the `batchtimeout` period. And you can also run a client to send request.
+
+You can use the workserver as the client or run a client on a remote host. The following command will start a client and the client will keep sending requests to  the primary node until you stop it:
 
 ```shell
 #Enter the directory `client`
@@ -88,4 +99,6 @@ go run main.go -rpcaddress $IP_ADDR_OF_Leader sendrequest -n $number
 ```
 
 For the full list of flags, run `go run main.go -rpcaddress $IP_ADDR_OF_Leader hlep sendrequest`.
+
+
 

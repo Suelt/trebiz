@@ -59,9 +59,11 @@ func (n *Node) calPQset() (map[RequestSN]*PrePrepareMsg, map[RequestSN]*PrepareQ
 		if idx.Sn <= RequestSN(n.h) {
 			continue
 		}
+		if cert.prePrepareStore != nil {
+			pset[idx.Sn] = cert.prePrepareStore
+		}
 
 		if cert.prepareQc != nil {
-			pset[idx.Sn] = cert.prePrepareStore
 			//qset for Qc
 			qset[idx.Sn] = cert.prepareQc
 		}
@@ -359,6 +361,7 @@ func (n *Node) assignSequenceNumbers(vset []ViewChangeMsg, sn uint32) (msgList m
 	max_s := sn + n.K
 
 	for s := min_s; s <= max_s; s++ {
+		findQC := false
 		diffValues := make(map[string]int)
 		diffValuesReqBatch := make(map[string]RequestBatch)
 		for _, vc := range vset {
@@ -369,21 +372,24 @@ func (n *Node) assignSequenceNumbers(vset []ViewChangeMsg, sn uint32) (msgList m
 				diffValuesReqBatch[BatchHashString] = vc.Pset[RequestSN(s)].ReqBatch
 				//if find a valid prepareQC
 				if _, ok := vc.Qset[RequestSN(s)]; ok {
-					cmd := vc.Pset[RequestSN(s)].ReqBatch
-					msgList[RequestSN(s)] = cmd
+					msgList[RequestSN(s)] = vc.Pset[RequestSN(s)].ReqBatch
+					findQC = true
 					break
 				}
 			}
 		}
+		if findQC {
+			continue
+		}
 
-		DiffSubet := 0
+		DiffSubset := 0
 		for _, value := range diffValues {
 			if value >= n.prePrepareSubsetCount {
-				DiffSubet++
+				DiffSubset++
 			}
 		}
 
-		if DiffSubet == 1 {
+		if DiffSubset == 1 {
 			for key, value := range diffValues {
 				if value >= n.prePrepareSubsetCount {
 					msgList[RequestSN(s)] = diffValuesReqBatch[key]
@@ -391,12 +397,12 @@ func (n *Node) assignSequenceNumbers(vset []ViewChangeMsg, sn uint32) (msgList m
 			}
 		}
 
-		if DiffSubet == 2 {
+		if DiffSubset == 2 {
 			ok = false
 		}
 
 		//null request
-		if DiffSubet == 0 {
+		if DiffSubset == 0 {
 			msgList[RequestSN(s)] = RequestBatch{}
 		}
 

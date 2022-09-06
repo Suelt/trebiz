@@ -43,8 +43,8 @@ func makeNodes(nodeNumber int, bg, abm, pbm []int) ([]*Node, error) {
 	// create the threshold keys for fast path
 
 	fastQuorum := nodeNumber - len(abm) - len(pbm)/2
-	viewChangeQuorum := 2*(len(bg)+len(abm)+len(pbm)) + 1 + len(abm) + len(pbm)
-	prePrepareSubsetCount := len(bg) + len(abm) + len(pbm) + 1 + (len(pbm)+1)/2
+	viewChangeQuorum := 2*(nodeNumber/3) + 1 + len(abm) + len(pbm)
+	prePrepareSubsetCount := nodeNumber/3 + 1 + (len(pbm)+1)/2
 
 	fastShares, fastPubPoly := sign.GenTSKeys(fastQuorum, nodeNumber)
 
@@ -59,7 +59,7 @@ func makeNodes(nodeNumber int, bg, abm, pbm []int) ([]*Node, error) {
 
 		confs[i] = config.New(clusterAddr[uint32(i)], clusterAddr, p2pClusterPort, uint32(i),
 			privKeys[i], pubKeys, shares[i], pubPoly, fastShares[i], fastPubPoly, p2pClusterPort[uint32(i)],
-			9000+i, 10, 1, 2, 4, 3, 8, 5, fastQuorum, viewChangeQuorum, prePrepareSubsetCount, 1, 200, 200, 0)
+			9000+i, 10, 1, 2, 4, 3, 8, 10, fastQuorum, viewChangeQuorum, prePrepareSubsetCount, 1, 1000, 1000, 0)
 
 		if judgeNodeType(i, bg) {
 			confs[i].NodeType = 1
@@ -105,9 +105,9 @@ func TestNormalCase4Nodes(t *testing.T) {
 	pbm := []int{}
 	Nodes, _ := makeNodes(4, bg, abm, pbm)
 	var reply string
-	go Nodes[0].HandleReqBatchLoop()
+	go Nodes[0].HandleReqBatchLoopForTest()
 
-	Nodes[0].rHandler.ReceiveNewRequest([]byte("a"), &reply)
+	Nodes[0].rHandler.ReceiveNewRequest([]byte(""), &reply)
 
 	time.Sleep(time.Second * 2)
 
@@ -127,7 +127,7 @@ func Test4NodesConstantMsg(t *testing.T) {
 	pbm := []int{}
 	Nodes, _ := makeNodes(4, bg, abm, pbm)
 	var reply string
-	go Nodes[0].HandleReqBatchLoop()
+	go Nodes[0].HandleReqBatchLoopForTest()
 
 	Nodes[0].rHandler.ReceiveNewRequest([]byte("a"), &reply)
 	Nodes[0].rHandler.ReceiveNewRequest([]byte("a"), &reply)
@@ -149,7 +149,7 @@ func TestCheckpoint(t *testing.T) {
 	pbm := []int{1}
 	Nodes, _ := makeNodes(4, bg, abm, pbm)
 	var reply string
-	go Nodes[0].HandleReqBatchLoop()
+	go Nodes[0].HandleReqBatchLoopForTest()
 
 	Nodes[0].rHandler.ReceiveNewRequest([]byte("LLL"), &reply)
 
@@ -179,7 +179,7 @@ func TestViewChange(t *testing.T) {
 		Nodes[i].autoViewChange = 1
 	}
 	var reply string
-	go Nodes[0].HandleReqBatchLoop()
+	go Nodes[0].HandleReqBatchLoopForTest()
 
 	for i := 0; i < 3; i++ {
 		time.Sleep(time.Millisecond * 200)
@@ -213,7 +213,7 @@ func TestViewChange(t *testing.T) {
 	msgList, ok := Nodes[1].assignSequenceNumbers(Nodes[1].getViewChangeMsgs(), initialS)
 
 	req := &Request{
-		[]byte("LLL"),
+		append([]byte("cmd"), []byte("LLL")...),
 	}
 
 	if ok == true && (reflect.DeepEqual(msgList[3].Batch[0], req) && reflect.DeepEqual(msgList[4], RequestBatch{}) && reflect.DeepEqual(msgList[5], RequestBatch{}) && reflect.DeepEqual(msgList[6], RequestBatch{})) {
@@ -277,7 +277,7 @@ func TestViewChangeCheckpointSelection(t *testing.T) {
 	}
 }
 
-func TestDiffSubet(t *testing.T) {
+func TestDiffSubset(t *testing.T) {
 
 	bg := []int{}
 	abm := []int{}
@@ -308,7 +308,7 @@ func TestDiffSubet(t *testing.T) {
 		},
 	}
 
-	// Replica 2 sent checkpoints for 10
+	// Replica 2 sent checkpoints for 5
 	vset[2] = ViewChangeMsg{
 		LastStableCk: 5,
 		Pset: map[RequestSN]*PrePrepareMsg{
@@ -335,4 +335,69 @@ func TestDiffSubet(t *testing.T) {
 		t.Fatalf("Failed to handle viewChange properly")
 	}
 
+}
+
+func TestViewChangeWithPreprepare(t *testing.T) {
+
+	bg := []int{}
+	abm := []int{}
+	pbm := []int{}
+	Nodes, _ := makeNodes(1, bg, abm, pbm)
+	Nodes[0].prePrepareSubsetCount = 2
+
+	vset := make([]ViewChangeMsg, 4)
+
+	vset[0] = ViewChangeMsg{
+		LastStableCk: 5,
+		Pset: map[RequestSN]*PrePrepareMsg{
+			6: {
+				SN:        6,
+				BatchHash: []byte("1"),
+				ReqBatch: RequestBatch{
+					Batch: []*Request{
+						{Cmd: []byte("LL")},
+					},
+				},
+			},
+		},
+	}
+
+	vset[1] = ViewChangeMsg{
+		LastStableCk: 5,
+		Pset: map[RequestSN]*PrePrepareMsg{
+			6: {
+				SN:        6,
+				BatchHash: []byte("1"),
+				ReqBatch: RequestBatch{
+					Batch: []*Request{
+						{Cmd: []byte("LL")},
+					},
+				},
+			},
+		},
+	}
+
+	vset[2] = ViewChangeMsg{
+		LastStableCk: 5,
+		Pset: map[RequestSN]*PrePrepareMsg{
+			6: {
+				SN: 6,
+				ReqBatch: RequestBatch{
+					Batch: []*Request{
+						{Cmd: []byte("LL")},
+					},
+				},
+			},
+		},
+	}
+
+	msgList, ok := Nodes[0].assignSequenceNumbers(vset, 5)
+	req := &Request{
+		append([]byte("LL")),
+	}
+	if ok == true && (reflect.DeepEqual(msgList[6].Batch[0], req) && reflect.DeepEqual(msgList[7], RequestBatch{}) && reflect.DeepEqual(msgList[8], RequestBatch{})) {
+		fmt.Printf("New leader assign correct message list\n")
+	} else {
+		t.Fatalf("Wrong message list: %+v", msgList)
+	}
 }

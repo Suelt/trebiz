@@ -28,7 +28,7 @@ peers_p2p_port:
 #the port on which the node listens for client requests
 rpc_listen_port: 9500
 #the number of client commands that should be batched together in a block
-batchSize: 100
+batchSize: 1000
 #the rate at which the leader produces a block, in milliseconds
 batchtimeout: 2000
 autoviewchange: 0
@@ -41,7 +41,6 @@ maxpool: 3
 #it will follow the steps of normal case in PBFT. So when we test PBFT, we can set this value very small (like 10 microseconds).
 #And when we test trebiz, we can set it to a reasonable value according to the network situation
 fast_path_timeout: 900
-sameiptimeout: 0
 #the probability of a node doing evil(not responding),8 means the probability of a Byzantine node doing good is 80%
 evilpr: 8
 #the number of Byzantine nodes

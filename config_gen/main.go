@@ -165,9 +165,13 @@ func main() {
 	bg := viperRead.GetInt("bgnum")
 	abm := viperRead.GetInt("abmnum")
 	pbm := viperRead.GetInt("pbmnum")
+	if TotalNodeNum/3 < (bg + abm + pbm) {
+		panic(fmt.Errorf("Error configuration, the number of Byzantine nodes is %d, but the sum of (abm+pbm+bg) is %d, which is larger than %d  \n", TotalNodeNum/3, bg+abm+pbm, TotalNodeNum/3))
+
+	}
 	fastNum := TotalNodeNum - abm - pbm/2
-	viewChangeQuorum := 2*(bg+abm+pbm) + 1 + abm + pbm
-	prePrepareSubsetCount := bg + abm + pbm + 1 + (pbm+1)/2
+	viewChangeQuorum := 2*(TotalNodeNum/3) + 1 + abm + pbm
+	prePrepareSubsetCount := TotalNodeNum/3 + 1 + (pbm+1)/2
 	//fastNum := 2
 	fastShares, fastPubPoly := sign.GenTSKeys(fastNum, TotalNodeNum)
 

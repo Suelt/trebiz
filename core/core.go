@@ -406,9 +406,10 @@ func (n *Node) checkIfPrepared(Id MsgId, err chan error) {
 	cert := n.getCert(Id)
 	// check if the preprepared msg and prepareQc has been received
 	if cert.reqBatchStage == received && cert.fastPrepareQc != nil {
+		n.stopTimer()
 		cert.reqBatchStage = committed
 		fmt.Printf("Request sn:%d, v:%d can be commit in fast path\n", Id.Sn, Id.View)
-		go n.executeRequest(Id, err)
+		n.executeRequest(Id, err)
 		return
 	}
 
@@ -653,7 +654,7 @@ func (n *Node) checkIfCommitted(Id MsgId, err chan error) {
 		cert.reqBatchStage = committed
 		fmt.Printf("sn:%d can be commit in slow path\n", Id.Sn)
 		// execute the request and reply to the client
-		go n.executeRequest(Id, err)
+		n.executeRequest(Id, err)
 	}
 }
 
@@ -720,7 +721,7 @@ func (n *Node) recvCheckpoint(chkpt *CheckpointMsg, err chan error) {
 	fmt.Printf("node %d receive ckpoint with sn: %d from node %d!\n", n.replicaId, chkpt.SeqN, chkpt.ReplicaId)
 
 	if !n.inWatermarks(RequestSN(uint32(chkpt.SeqN))) {
-		fmt.Printf("Checkpoint sequence number outside watermarks:: seqNo %d, low-mark %d\n", chkpt.SeqN, n.h)
+		fmt.Printf("Checkpoint sequence number outside watermarks: seqNo %d, low-mark %d\n", chkpt.SeqN, n.h)
 		return
 	}
 
@@ -766,7 +767,7 @@ func (n *Node) recvCheckpoint(chkpt *CheckpointMsg, err chan error) {
 func (n *Node) moveWatermarks(seqNo RequestSN) {
 	//move the watermark
 	n.h = uint32(seqNo)
-	fmt.Printf("Node %d moves low-mark to %d ,high-mark is %d\n", n.replicaId, n.h, n.h+n.K)
+	fmt.Printf("Node %d moves low-mark to %d, high-mark is %d\n", n.replicaId, n.h, n.h+n.K)
 }
 
 func (n *Node) inWatermarks(seqNo RequestSN) bool {

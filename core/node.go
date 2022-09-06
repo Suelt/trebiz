@@ -353,6 +353,10 @@ func (n *Node) StartPBFT(ch chan error) {
 					n.recvNewView(msg, ch)
 				}
 
+			case *ViewChangeTimerEvent:
+				fmt.Printf("node %d send viewChange because of timeout\n", n.replicaId)
+				n.sendViewChange(ch)
+
 			default:
 			}
 		}
@@ -415,7 +419,6 @@ func (n *Node) broadcast(ty MsgType, msg interface{}, excAddrs map[uint32]bool, 
 				//return err
 			}
 
-			//广播完了释放连接
 			if err = n.trans.ReturnConn(conn); err != nil {
 				fmt.Println("cannot release conn:", err)
 			}
@@ -550,10 +553,45 @@ func (n *Node) sendBatch() {
 	if n.activeView && n.primary(n.currenView) == n.replicaId {
 		go n.broadcastPrePrepareMsg(RequestBatch, nil)
 	}
+}
 
+func (n *Node) ReceiveNewRequestForTest(requestNum int) {
+	var reply string
+	for i := 0; i < requestNum; i++ {
+		n.rHandler.ReceiveNewRequest([]byte(""), &reply)
+	}
 }
 
 func (n *Node) HandleReqBatchLoop() {
+
+	n.rHandler.TimeOutControl = time.NewTimer(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
+
+	for {
+		n.rHandler.Leader = n.clusterAddr[n.primary(n.currenView)]
+		if len(n.reqPool.BatchStore) >= n.rHandler.BatchSize {
+			n.sendBatch()
+			fmt.Println(time.Now().Format("2006-01-02 15:04:05"), "send a batch because of batchSize")
+			n.rHandler.TimeOutControl.Reset(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
+		}
+		select {
+		case <-n.rHandler.TimeOutControl.C:
+			if len(n.reqPool.BatchStore) == 0 {
+				fmt.Printf(time.Now().Format("2006-01-02 15:04:05") + " ")
+				if n.activeView && n.primary(n.currenView) == n.replicaId {
+					fmt.Printf("an empty batch because of timeout,the primary node packs a batch of size %d\n", n.rHandler.BatchSize)
+					n.ReceiveNewRequestForTest(n.rHandler.BatchSize)
+				}
+			} else {
+				n.sendBatch()
+				fmt.Println(time.Now().Format("2006-01-02 15:04:05"), "send a batch because of timeout")
+			}
+			n.rHandler.TimeOutControl.Reset(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
+		default:
+		}
+	}
+}
+
+func (n *Node) HandleReqBatchLoopForTest() {
 
 	n.rHandler.TimeOutControl = time.NewTimer(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
 
@@ -574,7 +612,6 @@ func (n *Node) HandleReqBatchLoop() {
 			}
 			n.rHandler.TimeOutControl.Reset(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
 		default:
-
 		}
 	}
 }
@@ -583,7 +620,7 @@ func (n *Node) HandleReqBatchLoop() {
 func (rh *ReqHandler) ReceiveNewRequest(Cmd []byte, reply *string) error {
 
 	req := &Request{
-		Cmd,
+		append([]byte("cmd"), Cmd...),
 	}
 
 	rh.ReqPool.BatchStoreLock.Lock()
