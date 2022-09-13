@@ -50,7 +50,7 @@ func generateRandomNumber(start int, end int, count int) []int {
 
 func main() {
 
-	ProcessCount := 1
+	ProcessCount := 8
 
 	viperRead := viper.New()
 
@@ -61,10 +61,10 @@ func main() {
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
 
-	clusterInnerAddr := viperRead.GetStringMap("ip1s")
+	clusterInnerAddr := viperRead.GetStringMap("ips")
 
 	//IP
-	tempClusterMapInterface := viperRead.GetStringMap("ip2s")
+	tempClusterMapInterface := viperRead.GetStringMap("ips")
 	clusterMapInterface := make(map[string]string)
 	for name, addr := range tempClusterMapInterface {
 		rs := []rune(name)
@@ -264,7 +264,6 @@ func main() {
 			viperWrite.Set("maxpool", viperRead.GetInt("maxpool"))
 			viperWrite.Set("autoviewchange", viperRead.GetInt("autoviewchange"))
 			viperWrite.Set("fastpathtimeout", viperRead.GetInt("fast_path_timeout"))
-			viperWrite.Set("sameiptimeout", viperRead.GetInt("sameiptimeout"))
 			viperWrite.Set("evilpr", viperRead.GetInt("evilpr"))
 			viperWrite.Set("fastqcquorum", fastNum)
 			viperWrite.Set("viewChangeQuorum", viewChangeQuorum)

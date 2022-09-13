@@ -1,21 +1,12 @@
-#the private IP of the nodes
-IP1s:
-  node0: 172.21.139.138
-  node1: 172.31.101.174
-  node2: 172.31.30.111
-  node3: 172.27.105.188
-  node4: 172.20.180.72
-  node5: 172.31.181.68
-  node6: 172.31.181.67
 #the public IP of the nodes
-IP2s:
-  node0: 8.213.130.191
-  node1: 8.215.67.53
-  node2: 47.74.84.224
-  node3: 8.212.183.112
-  node4: 47.253.51.165
-  node5: 147.139.43.108
-  node6: 149.129.174.162
+ips:
+  node0: 8.213.129.74
+  node1: 147.139.176.218
+  node2: 47.74.89.4
+  node3: 47.253.34.8
+  node4: 47.89.187.236
+  node5: 149.129.174.16
+  node6: 147.139.7.146
 #the P2P transport port that each node listens on for communication with other nodes
 peers_p2p_port:
   node0: 9000
@@ -40,13 +31,13 @@ maxpool: 3
 #the fast path duration, if a request can not commit in `fast_path_timeout`,
 #it will follow the steps of normal case in PBFT. So when we test PBFT, we can set this value very small (like 10 microseconds).
 #And when we test trebiz, we can set it to a reasonable value according to the network situation
-fast_path_timeout: 900
+fast_path_timeout: 700
 #the probability of a node doing evil(not responding),8 means the probability of a Byzantine node doing good is 80%
 evilpr: 8
 #the number of Byzantine nodes
-bgnum: 1
+bgnum: 0
 #the number of active Byzantine Merchants
-abmnum: 1
+abmnum: 0
 #the number of passive Byzantine Merchants
 pbmnum: 0
 

@@ -237,7 +237,7 @@ func (n *Node) establishConns() error {
 // accept the request from the client if it is leader
 func (n *Node) StartListen() error {
 
-	addr := n.addrStr + ":" + strconv.Itoa(n.p2pListenPort)
+	addr := ":" + strconv.Itoa(n.p2pListenPort)
 
 	var err error
 	n.trans, err = NewTCPTransport(addr, 10*time.Second, nil, n.maxPool)
