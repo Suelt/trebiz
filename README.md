@@ -12,7 +12,7 @@ Machines are divided into two types:
 
 ### 2. Precondition
 - Recommended OS releases: Ubuntu 18.04 (other releases may also be OK)
-- Go version: 1.17+ (with Go module enabled)
+- Go version: 1.12+ (with Go module enabled)
 - Python version: 3.6.9+
 - Ansible version: 2.5.1+
 
