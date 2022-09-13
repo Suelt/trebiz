@@ -52,7 +52,7 @@ Generate configurations for each server.
 
 Operations below are done on the *work computer*.
 
-- Change `IPs`, `peers_p2p_port`,  `rpc_listen_port`and other parameters  in file `config_gen/config_template.yaml`
+- Change `ips`, `peers_p2p_port`,  `rpc_listen_port`and other parameters  in file `config_gen/config_template.yaml`
 - Enter the directory `config_gen`, and run `go run main.go`
 
 #### 3.5 Configure servers via ansible tool
