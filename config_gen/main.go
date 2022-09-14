@@ -50,7 +50,7 @@ func generateRandomNumber(start int, end int, count int) []int {
 
 func main() {
 
-	ProcessCount := 8
+	ProcessCount := 1
 
 	viperRead := viper.New()
 
