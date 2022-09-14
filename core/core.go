@@ -130,7 +130,7 @@ func (n *Node) handlePrePrepareMsg(ppm *PrePrepareMsg, err chan error) {
 	//receive prepareQc/commitQc before prePrepare
 	n.checkIfPrepared(Id, err)
 
-	n.softStartTimer(n.viewChangeTimeout, fmt.Sprintf("new pre-prepare for request sn %d", preprep.SN))
+	//n.softStartTimer(n.viewChangeTimeout, fmt.Sprintf("new pre-prepare for request sn %d", preprep.SN))
 
 	// the leader avoid sending the preparemsg to itself
 	if n.replicaId != n.primary(n.currenView) {
@@ -234,7 +234,6 @@ func (n *Node) handlePrepareMsg(pm *PrepareMsg, err chan error) {
 		fmt.Printf("a prepare with the same sn %d  has been received from node: %d before\n", prepare.Vote.SN, prepare.ReplicaId)
 		return
 	}
-
 	cert.prePareStore[prepare.ReplicaId] = prepare
 	n.handlePrepareVote(prepare)
 }
@@ -265,7 +264,7 @@ func (n *Node) handlePrepareVote(pm *PrepareMsg) {
 
 	if n.prepareTimer[Id].stop == false {
 		if len(n.fastPartialSigInPrepare[Id][BatchString]) >= n.fastQcQuorum && !cert.prepareQcStage {
-			fastQcTime = time.Now().UnixNano()
+			//fastQcTime = time.Now().UnixNano()
 			cert.prepareQcStage = true
 			fastPrepareQcMsg := n.createFastPrepareQc(Id, BatchString)
 			fmt.Printf("Node %d broadcast fastprepareQc, sn:%d, v:%d\n",
@@ -406,7 +405,7 @@ func (n *Node) checkIfPrepared(Id MsgId, err chan error) {
 	cert := n.getCert(Id)
 	// check if the preprepared msg and prepareQc has been received
 	if cert.reqBatchStage == received && cert.fastPrepareQc != nil {
-		n.stopTimer()
+		//n.stopTimer()
 		cert.reqBatchStage = committed
 		fmt.Printf("Request sn:%d, v:%d can be commit in fast path\n", Id.Sn, Id.View)
 		n.executeRequest(Id, err)
@@ -615,7 +614,6 @@ func (n *Node) handleCommitQc(cqc *CommitQc, err chan error) {
 
 	voteMsg := cert.prepareQc
 
-	//先收到commitQc，后收到PrepareQc,在收到PrepareQc处做判断再执行
 	if voteMsg == nil {
 		fmt.Println("Node hasn't receive prepareQc!")
 		return
@@ -650,7 +648,7 @@ func (n *Node) checkIfCommitted(Id MsgId, err chan error) {
 			//Todo viewchange
 			return
 		}
-		n.stopTimer()
+		//n.stopTimer()
 		cert.reqBatchStage = committed
 		fmt.Printf("sn:%d can be commit in slow path\n", Id.Sn)
 		// execute the request and reply to the client
@@ -755,7 +753,6 @@ func (n *Node) recvCheckpoint(chkpt *CheckpointMsg, err chan error) {
 	}
 
 	if matching < int(math.Ceil(float64(2*(len(n.clusterAddr))/3.0)))+1 {
-		fmt.Printf("mattch%d\n", matching)
 		return
 	}
 
