@@ -1,0 +1,11 @@
+- hosts: remote
+  remote_user: hh
+  tasks:
+    - name: fetch the results
+      fetch:
+        src: /home/hh/testbed/{{inventory_hostname}}_{{item}}.txt
+        #The results will be fetched into the "result" folder from the remote hosts
+        dest: /vagrant/result/
+      loop:
+        - 0
+
