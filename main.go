@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/treble-h/trebiz/config"
 	"github.com/treble-h/trebiz/core"
-	"time"
 )
 
 func main() {

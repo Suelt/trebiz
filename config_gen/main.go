@@ -3,12 +3,13 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/spf13/viper"
-	"github.com/treble-h/trebiz/sign"
 	"math/rand"
 	"sort"
 	"strconv"
 	"time"
+
+	"github.com/spf13/viper"
+	"github.com/treble-h/trebiz/sign"
 )
 
 func judgeNodeType(i int, b []int) bool {
@@ -163,31 +164,31 @@ func main() {
 	shares, pubPoly := sign.GenTSKeys(numT, TotalNodeNum)
 
 	bg := viperRead.GetInt("bgnum")
-	abm := viperRead.GetInt("abmnum")
-	pbm := viperRead.GetInt("pbmnum")
-	if TotalNodeNum/3 < (bg + abm + pbm) {
-		panic(fmt.Errorf("Error configuration, the number of Byzantine nodes is %d, but the sum of (abm+pbm+bg) is %d, which is larger than %d  \n", TotalNodeNum/3, bg+abm+pbm, TotalNodeNum/3))
+	// abm := viperRead.GetInt("abmnum")
+	// pbm := viperRead.GetInt("pbmnum")
+	// if TotalNodeNum/3 < (bg + abm + pbm) {
+	// 	panic(fmt.Errorf("Error configuration, the number of Byzantine nodes is %d, but the sum of (abm+pbm+bg) is %d, which is larger than %d  \n", TotalNodeNum/3, bg+abm+pbm, TotalNodeNum/3))
 
-	}
-	fastNum := TotalNodeNum - abm - pbm/2
-	viewChangeQuorum := 2*(TotalNodeNum/3) + 1 + abm + pbm
-	prePrepareSubsetCount := TotalNodeNum/3 + 1 + (pbm+1)/2
+	// }
+	//fastNum := TotalNodeNum - abm - pbm/2
+	viewChangeQuorum := 2*(TotalNodeNum/3) + 1
+	// prePrepareSubsetCount := TotalNodeNum/3 + 1 + (pbm+1)/2
 	//fastNum := 2
-	fastShares, fastPubPoly := sign.GenTSKeys(fastNum, TotalNodeNum)
+	//fastShares, fastPubPoly := sign.GenTSKeys(fastNum, TotalNodeNum)
 
 	rpcListenPort := viperRead.GetInt("rpc_listen_port")
 
-	evilNode := generateRandomNumber(1, TotalNodeNum, bg+abm+pbm)
+	evilNode := generateRandomNumber(1, TotalNodeNum, bg)
 
 	fmt.Println("EVILNODES", evilNode)
 
 	bgnodes := evilNode[0:bg]
-	abmnodes := evilNode[bg : bg+abm]
-	pbmodes := evilNode[bg+abm:]
+	//abmnodes := evilNode[bg : bg+abm]
+	//pbmodes := evilNode[bg+abm:]
 
 	fmt.Println("bgnodes", bgnodes)
-	fmt.Println("abmnodes", abmnodes)
-	fmt.Println("pbmodes", pbmodes)
+	// fmt.Println("abmnodes", abmnodes)
+	// fmt.Println("pbmodes", pbmodes)
 
 	for _, name := range clusterName {
 
@@ -224,12 +225,12 @@ func main() {
 				panic("encode the share")
 			}
 
-			fastShareAsBytes, err := sign.EncodeTSPartialKey(fastShares[replicaId])
+			//fastShareAsBytes, err := sign.EncodeTSPartialKey(fastShares[replicaId])
 			if err != nil {
 				panic("encode the share")
 			}
 
-			fastTsPubKeyAsBytes, err := sign.EncodeTSPublicKey(fastPubPoly)
+			//fastTsPubKeyAsBytes, err := sign.EncodeTSPublicKey(fastPubPoly)
 			if err != nil {
 				panic("encode the share")
 			}
@@ -253,8 +254,8 @@ func main() {
 			viperWrite.Set("tsShare", hex.EncodeToString(shareAsBytes))
 			viperWrite.Set("tsPubKey", hex.EncodeToString(tsPubKeyAsBytes))
 
-			viperWrite.Set("fasttsShare", hex.EncodeToString(fastShareAsBytes))
-			viperWrite.Set("fasttsPubKey", hex.EncodeToString(fastTsPubKeyAsBytes))
+			// viperWrite.Set("fasttsShare", hex.EncodeToString(fastShareAsBytes))
+			// viperWrite.Set("fasttsPubKey", hex.EncodeToString(fastTsPubKeyAsBytes))
 
 			viperWrite.Set("batchtimeout", viperRead.GetInt("batchtimeout"))
 			viperWrite.Set("viewchangetimeout", viperRead.GetInt("viewchangetimeout"))
@@ -265,15 +266,11 @@ func main() {
 			viperWrite.Set("autoviewchange", viperRead.GetInt("autoviewchange"))
 			viperWrite.Set("fastpathtimeout", viperRead.GetInt("fast_path_timeout"))
 			viperWrite.Set("evilpr", viperRead.GetInt("evilpr"))
-			viperWrite.Set("fastqcquorum", fastNum)
+			//viperWrite.Set("fastqcquorum", fastNum)
 			viperWrite.Set("viewChangeQuorum", viewChangeQuorum)
-			viperWrite.Set("prePrepareSubsetCount", prePrepareSubsetCount)
+			// viperWrite.Set("prePrepareSubsetCount", prePrepareSubsetCount)
 			if judgeNodeType(replicaId, bgnodes) {
 				viperWrite.Set("nodetype", 1)
-			} else if judgeNodeType(replicaId, abmnodes) {
-				viperWrite.Set("nodetype", 2)
-			} else if judgeNodeType(replicaId, pbmodes) {
-				viperWrite.Set("nodetype", 3)
 			} else {
 				viperWrite.Set("nodetype", 0)
 			}

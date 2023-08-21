@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
-	"github.com/treble-h/trebiz/sign"
 	"math"
 	"strconv"
 	"time"
+
+	"github.com/treble-h/trebiz/sign"
 )
 
 var fastQcTime int64
@@ -164,12 +165,12 @@ func (n *Node) createPrepareMsg(sn RequestSN) *PrepareMsg {
 		return nil
 	}
 	PM.PartialSig = sign.SignTSPartial(n.tsPriKey, encodedBytes)
-	PM.FastPartialSig = sign.SignTSPartial(n.fastPriKey, encodedBytes)
+	//PM.FastPartialSig = sign.SignTSPartial(n.fastPriKey, encodedBytes)
 	PM.TimeStamp = time.Now().UnixNano()
 	return &PM
 }
 
-//send prepareMsg to leader
+// send prepareMsg to leader
 func (n *Node) sendPrepareMsg(sn RequestSN, err chan error) {
 	pm := n.createPrepareMsg(sn)
 	leaderId := n.primary(n.currenView)
@@ -244,11 +245,11 @@ func (n *Node) handlePrepareVote(pm *PrepareMsg) {
 		pm.Vote.SN,
 		pm.Vote.View,
 	}
-	cert := n.getCert(Id)
+	//cert := n.getCert(Id)
 	_, ok := n.partialSigInPrepare[Id]
 	if !ok {
 		n.partialSigInPrepare[Id] = make(map[string]map[uint32][]byte)
-		n.fastPartialSigInPrepare[Id] = make(map[string]map[uint32][]byte)
+		//n.fastPartialSigInPrepare[Id] = make(map[string]map[uint32][]byte)
 	}
 
 	BatchString := hex.EncodeToString(pm.Vote.BatchHash)
@@ -256,24 +257,13 @@ func (n *Node) handlePrepareVote(pm *PrepareMsg) {
 	_, ok = n.partialSigInPrepare[Id][BatchString]
 	if !ok {
 		n.partialSigInPrepare[Id][BatchString] = make(map[uint32][]byte)
-		n.fastPartialSigInPrepare[Id][BatchString] = make(map[uint32][]byte)
+		//n.fastPartialSigInPrepare[Id][BatchString] = make(map[uint32][]byte)
 	}
 
 	n.partialSigInPrepare[Id][BatchString][pm.ReplicaId] = pm.PartialSig
-	n.fastPartialSigInPrepare[Id][BatchString][pm.ReplicaId] = pm.FastPartialSig
+	//n.fastPartialSigInPrepare[Id][BatchString][pm.ReplicaId] = pm.FastPartialSig
 
-	if n.prepareTimer[Id].stop == false {
-		if len(n.fastPartialSigInPrepare[Id][BatchString]) >= n.fastQcQuorum && !cert.prepareQcStage {
-			//fastQcTime = time.Now().UnixNano()
-			cert.prepareQcStage = true
-			fastPrepareQcMsg := n.createFastPrepareQc(Id, BatchString)
-			fmt.Printf("Node %d broadcast fastprepareQc, sn:%d, v:%d\n",
-				n.replicaId, fastPrepareQcMsg.SN, fastPrepareQcMsg.View)
-			n.broadcast(FastPrepareQcType, fastPrepareQcMsg, nil, 0)
-		}
-	} else {
-		n.checkIfPrepareQc(Id, BatchString)
-	}
+	n.checkIfPrepareQc(Id, BatchString)
 
 }
 func (n *Node) checkIfPrepareQc(Id MsgId, BatchString string) {
@@ -404,13 +394,13 @@ func (n *Node) handlePrepareQc(pqc *PrepareQc, err chan error) {
 func (n *Node) checkIfPrepared(Id MsgId, err chan error) {
 	cert := n.getCert(Id)
 	// check if the preprepared msg and prepareQc has been received
-	if cert.reqBatchStage == received && cert.fastPrepareQc != nil {
-		//n.stopTimer()
-		cert.reqBatchStage = committed
-		fmt.Printf("Request sn:%d, v:%d can be commit in fast path\n", Id.Sn, Id.View)
-		n.executeRequest(Id, err)
-		return
-	}
+	// if cert.reqBatchStage == received && cert.fastPrepareQc != nil {
+	// 	//n.stopTimer()
+	// 	cert.reqBatchStage = committed
+	// 	fmt.Printf("Request sn:%d, v:%d can be commit in fast path\n", Id.Sn, Id.View)
+	// 	n.executeRequest(Id, err)
+	// 	return
+	// }
 
 	if cert.reqBatchStage == received && cert.prepareQc != nil {
 		cert.reqBatchStage = prepared

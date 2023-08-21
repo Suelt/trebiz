@@ -4,9 +4,6 @@ import (
 	"crypto/ed25519"
 	"errors"
 	"fmt"
-	"github.com/treble-h/trebiz/config"
-	"github.com/treble-h/trebiz/sign"
-	"go.dedis.ch/kyber/v3/share"
 	"log"
 	"math"
 	"net"
@@ -15,6 +12,10 @@ import (
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/treble-h/trebiz/config"
+	"github.com/treble-h/trebiz/sign"
+	"go.dedis.ch/kyber/v3/share"
 )
 
 type MsgStage uint8
@@ -111,6 +112,7 @@ type Node struct {
 	reqCertStore            map[MsgId]*MsgCert
 
 	f               int                                  // byzantine nodes
+	t               int                                  // Quorum threshold
 	h               uint32                               // low watermark
 	T               uint32                               // checkpoint period
 	K               uint32                               //h+k is the high watermark
@@ -163,11 +165,12 @@ func NewNode(conf *config.Config) *Node {
 	n.publicKey = conf.PublicKeyMap
 	n.tsPriKey = conf.TsPriKey
 	n.tsPubKey = conf.TsPubKey
-	n.fastPriKey = conf.FastPriKey
-	n.fastPubKey = conf.FastPubKey
+	// n.fastPriKey = conf.FastPriKey
+	// n.fastPubKey = conf.FastPubKey
 
 	n.replicaCount = len(n.clusterAddr)
 	n.f = int(math.Ceil(float64(n.replicaCount)) / 3.0)
+	n.t = 2*n.f + 1
 	n.h = 0
 	n.T = conf.CheckPointT
 	n.K = conf.LogK
@@ -301,14 +304,14 @@ func (n *Node) StartPBFT(ch chan error) {
 				} else {
 					n.handlePrepareQc(msg, ch)
 				}
-			case *FastPrepareQc:
-				ok, err := n.verifyRsaSignature(msg, msg.ReplicaId, rpc.Sig)
-				if !ok {
-					fmt.Printf("node %d receive invalid fastPrepareQc from node %d\n", n.replicaId, msg.ReplicaId)
-					panic(err)
-				} else {
-					n.handleFastPrepareQc(msg, ch)
-				}
+			// case *FastPrepareQc:
+			// 	ok, err := n.verifyRsaSignature(msg, msg.ReplicaId, rpc.Sig)
+			// 	if !ok {
+			// 		fmt.Printf("node %d receive invalid fastPrepareQc from node %d\n", n.replicaId, msg.ReplicaId)
+			// 		panic(err)
+			// 	} else {
+			// 		n.handleFastPrepareQc(msg, ch)
+			// 	}
 			case *CommitQc:
 				ok, err := n.verifyRsaSignature(msg, msg.ReplicaId, rpc.Sig)
 				if !ok {
@@ -381,14 +384,15 @@ func (n *Node) getCert(idx MsgId) (cert *MsgCert) {
 func (n *Node) broadcast(ty MsgType, msg interface{}, excAddrs map[uint32]bool, sn RequestSN) error {
 
 	if n.nodeType != cn {
-		randomNum := getRandomNum()
-		fmt.Printf("randomNum %d\n", randomNum)
-		if randomNum >= n.evilPR {
-			fmt.Printf("it‘s randomNum is %d, avoid broadcasting\n", randomNum)
-			return nil
-		}
+		// randomNum := getRandomNum()
+		// fmt.Printf("randomNum %d\n", randomNum)
+		// if randomNum >= n.evilPR {
+		// 	fmt.Printf("it‘s randomNum is %d, avoid broadcasting\n", randomNum)
+		// 	return nil
+		// }
+		return nil
 	}
-
+	//
 	encodedBytes, err := encode(msg)
 	if err != nil {
 		return err
@@ -432,14 +436,15 @@ func (n *Node) broadcast(ty MsgType, msg interface{}, excAddrs map[uint32]bool, 
 func (n *Node) sendToLeader(ty MsgType, msg interface{}, leadAddr string) error {
 
 	if n.nodeType != cn {
-		randomNum := getRandomNum()
-		fmt.Printf("Node %d,randomNum %d \n", n.replicaId, randomNum)
-		if randomNum >= n.evilPR {
-			fmt.Printf("Node %d is not a correct node,it‘s randomNum is %d, avoid broadcasting\n", n.replicaId, randomNum)
-			return nil
-		}
+		// randomNum := getRandomNum()
+		// fmt.Printf("Node %d,randomNum %d \n", n.replicaId, randomNum)
+		// if randomNum >= n.evilPR {
+		// 	fmt.Printf("Node %d is not a correct node,it‘s randomNum is %d, avoid broadcasting\n", n.replicaId, randomNum)
+		// 	return nil
+		// }
+		return nil
 	}
-
+	//
 	encodedBytes, err := encode(msg)
 	if err != nil {
 		return err
