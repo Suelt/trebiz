@@ -1,15 +1,21 @@
 - hosts: remote
-  remote_user: hh
+  remote_user: kuokhane
   tasks:
     - name: create testbed dirs
       file:
-        path: /home/hh/testbed
+        path: /home/fastpath1/trebiz{{inventory_hostname}}/trebiz{{item}}/testbed
         state: directory
+      become: yes
+      loop: [0]
+      loop_control:
+        loop_var: item
 
     - name: run trebiz as a daemon
-      shell: "(nohup ./trebiz> /home/hh/testbed/{{inventory_hostname}}_{{item}}.txt 2>&1 &)"
+      shell: "(nohup ./trebiz> /home/trebiz{{inventory_hostname}}/trebiz{{item}}/testbed/{{inventory_hostname}}_{{item}}.txt 2>&1 &)"
       args:
-        chdir: /home/hh/trebiz{{item}}
-      loop:
-        - 0
+        chdir: /home/fastpath1/trebiz{{inventory_hostname}}/trebiz{{item}}/trebiz
+      become: yes
+      loop: [0]
+      loop_control:
+        loop_var: item
 

@@ -1,9 +1,9 @@
 #the public IP of the nodes
 ips:
-  node0: 8.213.129.74
-  node1: 147.139.176.218
-  node2: 47.74.89.4
-  node3: 47.253.34.8
+  node0: 0.0.0.0
+  node1: 0.0.0.0
+  node2: 0.0.0.0
+  node3: 0.0.0.0
 
 
 #the P2P transport port that each node listens on for communication with other nodes
@@ -18,23 +18,16 @@ rpc_listen_port: 9500
 #the number of client commands that should be batched together in a block
 batchSize: 1000
 #the rate at which the leader produces a block, in milliseconds
-batchtimeout: 2000
+batchtimeout: 200
 autoviewchange: 0
 viewChangetimeout: 5000
 lastnewvewtimeout: 5000
 checkpoint_t: 10
 log_k: 20
 maxpool: 3
-#the fast path duration, if a request can not commit in `fast_path_timeout`,
-#it will follow the steps of normal case in PBFT. So when we test PBFT, we can set this value very small (like 10 microseconds).
-#And when we test trebiz, we can set it to a reasonable value according to the network situation
-fast_path_timeout: 700
-#the probability of a node doing evil(not responding),8 means the probability of a Byzantine node doing good is 80%
-evilpr: 8
-#the number of Byzantine nodes
-bgnum: 0
-#the number of active Byzantine Merchants
-abmnum: 0
-#the number of passive Byzantine Merchants
-pbmnum: 0
 
+
+bgnum: 0
+processcount: 1
+
+sim_latency: 10

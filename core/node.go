@@ -134,6 +134,9 @@ type Node struct {
 	nodeType              int
 	evilPR                int
 	SameIpTimeout         int
+
+	HardcodedBatch   []*Request
+	HardcodedPayload []byte
 }
 
 func NewNode(conf *config.Config) *Node {
@@ -204,6 +207,16 @@ func NewNode(conf *config.Config) *Node {
 	n.viewChangeTimeout = time.Duration(conf.ViewChangeTimeout) * time.Millisecond
 	n.LastNewVewTimeout = time.Duration(conf.ViewChangeTimeout) * time.Millisecond
 	n.autoViewChange = conf.AutoViewChange
+
+	hardcodedBytes := make([]byte, 100)
+	for i := 0; i < 100; i++ {
+		hardcodedBytes[i] = byte(i)
+	}
+	for i := 0; i < n.rHandler.BatchSize-1; i++ {
+		//fmt.Println(1)
+		n.HardcodedBatch = append(n.HardcodedBatch, &Request{Cmd: hardcodedBytes})
+	}
+	n.HardcodedPayload = hardcodedBytes
 
 	return &n
 }
@@ -561,36 +574,39 @@ func (n *Node) sendBatch() {
 }
 
 func (n *Node) ReceiveNewRequestForTest(requestNum int) {
-	var reply string
+
 	for i := 0; i < requestNum; i++ {
-		n.rHandler.ReceiveNewRequest([]byte(""), &reply)
+		n.rHandler.ReceiveNewRequest([]byte(""))
 	}
 }
 
 func (n *Node) HandleReqBatchLoop() {
 
 	n.rHandler.TimeOutControl = time.NewTimer(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
-
+	n.reqPool.BatchStoreLock.Lock()
+	n.reqPool.BatchStore = append(n.reqPool.BatchStore, n.HardcodedBatch...)
+	n.reqPool.BatchStoreLock.Unlock()
 	for {
 		n.rHandler.Leader = n.clusterAddr[n.primary(n.currenView)]
 		if len(n.reqPool.BatchStore) >= n.rHandler.BatchSize {
 			n.sendBatch()
 			fmt.Println(time.Now().Format("2006-01-02 15:04:05"), "send a batch because of batchSize")
 			n.rHandler.TimeOutControl.Reset(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
+			n.reqPool.BatchStoreLock.Lock()
+			n.reqPool.BatchStore = append(n.reqPool.BatchStore, n.HardcodedBatch...)
+			n.reqPool.BatchStoreLock.Unlock()
+
 		}
 		select {
 		case <-n.rHandler.TimeOutControl.C:
-			if len(n.reqPool.BatchStore) == 0 {
-				fmt.Printf(time.Now().Format("2006-01-02 15:04:05") + " ")
-				if n.activeView && n.primary(n.currenView) == n.replicaId {
-					fmt.Printf("an empty batch because of timeout,the primary node packs a batch of size %d\n", n.rHandler.BatchSize)
-					n.ReceiveNewRequestForTest(n.rHandler.BatchSize)
-				}
-			} else {
-				n.sendBatch()
-				fmt.Println(time.Now().Format("2006-01-02 15:04:05"), "send a batch because of timeout")
+			fmt.Printf(time.Now().Format("2006-01-02 15:04:05") + " ")
+			if n.activeView && n.primary(n.currenView) == n.replicaId {
+
+				fmt.Printf("an empty batch because of timeout,the primary node packs a batch of size %d\n", n.rHandler.BatchSize)
+				n.rHandler.ReceiveNewRequest(n.HardcodedPayload)
+				n.rHandler.TimeOutControl.Reset(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
 			}
-			n.rHandler.TimeOutControl.Reset(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
+
 		default:
 		}
 	}
@@ -622,7 +638,7 @@ func (n *Node) HandleReqBatchLoopForTest() {
 }
 
 // receive a new request
-func (rh *ReqHandler) ReceiveNewRequest(Cmd []byte, reply *string) error {
+func (rh *ReqHandler) ReceiveNewRequest(Cmd []byte) error {
 
 	req := &Request{
 		append([]byte("cmd"), Cmd...),
@@ -631,6 +647,6 @@ func (rh *ReqHandler) ReceiveNewRequest(Cmd []byte, reply *string) error {
 	rh.ReqPool.BatchStoreLock.Lock()
 	rh.ReqPool.BatchStore = append(rh.ReqPool.BatchStore, req)
 	rh.ReqPool.BatchStoreLock.Unlock()
-	*reply = "response from " + rh.NodeName + " and current leaderIp is " + rh.Leader
+	//*reply = "response from " + rh.NodeName + " and current leaderIp is " + rh.Leader
 	return nil
 }

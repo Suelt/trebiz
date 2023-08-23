@@ -48,15 +48,15 @@ func main() {
 	}
 
 	// wait for each node to start
-	time.Sleep(time.Second * 30)
+	time.Sleep(time.Second * 15)
 
 	if err = node.StartConnect(); err != nil {
 		panic(err)
 	}
 
-	if err = node.StartRPCListen(); err != nil {
-		panic(err)
-	}
+	// if err = node.StartRPCListen(); err != nil {
+	// 	panic(err)
+	// }
 
 	time.Sleep(time.Second * 2)
 

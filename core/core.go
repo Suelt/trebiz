@@ -38,11 +38,11 @@ func (n *Node) createPrePrepareMsg(reqBatch *RequestBatch) *PrePrepareMsg {
 
 func (n *Node) broadcastPrePrepareMsg(reqBatch *RequestBatch, err chan error) {
 
-	if !n.inWatermarks(n.reqSn.nextSN) || uint32(n.reqSn.nextSN) > n.h+n.K/2 {
-		// We don't have the necessary stable certificates to advance our watermarks
-		fmt.Printf("Primary %d not sending pre-prepare for current batch - out of sequence numbers\n", n.replicaId)
-		return
-	}
+	// if !n.inWatermarks(n.reqSn.nextSN) || uint32(n.reqSn.nextSN) > n.h+n.K/2 {
+	// 	// We don't have the necessary stable certificates to advance our watermarks
+	// 	fmt.Printf("Primary %d not sending pre-prepare for current batch - out of sequence numbers\n", n.replicaId)
+	// 	return
+	// }
 
 	if uint32(n.reqSn.nextSN) > n.viewChangeSeqNumber && n.autoViewChange == 1 {
 		fmt.Printf("Primary %d about to switch to next primary, not sending pre-prepare with seqno=%d\n", n.replicaId, n.reqSn.nextSN)
@@ -176,8 +176,8 @@ func (n *Node) sendPrepareMsg(sn RequestSN, err chan error) {
 	leaderId := n.primary(n.currenView)
 	leadAddr := n.clusterAddr[leaderId] + ":" + strconv.Itoa(n.clusterPort[leaderId])
 
-	fmt.Printf("Node %d send prepare to primary %d, sn:%d, v:%d\n",
-		n.replicaId, leaderId, pm.Vote.SN, pm.Vote.View)
+	// fmt.Printf("Node %d send prepare to primary %d, sn:%d, v:%d\n",
+	// 	n.replicaId, leaderId, pm.Vote.SN, pm.Vote.View)
 
 	if errBC := n.sendToLeader(PrepareType, pm, leadAddr); errBC != nil {
 		err <- errBC
@@ -190,8 +190,8 @@ func (n *Node) sendCommitMsg(pqc *PrepareQc, err chan error) {
 	leaderId := n.primary(n.currenView)
 	leadAddr := n.clusterAddr[leaderId] + ":" + strconv.Itoa(n.clusterPort[leaderId])
 
-	fmt.Printf("Node %d send commit to primary %d, sn:%d, v:%d\n",
-		n.replicaId, leaderId, cm.Vote.SN, cm.Vote.View)
+	// fmt.Printf("Node %d send commit to primary %d, sn:%d, v:%d\n",
+	// 	n.replicaId, leaderId, cm.Vote.SN, cm.Vote.View)
 
 	if errBC := n.sendToLeader(CommitType, cm, leadAddr); errBC != nil {
 		err <- errBC
@@ -212,7 +212,7 @@ func (n *Node) checkIfPrePrepared(Id MsgId) bool {
 // handle the preparemsg
 func (n *Node) handlePrepareMsg(pm *PrepareMsg, err chan error) {
 
-	fmt.Printf("Node %d receive prepare from node %d, sn:%d, v:%d\n", n.replicaId, pm.ReplicaId, pm.Vote.SN, pm.Vote.View)
+	//fmt.Printf("Node %d receive prepare from node %d, sn:%d, v:%d\n", n.replicaId, pm.ReplicaId, pm.Vote.SN, pm.Vote.View)
 
 	if !n.activeView {
 		fmt.Printf("Node is in viewchange and ignores the prepare msg")
@@ -270,11 +270,11 @@ func (n *Node) checkIfPrepareQc(Id MsgId, BatchString string) {
 
 	cert := n.getCert(Id)
 
-	if len(n.partialSigInPrepare[Id][BatchString]) >= 2*n.f+1 && !cert.prepareQcStage {
+	if len(n.partialSigInPrepare[Id][BatchString]) >= n.t && !cert.prepareQcStage {
 		cert.prepareQcStage = true
 		prepareQcMsg := n.createPrepareQc(Id, BatchString)
-		fmt.Printf("Node %d broadcast prepareQc, sn:%d, v:%d\n",
-			n.replicaId, prepareQcMsg.SN, prepareQcMsg.View)
+		// fmt.Printf("Node %d broadcast prepareQc, sn:%d, v:%d\n",
+		// 	n.replicaId, prepareQcMsg.SN, prepareQcMsg.View)
 		n.broadcast(PrepareQcType, prepareQcMsg, nil, prepareQcMsg.SN)
 	}
 }
@@ -301,7 +301,7 @@ func (n *Node) createPrepareQc(Id MsgId, BatchString string) *PrepareQc {
 		ThresholdSig: nil,
 	}
 
-	Sig, err := n.createThresholdSig(voteMsg, partialSigs, n.tsPubKey, 2*n.f+1, n.replicaCount)
+	Sig, err := n.createThresholdSig(voteMsg, partialSigs, n.tsPubKey, n.t, n.replicaCount)
 	if err != nil {
 		return nil
 	}
@@ -343,7 +343,7 @@ func (n *Node) createFastPrepareQc(Id MsgId, BatchString string) *FastPrepareQc 
 
 func (n *Node) handlePrepareQc(pqc *PrepareQc, err chan error) {
 
-	fmt.Printf("Node %d receive prepareQc from node %d, sn:%d, v:%d \n", n.replicaId, pqc.ReplicaId, pqc.SN, pqc.View)
+	//fmt.Printf("Node %d receive prepareQc from node %d, sn:%d, v:%d \n", n.replicaId, pqc.ReplicaId, pqc.SN, pqc.View)
 
 	if !n.activeView {
 		fmt.Printf("Node is in viewchange and ignores the prepareQc msg")
@@ -430,7 +430,7 @@ func (n *Node) createCommitMsg(pqc *PrepareQc) *CommitMsg {
 // handle the commitmsg
 func (n *Node) handleCommitMsg(cmsg *CommitMsg, err chan error) {
 
-	fmt.Printf("Node %d receive commit of from node %d, sn:%d, v:%d\n", n.replicaId, cmsg.ReplicaId, cmsg.Vote.SN, cmsg.Vote.View)
+	//fmt.Printf("Node %d receive commit of from node %d, sn:%d, v:%d\n", n.replicaId, cmsg.ReplicaId, cmsg.Vote.SN, cmsg.Vote.View)
 
 	if !n.activeView {
 		fmt.Printf("Node is in viewchange and ignores the commit msg")
@@ -489,13 +489,13 @@ func (n *Node) handleCommitVote(cm *CommitMsg) {
 	}
 
 	n.partialSigInCommit[Id][VoteString][cm.ReplicaId] = cm.PartialSig
-	if len(n.partialSigInCommit[Id][VoteString]) >= 2*n.f+1 && !cert.commitQcStage {
+	if len(n.partialSigInCommit[Id][VoteString]) >= n.t && !cert.commitQcStage {
 
 		commitQcMsg := n.createCommitQc(Id, cm.Vote)
 		cert.commitQcStage = true
 
-		fmt.Printf("Node %d broadcast commitQc, sn:%d, v:%d\n",
-			n.replicaId, commitQcMsg.SN, commitQcMsg.View)
+		// fmt.Printf("Node %d broadcast commitQc, sn:%d, v:%d\n",
+		// 	n.replicaId, commitQcMsg.SN, commitQcMsg.View)
 
 		n.broadcast(CommitQcType, commitQcMsg, nil, commitQcMsg.SN)
 	}
@@ -521,7 +521,7 @@ func (n *Node) createCommitQc(Id MsgId, vote PrepareQc) *CommitQc {
 		ThresholdSig: nil,
 	}
 
-	Sig, err := n.createThresholdSig(voteMsg, partialSigs, n.tsPubKey, 2*n.f+1, n.replicaCount)
+	Sig, err := n.createThresholdSig(voteMsg, partialSigs, n.tsPubKey, n.t, n.replicaCount)
 	if err != nil {
 		panic(err)
 		return nil
@@ -571,7 +571,7 @@ func (n *Node) handleFastPrepareQc(fpqc *FastPrepareQc, err chan error) {
 }
 func (n *Node) handleCommitQc(cqc *CommitQc, err chan error) {
 
-	fmt.Printf("Node %d receive commitQc from node %d, sn:%d, v:%d\n", n.replicaId, cqc.ReplicaId, cqc.SN, cqc.View)
+	//fmt.Printf("Node %d receive commitQc from node %d, sn:%d, v:%d\n", n.replicaId, cqc.ReplicaId, cqc.SN, cqc.View)
 
 	if !n.activeView {
 		fmt.Printf("Node is in viewchange and ignores the commitQc msg")
@@ -706,7 +706,7 @@ func (n *Node) checkpoint(seqNo RequestSN, digest []byte, err chan error) {
 
 func (n *Node) recvCheckpoint(chkpt *CheckpointMsg, err chan error) {
 
-	fmt.Printf("node %d receive ckpoint with sn: %d from node %d!\n", n.replicaId, chkpt.SeqN, chkpt.ReplicaId)
+	//fmt.Printf("node %d receive ckpoint with sn: %d from node %d!\n", n.replicaId, chkpt.SeqN, chkpt.ReplicaId)
 
 	if !n.inWatermarks(RequestSN(uint32(chkpt.SeqN))) {
 		fmt.Printf("Checkpoint sequence number outside watermarks: seqNo %d, low-mark %d\n", chkpt.SeqN, n.h)
@@ -754,7 +754,7 @@ func (n *Node) recvCheckpoint(chkpt *CheckpointMsg, err chan error) {
 func (n *Node) moveWatermarks(seqNo RequestSN) {
 	//move the watermark
 	n.h = uint32(seqNo)
-	fmt.Printf("Node %d moves low-mark to %d, high-mark is %d\n", n.replicaId, n.h, n.h+n.K)
+	//fmt.Printf("Node %d moves low-mark to %d, high-mark is %d\n", n.replicaId, n.h, n.h+n.K)
 }
 
 func (n *Node) inWatermarks(seqNo RequestSN) bool {
@@ -771,7 +771,7 @@ func (n *Node) updateViewChangeSeqNo() {
 	}
 	// Ensure the view change always occurs at middle of checkpoint boundary
 	n.viewChangeSeqNumber = uint32(n.reqSn.nextSN-1) + n.viewChangePeriod*n.K + n.T/2
-	fmt.Printf("Node %d updating view change sequence number to %d\n", n.replicaId, n.viewChangeSeqNumber)
+	// fmt.Printf("Node %d updating view change sequence number to %d\n", n.replicaId, n.viewChangeSeqNumber)
 }
 
 func (n *Node) softStartTimer(timeout time.Duration, reason string) {

@@ -1,9 +1,7 @@
 [remote]
-node0 ansible_ssh_host=8.213.130.191
-node1 ansible_ssh_host=8.215.67.53
-node2 ansible_ssh_host=47.74.84.224
-node3 ansible_ssh_host=8.212.183.112
-node4 ansible_ssh_host=47.253.51.165
-node5 ansible_ssh_host=147.139.43.108
-node6 ansible_ssh_host=149.129.174.162
+node0 ansible_ssh_host=0.0.0.0 ansible_ssh_user=kuokhane
+node1 ansible_ssh_host=0.0.0.0 ansible_ssh_user=kuokhane
+node2 ansible_ssh_host=0.0.0.0 ansible_ssh_user=kuokhane
+node3 ansible_ssh_host=0.0.0.0 ansible_ssh_user=kuokhane
+
 

@@ -51,19 +51,17 @@ func generateRandomNumber(start int, end int, count int) []int {
 
 func main() {
 
-	ProcessCount := 1
-
 	viperRead := viper.New()
 
 	viperRead.SetConfigName("config_template") // name of config file (without extension)
-	viperRead.AddConfigPath("./config_gen")    // path to look for the config file in
+	viperRead.AddConfigPath(".")               // path to look for the config file in
 	err := viperRead.ReadInConfig()            // Find and read the config file
 	if err != nil {                            // Handle errors reading the config file
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
 
 	clusterInnerAddr := viperRead.GetStringMap("ips")
-
+	ProcessCount := viperRead.GetInt("processcount")
 	//IP
 	tempClusterMapInterface := viperRead.GetStringMap("ips")
 	clusterMapInterface := make(map[string]string)
@@ -164,17 +162,8 @@ func main() {
 	shares, pubPoly := sign.GenTSKeys(numT, TotalNodeNum)
 
 	bg := viperRead.GetInt("bgnum")
-	// abm := viperRead.GetInt("abmnum")
-	// pbm := viperRead.GetInt("pbmnum")
-	// if TotalNodeNum/3 < (bg + abm + pbm) {
-	// 	panic(fmt.Errorf("Error configuration, the number of Byzantine nodes is %d, but the sum of (abm+pbm+bg) is %d, which is larger than %d  \n", TotalNodeNum/3, bg+abm+pbm, TotalNodeNum/3))
 
-	// }
-	//fastNum := TotalNodeNum - abm - pbm/2
 	viewChangeQuorum := 2*(TotalNodeNum/3) + 1
-	// prePrepareSubsetCount := TotalNodeNum/3 + 1 + (pbm+1)/2
-	//fastNum := 2
-	//fastShares, fastPubPoly := sign.GenTSKeys(fastNum, TotalNodeNum)
 
 	rpcListenPort := viperRead.GetInt("rpc_listen_port")
 
@@ -225,16 +214,6 @@ func main() {
 				panic("encode the share")
 			}
 
-			//fastShareAsBytes, err := sign.EncodeTSPartialKey(fastShares[replicaId])
-			if err != nil {
-				panic("encode the share")
-			}
-
-			//fastTsPubKeyAsBytes, err := sign.EncodeTSPublicKey(fastPubPoly)
-			if err != nil {
-				panic("encode the share")
-			}
-
 			viperWrite.Set("name", "node"+strconv.Itoa(replicaId))
 			viperWrite.Set("replicaId", replicaId)
 
@@ -264,8 +243,7 @@ func main() {
 			viperWrite.Set("log_k", viperRead.GetInt("log_k"))
 			viperWrite.Set("maxpool", viperRead.GetInt("maxpool"))
 			viperWrite.Set("autoviewchange", viperRead.GetInt("autoviewchange"))
-			viperWrite.Set("fastpathtimeout", viperRead.GetInt("fast_path_timeout"))
-			viperWrite.Set("evilpr", viperRead.GetInt("evilpr"))
+
 			//viperWrite.Set("fastqcquorum", fastNum)
 			viperWrite.Set("viewChangeQuorum", viewChangeQuorum)
 			// viperWrite.Set("prePrepareSubsetCount", prePrepareSubsetCount)

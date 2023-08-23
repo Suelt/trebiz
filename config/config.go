@@ -4,11 +4,12 @@ import (
 	"crypto/ed25519"
 	"encoding/hex"
 	"errors"
+	"strconv"
+	"strings"
+
 	"github.com/spf13/viper"
 	"github.com/treble-h/trebiz/sign"
 	"go.dedis.ch/kyber/v3/share"
-	"strconv"
-	"strings"
 )
 
 type Config struct {
@@ -97,6 +98,7 @@ func LoadConfig(configPrefix, configName string) (*Config, error) {
 	viperConfig.AddConfigPath("./")
 
 	err := viperConfig.ReadInConfig()
+
 	if err != nil {
 		return nil, err
 	}
@@ -127,34 +129,12 @@ func LoadConfig(configPrefix, configName string) (*Config, error) {
 		return nil, err
 	}
 
-	fastPubKeyAsString := viperConfig.GetString("fasttspubkey")
-	fastPubKeyAsBytes, err := hex.DecodeString(fastPubKeyAsString)
-	if err != nil {
-		return nil, err
-	}
-	fastPubKey, err := sign.DecodeTSPublicKey(fastPubKeyAsBytes)
-	if err != nil {
-		return nil, err
-	}
-
-	fastShareAsString := viperConfig.GetString("fasttsshare")
-	fastShareAsBytes, err := hex.DecodeString(fastShareAsString)
-	if err != nil {
-		return nil, err
-	}
-	fastShareKey, err := sign.DecodeTSPartialKey(fastShareAsBytes)
-	if err != nil {
-		return nil, err
-	}
-
 	conf := &Config{
 		AddrStr:      viperConfig.GetString("address"),
 		ReplicaId:    uint32(viperConfig.GetInt("replicaid")),
 		MyPrivateKey: privKeyED,
 		TsPriKey:     tsShareKey,
 		TsPubKey:     tsPubKey,
-		FastPriKey:   fastShareKey,
-		FastPubKey:   fastPubKey,
 
 		RPCListenPort:         viperConfig.GetInt("rpc_listen_port"),
 		P2PListenPort:         viperConfig.GetInt("p2p_listen_port"),

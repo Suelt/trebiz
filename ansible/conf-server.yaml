@@ -3,19 +3,26 @@
   tasks:
     - name: copy trebiz
       copy:
-        src: /vagrant/trebiz/trebiz
-        dest: /home/hh/trebiz{{item}}/
-      loop:
-        - 0
+        src: /home/kuokhane/shareWithPC/code/go/trebiz
+        dest: /home/fastpath1/trebiz{{inventory_hostname}}/trebiz{{item}}
+      become: yes
+      loop: [0]
+      loop_control:
+        loop_var: item
+
 
     - name: chmod trebiz
-      shell: chmod +x /home/hh/trebiz{{item}}/trebiz
-      loop:
-        - 0
+      shell: chmod +x /home/fastpath1/trebiz{{inventory_hostname}}/trebiz{{item}}/trebiz/trebiz
+      become: yes
+      loop: [0]
+      loop_control:
+        loop_var: item
 
     - name: copy configuration file
-      synchronize:
-        src: /vagrant/trebiz/{{inventory_hostname}}_{{item}}.yaml
-        dest: /home/hh/trebiz{{item}}/config.yaml
-      loop:
-        - 0
+      copy:
+        src: /home/kuokhane/shareWithPC/code/go/trebiz/config_gen/{{inventory_hostname}}_{{item}}.yaml
+        dest: /home/fastpath1/trebiz{{inventory_hostname}}/trebiz{{item}}/trebiz/config.yaml
+      become: yes
+      loop: [0]
+      loop_control:
+        loop_var: item

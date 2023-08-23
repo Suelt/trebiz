@@ -4,11 +4,12 @@ import (
 	"crypto/ed25519"
 	"errors"
 	"fmt"
-	"github.com/treble-h/trebiz/config"
-	"github.com/treble-h/trebiz/sign"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/treble-h/trebiz/config"
+	"github.com/treble-h/trebiz/sign"
 )
 
 func judgeNodeType(i int, b []int) bool {
@@ -104,10 +105,10 @@ func TestNormalCase4Nodes(t *testing.T) {
 	abm := []int{}
 	pbm := []int{}
 	Nodes, _ := makeNodes(4, bg, abm, pbm)
-	var reply string
+
 	go Nodes[0].HandleReqBatchLoopForTest()
 
-	Nodes[0].rHandler.ReceiveNewRequest([]byte(""), &reply)
+	Nodes[0].rHandler.ReceiveNewRequest([]byte(""))
 
 	time.Sleep(time.Second * 2)
 
@@ -126,11 +127,11 @@ func Test4NodesConstantMsg(t *testing.T) {
 	abm := []int{}
 	pbm := []int{}
 	Nodes, _ := makeNodes(4, bg, abm, pbm)
-	var reply string
+
 	go Nodes[0].HandleReqBatchLoopForTest()
 
-	Nodes[0].rHandler.ReceiveNewRequest([]byte("a"), &reply)
-	Nodes[0].rHandler.ReceiveNewRequest([]byte("a"), &reply)
+	Nodes[0].rHandler.ReceiveNewRequest([]byte("a"))
+	Nodes[0].rHandler.ReceiveNewRequest([]byte("a"))
 
 	time.Sleep(time.Second * 2)
 	for i := 0; i < 4; i++ {
@@ -148,12 +149,12 @@ func TestCheckpoint(t *testing.T) {
 	abm := []int{}
 	pbm := []int{1}
 	Nodes, _ := makeNodes(4, bg, abm, pbm)
-	var reply string
+
 	go Nodes[0].HandleReqBatchLoopForTest()
 
-	Nodes[0].rHandler.ReceiveNewRequest([]byte("LLL"), &reply)
+	Nodes[0].rHandler.ReceiveNewRequest([]byte("LLL"))
 
-	Nodes[0].rHandler.ReceiveNewRequest([]byte("SSS"), &reply)
+	Nodes[0].rHandler.ReceiveNewRequest([]byte("SSS"))
 
 	time.Sleep(time.Second * 2)
 
@@ -178,12 +179,12 @@ func TestViewChange(t *testing.T) {
 	for i := 0; i < 4; i++ {
 		Nodes[i].autoViewChange = 1
 	}
-	var reply string
+
 	go Nodes[0].HandleReqBatchLoopForTest()
 
 	for i := 0; i < 3; i++ {
 		time.Sleep(time.Millisecond * 200)
-		Nodes[0].rHandler.ReceiveNewRequest([]byte("LLL"), &reply)
+		Nodes[0].rHandler.ReceiveNewRequest([]byte("LLL"))
 	}
 
 	time.Sleep(time.Second * 2)
