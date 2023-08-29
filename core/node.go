@@ -233,7 +233,7 @@ func NewNode(conf *config.Config) *Node {
 	n.autoViewChange = conf.AutoViewChange
 
 	hardcodedBytes := make([]byte, 1000)
-	for i := 0; i < 512; i++ {
+	for i := 0; i < 50; i++ {
 		hardcodedBytes[i] = byte(i)
 	}
 	for i := 0; i < n.rHandler.BatchSize-1; i++ {

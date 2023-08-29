@@ -1,0 +1,32 @@
+Results of node1
+Number of blocks executed: 236
+AvgLatency(s): 9.335779661016954
+AvgThroughput(KRPS): 6.873296669827539
+Results of node2
+Number of blocks executed: 244
+AvgLatency(s): 8.791766393442622
+AvgThroughput(KRPS): 7.220693856576519
+Results of node3
+Number of blocks executed: 244
+AvgLatency(s): 8.867778688524588
+AvgThroughput(KRPS): 7.204487847993245
+Results of node4
+Number of blocks executed: 236
+AvgLatency(s): 9.723233050847456
+AvgThroughput(KRPS): 6.796602138240125
+Results of node5
+Number of blocks executed: 244
+AvgLatency(s): 8.816844262295085
+AvgThroughput(KRPS): 7.215339140088058
+Results of node6
+Number of blocks executed: 212
+AvgLatency(s): 12.085094339622641
+AvgThroughput(KRPS): 5.875001960774061
+Results of node7
+Number of blocks executed: 244
+AvgLatency(s): 9.012745901639345
+AvgThroughput(KRPS): 7.1737812849811595
+==================================================
+AvgLatency(s): 9.51903461391267
+==================================================
+AvgThroughput(KRPS): 6.908457556925816

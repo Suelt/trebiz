@@ -170,7 +170,9 @@ func main() {
 
 		latencySum += value
 	}
-	latencySum /= float64(nodeNumber)
+
+	latencySum /= float64(3*ProcessCount + 1)
+
 	latency_mean := viperRead.GetFloat64("latency_mean")
 	for name, value := range simLatencyMap {
 		simLatencyMap[name] = value * latency_mean / latencySum
@@ -266,7 +268,7 @@ func main() {
 
 			//viperWrite.Set("fastqcquorum", fastNum)
 			viperWrite.Set("viewChangeQuorum", viewChangeQuorum)
-			viperWrite.Set("commitquorum", 2*ProcessCount+1)
+			viperWrite.Set("commitquorum", 2*ProcessCount)
 			viperWrite.Set("prepquorum", 2*ProcessCount+1)
 
 			// viperWrite.Set("prePrepareSubsetCount", prePrepareSubsetCount)

@@ -47,6 +47,11 @@ type Config struct {
 	ViewChangeTimeout int
 	LastNewVewTimeout int
 	AutoViewChange    int
+
+	CommitQuorum int
+	PrepQuorum   int
+
+	Simlatency float64
 }
 
 func New(addrStr string, clusterAddr map[uint32]string, clusterPort map[uint32]int, replicaId uint32,
@@ -153,6 +158,9 @@ func LoadConfig(configPrefix, configName string) (*Config, error) {
 		ViewChangeTimeout:     viperConfig.GetInt("viewchangetimeout"),
 		LastNewVewTimeout:     viperConfig.GetInt("lastnewvewtimeout"),
 		AutoViewChange:        viperConfig.GetInt("autoviewchange"),
+		CommitQuorum:          viperConfig.GetInt("commitquorum"),
+		PrepQuorum:            viperConfig.GetInt("prepquorum"),
+		Simlatency:            viperConfig.GetFloat64("sim_latency"),
 	}
 
 	peersP2PPortMapString := viperConfig.GetStringMap("peers_p2p_port")

@@ -3,19 +3,19 @@
   tasks:
     - name: copy trebiz
       copy:
-        src: /home/kuokhane/shareWithPC/code/go/trebiz
-        dest: /home/fastpath2/trebiz{{inventory_hostname}}/trebiz{{item}}
+        src: /home/kuokhane/shareWithPC/code/go/trebizcopy
+        dest: /home/fastpath10/trebiz{{inventory_hostname}}/trebiz{{item}}
       become: yes
-      loop: [0, 1]
+      loop: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
       loop_control:
         loop_var: item
       ignore_errors: yes
 
 
     - name: chmod trebiz
-      shell: chmod +x /home/fastpath2/trebiz{{inventory_hostname}}/trebiz{{item}}/trebiz/trebiz
+      shell: chmod +x /home/fastpath10/trebiz{{inventory_hostname}}/trebiz{{item}}/trebizcopy/trebiz
       become: yes
-      loop: [0, 1]
+      loop: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
       loop_control:
         loop_var: item
       ignore_errors: yes
@@ -23,9 +23,9 @@
     - name: copy configuration file
       copy:
         src: /home/kuokhane/shareWithPC/code/go/trebiz/config_gen/{{inventory_hostname}}_{{item}}.yaml
-        dest: /home/fastpath2/trebiz{{inventory_hostname}}/trebiz{{item}}/trebiz/config.yaml
+        dest: /home/fastpath10/trebiz{{inventory_hostname}}/trebiz{{item}}/trebizcopy/config.yaml
       become: yes
-      loop: [0, 1]
+      loop: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
       loop_control:
         loop_var: item
       ignore_errors: yes

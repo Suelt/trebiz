@@ -237,11 +237,7 @@ func (n *Node) handlePrepareMsg(pm *PrepareMsg, err chan error) {
 
 	// check if a preparemsg with the same sn has been received from the same sender before
 	cert := n.getCert(MsgId{prepare.Vote.SN, n.currenView})
-	if _, ok := cert.prePareStore[prepare.ReplicaId]; ok {
-		// has received, warn...
-		fmt.Printf("a prepare with the same sn %d  has been received from node: %d before\n", prepare.Vote.SN, prepare.ReplicaId)
-		return
-	}
+
 	cert.msglock.Lock()
 	cert.prePareStore[prepare.ReplicaId] = prepare
 	cert.msglock.Unlock()
@@ -467,17 +463,10 @@ func (n *Node) handleCommitMsg(cmsg *CommitMsg, err chan error) {
 	//n.checkIfPrePrepared(Id)
 	cert := n.getCert(Id)
 	// check if a commitmsg with the same sn has been received before
-	if _, ok := cert.commitStore[msg.ReplicaId]; ok {
-		// has received, warn...
-		fmt.Printf("node %d receive a same Commit of sn:%d  from node %d\n", n.replicaId, cmsg.Vote.SN, cmsg.ReplicaId)
-		return
-		//Todo send viewchange
-	} else {
-		cert.msglock.Lock()
-		cert.commitStore[msg.ReplicaId] = msg
-		cert.msglock.Unlock()
-		n.handleCommitVote(msg)
-	}
+	cert.msglock.Lock()
+	cert.commitStore[msg.ReplicaId] = msg
+	cert.msglock.Unlock()
+	n.handleCommitVote(msg)
 
 	// check if 2/3 commit msgs received
 	// !!! there may be a problem: only if a new commitmsg is received, will the 2/3 be triggered to check.

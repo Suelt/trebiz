@@ -6,8 +6,8 @@ password="qwer123"
 # 运行go程序
 go run .
 
-# 等待5秒
-sleep 5
+# 等待2秒
+sleep 2
 
 # 切换到ansible目录的上级目录
 cd ../ansible
@@ -18,8 +18,8 @@ ansible-playbook -i ./hosts conf-server-config.yaml --extra-vars "ansible_become
 # 使用密码执行ansible playbook以启动服务器
 ansible-playbook -i ./hosts run-server.yaml --extra-vars "ansible_become_pass=$password"
 
-# 等待25秒
-sleep 40
+# 等待60秒
+sleep 60
 
 # 杀死trebiz进程
 sudo killall trebiz

@@ -1,0 +1,2178 @@
+LoadConfig:
+ReplicaID:5
+Type:correct node
+IP:0.0.0.0
+clusterAddr:map[0:0.0.0.0 1:0.0.0.0 2:0.0.0.0 3:0.0.0.0 4:0.0.0.0 5:0.0.0.0 6:0.0.0.0]
+5 5
+Connection from 0.0.0.0:9600 to 0.0.0.0:9200 has been established
+Connection from 0.0.0.0:9600 to 0.0.0.0:9210 has been established
+Connection from 0.0.0.0:9600 to 0.0.0.0:9400 has been established
+Connection from 0.0.0.0:9600 to 0.0.0.0:9410 has been established
+Connection from 0.0.0.0:9600 to 0.0.0.0:9610 has been established
+Connection from 0.0.0.0:9600 to 0.0.0.0:9000 has been established
+2023-08-28 19:03:21 Node 5 receive pre-prepare from node 0, sn:2, view:0
+Node 5 receive pre-prepare from node 0, sn:3, view:0
+Node 5 receive pre-prepare from node 0, sn:1, view:0
+Node 5 receive pre-prepare from node 0, sn:4, view:0
+Node 5 receive pre-prepare from node 0, sn:7, view:0
+Node 5 receive pre-prepare from node 0, sn:10, view:0
+Node 5 receive pre-prepare from node 0, sn:6, view:0
+Node 5 receive pre-prepare from node 0, sn:11, view:0
+Node 5 receive pre-prepare from node 0, sn:5, view:0
+Node 5 receive pre-prepare from node 0, sn:9, view:0
+Node 5 receive pre-prepare from node 0, sn:12, view:0
+Node 5 receive pre-prepare from node 0, sn:13, view:0
+Node 5 receive pre-prepare from node 0, sn:8, view:0
+Node 5 receive pre-prepare from node 0, sn:15, view:0
+Node 5 send prepare to primary 0, sn:2, v:0
+Node 5 send prepare to primary 0, sn:3, v:0
+Node 5 send prepare to primary 0, sn:1, v:0
+Node 5 receive pre-prepare from node 0, sn:16, view:0
+Node 5 send prepare to primary 0, sn:4, v:0
+Node 5 receive pre-prepare from node 0, sn:14, view:0
+Node 5 send prepare to primary 0, sn:7, v:0
+Node 5 receive pre-prepare from node 0, sn:20, view:0
+Node 5 receive pre-prepare from node 0, sn:17, view:0
+Node 5 send prepare to primary 0, sn:10, v:0
+Node 5 receive prepareQc from node 0, sn:1, v:0 
+Node 5 receive pre-prepare from node 0, sn:18, view:0
+Node 5 send prepare to primary 0, sn:6, v:0
+Node 5 receive pre-prepare from node 0, sn:21, view:0
+Node 5 receive pre-prepare from node 0, sn:22, view:0
+Node 5 send prepare to primary 0, sn:11, v:0
+Node 5 send prepare to primary 0, sn:5, v:0
+Node 5 send prepare to primary 0, sn:9, v:0
+Node 5 send prepare to primary 0, sn:12, v:0
+Node 5 receive prepareQc from node 0, sn:3, v:0 
+Node 5 receive pre-prepare from node 0, sn:23, view:0
+Node 5 send prepare to primary 0, sn:13, v:0
+Node 5 receive pre-prepare from node 0, sn:19, view:0
+Node 5 send prepare to primary 0, sn:8, v:0
+Node 5 send prepare to primary 0, sn:15, v:0
+Node 5 receive pre-prepare from node 0, sn:25, view:0
+Node 5 receive prepareQc from node 0, sn:2, v:0 
+Node 5 receive pre-prepare from node 0, sn:34, view:0
+Node 5 receive prepareQc from node 0, sn:7, v:0 
+Node 5 send prepare to primary 0, sn:16, v:0
+Node 5 receive pre-prepare from node 0, sn:28, view:0
+Node 5 receive prepareQc from node 0, sn:11, v:0 
+Node 5 receive prepareQc from node 0, sn:4, v:0 
+Node 5 send prepare to primary 0, sn:14, v:0
+Node 5 receive pre-prepare from node 0, sn:27, view:0
+Node 5 send prepare to primary 0, sn:20, v:0
+Node 5 receive pre-prepare from node 0, sn:26, view:0
+Node 5 send prepare to primary 0, sn:17, v:0
+Node 5 receive pre-prepare from node 0, sn:37, view:0
+Node 5 receive pre-prepare from node 0, sn:40, view:0
+Node 5 send prepare to primary 0, sn:18, v:0
+Node 5 send prepare to primary 0, sn:22, v:0
+Node 5 send prepare to primary 0, sn:21, v:0
+Node 5 receive prepareQc from node 0, sn:6, v:0 
+Node 5 receive pre-prepare from node 0, sn:29, view:0
+Node 5 receive pre-prepare from node 0, sn:33, view:0
+Node 5 receive pre-prepare from node 0, sn:39, view:0
+Node 5 receive pre-prepare from node 0, sn:35, view:0
+Node 5 receive pre-prepare from node 0, sn:24, view:0
+Node 5 send prepare to primary 0, sn:23, v:0
+Node 5 receive pre-prepare from node 0, sn:32, view:0
+Node 5 send prepare to primary 0, sn:19, v:0
+Node 5 receive pre-prepare from node 0, sn:38, view:0
+Node 5 receive pre-prepare from node 0, sn:31, view:0
+Node 5 receive pre-prepare from node 0, sn:30, view:0
+Node 5 receive prepareQc from node 0, sn:9, v:0 
+Node 5 receive pre-prepare from node 0, sn:36, view:0
+Node 5 receive prepareQc from node 0, sn:12, v:0 
+Node 5 send prepare to primary 0, sn:25, v:0
+Node 5 receive prepareQc from node 0, sn:16, v:0 
+Node 5 send prepare to primary 0, sn:34, v:0
+Node 5 receive pre-prepare from node 0, sn:43, view:0
+Node 5 receive prepareQc from node 0, sn:5, v:0 
+Node 5 send prepare to primary 0, sn:28, v:0
+Node 5 send prepare to primary 0, sn:27, v:0
+Node 5 send prepare to primary 0, sn:26, v:0
+Node 5 receive prepareQc from node 0, sn:21, v:0 
+Node 5 receive prepareQc from node 0, sn:8, v:0 
+Node 5 receive pre-prepare from node 0, sn:41, view:0
+Node 5 receive pre-prepare from node 0, sn:42, view:0
+Node 5 send prepare to primary 0, sn:37, v:0
+Node 5 send prepare to primary 0, sn:40, v:0
+Node 5 send commit to primary 0, sn:1, v:0
+Node 5 receive prepareQc from node 0, sn:13, v:0 
+Node 5 receive prepareQc from node 0, sn:18, v:0 
+Node 5 send prepare to primary 0, sn:29, v:0
+Node 5 send prepare to primary 0, sn:33, v:0
+Node 5 receive pre-prepare from node 0, sn:44, view:0
+Node 5 receive prepareQc from node 0, sn:20, v:0 
+Node 5 send prepare to primary 0, sn:39, v:0
+Node 5 receive pre-prepare from node 0, sn:46, view:0
+Node 5 send commit to primary 0, sn:3, v:0
+Node 5 send prepare to primary 0, sn:35, v:0
+Node 5 send prepare to primary 0, sn:24, v:0
+Node 5 receive prepareQc from node 0, sn:14, v:0 
+Node 5 receive prepareQc from node 0, sn:10, v:0 
+Node 5 receive prepareQc from node 0, sn:17, v:0 
+Node 5 send prepare to primary 0, sn:32, v:0
+Node 5 send prepare to primary 0, sn:38, v:0
+Node 5 send prepare to primary 0, sn:31, v:0
+Node 5 receive prepareQc from node 0, sn:23, v:0 
+Node 5 receive pre-prepare from node 0, sn:45, view:0
+Node 5 send prepare to primary 0, sn:30, v:0
+Node 5 receive pre-prepare from node 0, sn:47, view:0
+Node 5 send prepare to primary 0, sn:36, v:0
+Node 5 receive prepareQc from node 0, sn:19, v:0 
+Node 5 receive prepareQc from node 0, sn:15, v:0 
+Node 5 receive prepareQc from node 0, sn:22, v:0 
+Node 5 send commit to primary 0, sn:2, v:0
+Node 5 receive pre-prepare from node 0, sn:48, view:0
+Node 5 send prepare to primary 0, sn:43, v:0
+Node 5 send commit to primary 0, sn:7, v:0
+Node 5 send commit to primary 0, sn:11, v:0
+Node 5 send commit to primary 0, sn:4, v:0
+Node 5 send prepare to primary 0, sn:41, v:0
+Node 5 send prepare to primary 0, sn:42, v:0
+Node 5 send commit to primary 0, sn:6, v:0
+Node 5 receive pre-prepare from node 0, sn:51, view:0
+Node 5 send prepare to primary 0, sn:44, v:0
+Node 5 send prepare to primary 0, sn:46, v:0
+Node 5 receive pre-prepare from node 0, sn:52, view:0
+Node 5 receive pre-prepare from node 0, sn:49, view:0
+Node 5 send prepare to primary 0, sn:45, v:0
+Node 5 receive pre-prepare from node 0, sn:50, view:0
+Node 5 receive prepareQc from node 0, sn:25, v:0 
+Node 5 send prepare to primary 0, sn:47, v:0
+Node 5 receive pre-prepare from node 0, sn:53, view:0
+Node 5 send commit to primary 0, sn:9, v:0
+Node 5 send commit to primary 0, sn:12, v:0
+Node 5 receive pre-prepare from node 0, sn:54, view:0
+Node 5 receive prepareQc from node 0, sn:34, v:0 
+Node 5 receive prepareQc from node 0, sn:28, v:0 
+Node 5 receive prepareQc from node 0, sn:32, v:0 
+Node 5 receive prepareQc from node 0, sn:24, v:0 
+Node 5 receive prepareQc from node 0, sn:26, v:0 
+Node 5 send commit to primary 0, sn:16, v:0
+Node 5 receive pre-prepare from node 0, sn:55, view:0
+Node 5 send prepare to primary 0, sn:48, v:0
+Node 5 send commit to primary 0, sn:5, v:0
+Node 5 receive pre-prepare from node 0, sn:56, view:0
+Node 5 receive pre-prepare from node 0, sn:58, view:0
+Node 5 receive prepareQc from node 0, sn:30, v:0 
+Node 5 receive prepareQc from node 0, sn:31, v:0 
+Node 5 receive prepareQc from node 0, sn:43, v:0 
+Node 5 receive prepareQc from node 0, sn:38, v:0 
+Node 5 receive prepareQc from node 0, sn:35, v:0 
+Node 5 send commit to primary 0, sn:21, v:0
+Node 5 receive prepareQc from node 0, sn:39, v:0 
+Node 5 receive prepareQc from node 0, sn:27, v:0 
+Node 5 send commit to primary 0, sn:8, v:0
+Node 5 receive pre-prepare from node 0, sn:60, view:0
+Node 5 send commit to primary 0, sn:13, v:0
+Node 5 receive pre-prepare from node 0, sn:57, view:0
+Node 5 send commit to primary 0, sn:18, v:0
+Node 5 receive commitQc from node 0, sn:1, v:0
+Node 5 receive prepareQc from node 0, sn:37, v:0 
+Node 5 receive pre-prepare from node 0, sn:61, view:0
+Node 5 receive pre-prepare from node 0, sn:59, view:0
+Node 5 send prepare to primary 0, sn:51, v:0
+Node 5 send commit to primary 0, sn:20, v:0
+Node 5 send prepare to primary 0, sn:52, v:0
+Node 5 send prepare to primary 0, sn:49, v:0
+Node 5 send commit to primary 0, sn:17, v:0
+Node 5 receive prepareQc from node 0, sn:44, v:0 
+Node 5 send commit to primary 0, sn:10, v:0
+Node 5 send commit to primary 0, sn:14, v:0
+Node 5 send commit to primary 0, sn:23, v:0
+Node 5 send prepare to primary 0, sn:50, v:0
+Node 5 send prepare to primary 0, sn:53, v:0
+Node 5 receive prepareQc from node 0, sn:40, v:0 
+Node 5 receive prepareQc from node 0, sn:36, v:0 
+Node 5 send prepare to primary 0, sn:54, v:0
+Node 5 receive pre-prepare from node 0, sn:62, view:0
+Node 5 send commit to primary 0, sn:22, v:0
+Node 5 send commit to primary 0, sn:19, v:0
+Node 5 send commit to primary 0, sn:15, v:0
+Node 5 send prepare to primary 0, sn:55, v:0
+Node 5 receive prepareQc from node 0, sn:29, v:0 
+Node 5 receive prepareQc from node 0, sn:42, v:0 
+Node 5 receive prepareQc from node 0, sn:41, v:0 
+Node 5 send prepare to primary 0, sn:56, v:0
+Node 5 send prepare to primary 0, sn:58, v:0
+Node 5 receive prepareQc from node 0, sn:33, v:0 
+Node 5 receive prepareQc from node 0, sn:46, v:0 
+Node 5 receive prepareQc from node 0, sn:45, v:0 
+Node 5 receive prepareQc from node 0, sn:47, v:0 
+Node 5 send prepare to primary 0, sn:60, v:0
+Node 5 send prepare to primary 0, sn:57, v:0
+Node 5 receive prepareQc from node 0, sn:48, v:0 
+sn:1 can be commit in slow path
+2023-08-28 19:03:25The request with sn: 1 has been executed at node 5!
+TimePast:sn:1,millisecend:4393
+Node 5 send prepare to primary 0, sn:61, v:0
+Node 5 send prepare to primary 0, sn:59, v:0
+Node 5 receive pre-prepare from node 0, sn:66, view:0
+Node 5 receive pre-prepare from node 0, sn:67, view:0
+Node 5 send commit to primary 0, sn:25, v:0
+Node 5 receive commitQc from node 0, sn:3, v:0
+Node 5 receive pre-prepare from node 0, sn:63, view:0
+Node 5 receive commitQc from node 0, sn:2, v:0
+Node 5 send commit to primary 0, sn:34, v:0
+Node 5 send commit to primary 0, sn:28, v:0
+Node 5 send prepare to primary 0, sn:62, v:0
+Node 5 send commit to primary 0, sn:24, v:0
+Node 5 send commit to primary 0, sn:32, v:0
+Node 5 receive pre-prepare from node 0, sn:68, view:0
+Node 5 send commit to primary 0, sn:26, v:0
+Node 5 receive pre-prepare from node 0, sn:64, view:0
+Node 5 receive pre-prepare from node 0, sn:69, view:0
+Node 5 receive pre-prepare from node 0, sn:65, view:0
+Node 5 send commit to primary 0, sn:30, v:0
+Node 5 send commit to primary 0, sn:31, v:0
+Node 5 send commit to primary 0, sn:38, v:0
+Node 5 send commit to primary 0, sn:43, v:0
+Node 5 send commit to primary 0, sn:35, v:0
+Node 5 send commit to primary 0, sn:39, v:0
+Node 5 receive pre-prepare from node 0, sn:70, view:0
+Node 5 send commit to primary 0, sn:27, v:0
+Node 5 receive pre-prepare from node 0, sn:71, view:0
+Node 5 send commit to primary 0, sn:37, v:0
+Node 5 send prepare to primary 0, sn:66, v:0
+Node 5 receive pre-prepare from node 0, sn:73, view:0
+Node 5 send prepare to primary 0, sn:67, v:0
+Node 5 send commit to primary 0, sn:44, v:0
+Node 5 receive prepareQc from node 0, sn:52, v:0 
+Node 5 send commit to primary 0, sn:40, v:0
+sn:3 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:76, view:0
+Node 5 send prepare to primary 0, sn:63, v:0
+Node 5 send commit to primary 0, sn:36, v:0
+Node 5 receive pre-prepare from node 0, sn:74, view:0
+sn:2 can be commit in slow path
+2023-08-28 19:03:26The request with sn: 2 has been executed at node 5!
+TimePast:sn:2,millisecend:5183
+2023-08-28 19:03:26The request with sn: 3 has been executed at node 5!
+TimePast:sn:3,millisecend:5176
+Node 5 receive pre-prepare from node 0, sn:75, view:0
+Node 5 receive pre-prepare from node 0, sn:72, view:0
+Node 5 send prepare to primary 0, sn:68, v:0
+Node 5 send commit to primary 0, sn:29, v:0
+Node 5 send commit to primary 0, sn:41, v:0
+Node 5 send prepare to primary 0, sn:64, v:0
+Node 5 send prepare to primary 0, sn:69, v:0
+Node 5 receive pre-prepare from node 0, sn:79, view:0
+Node 5 receive prepareQc from node 0, sn:51, v:0 
+Node 5 receive commitQc from node 0, sn:7, v:0
+Node 5 receive commitQc from node 0, sn:11, v:0
+Node 5 receive prepareQc from node 0, sn:49, v:0 
+Node 5 send prepare to primary 0, sn:65, v:0
+Node 5 send commit to primary 0, sn:42, v:0
+Node 5 receive pre-prepare from node 0, sn:77, view:0
+Node 5 receive commitQc from node 0, sn:4, v:0
+Node 5 send commit to primary 0, sn:33, v:0
+Node 5 send commit to primary 0, sn:46, v:0
+Node 5 receive pre-prepare from node 0, sn:82, view:0
+Node 5 receive commitQc from node 0, sn:6, v:0
+Node 5 send prepare to primary 0, sn:70, v:0
+Node 5 send commit to primary 0, sn:45, v:0
+Node 5 send commit to primary 0, sn:47, v:0
+Node 5 send prepare to primary 0, sn:71, v:0
+Node 5 receive pre-prepare from node 0, sn:84, view:0
+Node 5 send commit to primary 0, sn:48, v:0
+Node 5 receive pre-prepare from node 0, sn:78, view:0
+Node 5 receive prepareQc from node 0, sn:53, v:0 
+Node 5 receive prepareQc from node 0, sn:50, v:0 
+Node 5 receive pre-prepare from node 0, sn:83, view:0
+Node 5 receive pre-prepare from node 0, sn:80, view:0
+Node 5 send prepare to primary 0, sn:73, v:0
+Node 5 receive pre-prepare from node 0, sn:85, view:0
+Node 5 send prepare to primary 0, sn:76, v:0
+Node 5 receive pre-prepare from node 0, sn:81, view:0
+Node 5 receive prepareQc from node 0, sn:60, v:0 
+Node 5 send prepare to primary 0, sn:74, v:0
+Node 5 send prepare to primary 0, sn:75, v:0
+Node 5 receive pre-prepare from node 0, sn:86, view:0
+Node 5 send prepare to primary 0, sn:72, v:0
+Node 5 send prepare to primary 0, sn:79, v:0
+Node 5 receive pre-prepare from node 0, sn:89, view:0
+Node 5 receive pre-prepare from node 0, sn:87, view:0
+sn:7 can be commit in slow path
+sn:11 can be commit in slow path
+Node 5 send prepare to primary 0, sn:77, v:0
+Node 5 receive pre-prepare from node 0, sn:88, view:0
+Node 5 receive pre-prepare from node 0, sn:90, view:0
+sn:4 can be commit in slow path
+2023-08-28 19:03:27The request with sn: 4 has been executed at node 5!
+TimePast:sn:4,millisecend:5881
+Node 5 receive pre-prepare from node 0, sn:92, view:0
+Node 5 send prepare to primary 0, sn:82, v:0
+Node 5 receive pre-prepare from node 0, sn:91, view:0
+Node 5 receive prepareQc from node 0, sn:55, v:0 
+sn:6 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:93, view:0
+Node 5 receive commitQc from node 0, sn:16, v:0
+Node 5 send prepare to primary 0, sn:84, v:0
+Node 5 receive pre-prepare from node 0, sn:94, view:0
+Node 5 send prepare to primary 0, sn:78, v:0
+Node 5 receive pre-prepare from node 0, sn:95, view:0
+Node 5 send prepare to primary 0, sn:83, v:0
+Node 5 send prepare to primary 0, sn:80, v:0
+Node 5 send prepare to primary 0, sn:85, v:0
+Node 5 receive commitQc from node 0, sn:12, v:0
+Node 5 receive prepareQc from node 0, sn:54, v:0 
+Node 5 send commit to primary 0, sn:52, v:0
+Node 5 send prepare to primary 0, sn:81, v:0
+Node 5 send prepare to primary 0, sn:86, v:0
+Node 5 receive prepareQc from node 0, sn:59, v:0 
+Node 5 receive commitQc from node 0, sn:21, v:0
+Node 5 receive prepareQc from node 0, sn:57, v:0 
+Node 5 receive pre-prepare from node 0, sn:98, view:0
+Node 5 receive pre-prepare from node 0, sn:99, view:0
+Node 5 send prepare to primary 0, sn:89, v:0
+Node 5 send prepare to primary 0, sn:87, v:0
+Node 5 send prepare to primary 0, sn:88, v:0
+Node 5 send commit to primary 0, sn:51, v:0
+Node 5 send commit to primary 0, sn:49, v:0
+Node 5 send prepare to primary 0, sn:90, v:0
+Node 5 receive pre-prepare from node 0, sn:97, view:0
+Node 5 receive prepareQc from node 0, sn:58, v:0 
+Node 5 receive commitQc from node 0, sn:5, v:0
+Node 5 receive commitQc from node 0, sn:13, v:0
+Node 5 receive commitQc from node 0, sn:10, v:0
+Node 5 send prepare to primary 0, sn:92, v:0
+Node 5 send prepare to primary 0, sn:91, v:0
+Node 5 receive commitQc from node 0, sn:17, v:0
+Node 5 receive pre-prepare from node 0, sn:100, view:0
+Node 5 receive commitQc from node 0, sn:8, v:0
+Node 5 send prepare to primary 0, sn:93, v:0
+sn:16 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:20, v:0
+Node 5 receive commitQc from node 0, sn:18, v:0
+Node 5 receive prepareQc from node 0, sn:56, v:0 
+Node 5 receive commitQc from node 0, sn:14, v:0
+Node 5 receive commitQc from node 0, sn:19, v:0
+Node 5 receive commitQc from node 0, sn:9, v:0
+Node 5 receive commitQc from node 0, sn:22, v:0
+Node 5 send prepare to primary 0, sn:94, v:0
+Node 5 send commit to primary 0, sn:53, v:0
+Node 5 send commit to primary 0, sn:50, v:0
+Node 5 receive prepareQc from node 0, sn:62, v:0 
+Node 5 send prepare to primary 0, sn:95, v:0
+Node 5 receive prepareQc from node 0, sn:61, v:0 
+Node 5 receive commitQc from node 0, sn:23, v:0
+sn:12 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:15, v:0
+Node 5 receive pre-prepare from node 0, sn:96, view:0
+Node 5 send commit to primary 0, sn:60, v:0
+sn:21 can be commit in slow path
+Node 5 send prepare to primary 0, sn:98, v:0
+Node 5 send prepare to primary 0, sn:99, v:0
+Node 5 receive prepareQc from node 0, sn:68, v:0 
+Node 5 receive prepareQc from node 0, sn:64, v:0 
+Node 5 receive commitQc from node 0, sn:25, v:0
+Node 5 send prepare to primary 0, sn:97, v:0
+sn:5 can be commit in slow path
+2023-08-28 19:03:28The request with sn: 5 has been executed at node 5!
+TimePast:sn:5,millisecend:6986
+2023-08-28 19:03:28The request with sn: 6 has been executed at node 5!
+TimePast:sn:6,millisecend:6982
+2023-08-28 19:03:28The request with sn: 7 has been executed at node 5!
+TimePast:sn:7,millisecend:6952
+sn:10 can be commit in slow path
+sn:13 can be commit in slow path
+Node 5 send prepare to primary 0, sn:100, v:0
+Node 5 receive pre-prepare from node 0, sn:101, view:0
+Node 5 send commit to primary 0, sn:55, v:0
+sn:17 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:103, view:0
+sn:8 can be commit in slow path
+2023-08-28 19:03:28The request with sn: 8 has been executed at node 5!
+TimePast:sn:8,millisecend:7012
+Node 5 receive pre-prepare from node 0, sn:102, view:0
+sn:22 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:105, view:0
+sn:19 can be commit in slow path
+sn:14 can be commit in slow path
+sn:9 can be commit in slow path
+2023-08-28 19:03:28The request with sn: 9 has been executed at node 5!
+TimePast:sn:9,millisecend:7061
+2023-08-28 19:03:28The request with sn: 10 has been executed at node 5!
+TimePast:sn:10,millisecend:7061
+2023-08-28 19:03:28The request with sn: 11 has been executed at node 5!
+TimePast:sn:11,millisecend:7055
+2023-08-28 19:03:28The request with sn: 12 has been executed at node 5!
+TimePast:sn:12,millisecend:7011
+2023-08-28 19:03:28The request with sn: 13 has been executed at node 5!
+TimePast:sn:13,millisecend:6991
+2023-08-28 19:03:28The request with sn: 14 has been executed at node 5!
+TimePast:sn:14,millisecend:6845
+sn:18 can be commit in slow path
+sn:20 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:106, view:0
+Node 5 receive pre-prepare from node 0, sn:107, view:0
+Node 5 receive pre-prepare from node 0, sn:104, view:0
+Node 5 receive prepareQc from node 0, sn:69, v:0 
+sn:23 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:67, v:0 
+Node 5 send commit to primary 0, sn:54, v:0
+sn:15 can be commit in slow path
+2023-08-28 19:03:28The request with sn: 15 has been executed at node 5!
+TimePast:sn:15,millisecend:7010
+2023-08-28 19:03:28The request with sn: 16 has been executed at node 5!
+TimePast:sn:16,millisecend:7004
+2023-08-28 19:03:28The request with sn: 17 has been executed at node 5!
+TimePast:sn:17,millisecend:6954
+2023-08-28 19:03:28The request with sn: 18 has been executed at node 5!
+TimePast:sn:18,millisecend:6905
+2023-08-28 19:03:28The request with sn: 19 has been executed at node 5!
+TimePast:sn:19,millisecend:6875
+2023-08-28 19:03:28The request with sn: 20 has been executed at node 5!
+TimePast:sn:20,millisecend:6846
+2023-08-28 19:03:28The request with sn: 21 has been executed at node 5!
+TimePast:sn:21,millisecend:6732
+2023-08-28 19:03:28The request with sn: 22 has been executed at node 5!
+TimePast:sn:22,millisecend:6679
+2023-08-28 19:03:28The request with sn: 23 has been executed at node 5!
+TimePast:sn:23,millisecend:6671
+Node 5 receive pre-prepare from node 0, sn:108, view:0
+Node 5 send prepare to primary 0, sn:96, v:0
+Node 5 receive prepareQc from node 0, sn:63, v:0 
+Node 5 receive pre-prepare from node 0, sn:109, view:0
+Node 5 receive prepareQc from node 0, sn:66, v:0 
+Node 5 send commit to primary 0, sn:59, v:0
+Node 5 send commit to primary 0, sn:57, v:0
+Checkpoint sequence number outside watermarks: seqNo 10, low-mark 20
+Node 5 receive commitQc from node 0, sn:26, v:0
+sn:25 can be commit in slow path
+Node 5 send commit to primary 0, sn:58, v:0
+Node 5 receive prepareQc from node 0, sn:70, v:0 
+Node 5 send prepare to primary 0, sn:101, v:0
+Node 5 receive pre-prepare from node 0, sn:112, view:0
+Node 5 receive commitQc from node 0, sn:34, v:0
+Node 5 receive commitQc from node 0, sn:30, v:0
+Node 5 receive prepareQc from node 0, sn:65, v:0 
+Node 5 receive commitQc from node 0, sn:35, v:0
+Node 5 receive commitQc from node 0, sn:32, v:0
+Node 5 receive commitQc from node 0, sn:31, v:0
+Node 5 receive commitQc from node 0, sn:24, v:0
+Node 5 send prepare to primary 0, sn:103, v:0
+Node 5 receive pre-prepare from node 0, sn:111, view:0
+Node 5 send prepare to primary 0, sn:102, v:0
+Node 5 send prepare to primary 0, sn:105, v:0
+Node 5 send commit to primary 0, sn:56, v:0
+Node 5 receive commitQc from node 0, sn:28, v:0
+Node 5 send prepare to primary 0, sn:106, v:0
+Node 5 send prepare to primary 0, sn:107, v:0
+Node 5 send prepare to primary 0, sn:104, v:0
+Node 5 send commit to primary 0, sn:62, v:0
+Node 5 receive pre-prepare from node 0, sn:114, view:0
+Checkpoint sequence number outside watermarks: seqNo 20, low-mark 20
+Node 5 send commit to primary 0, sn:61, v:0
+Node 5 receive pre-prepare from node 0, sn:113, view:0
+Node 5 receive prepareQc from node 0, sn:71, v:0 
+Node 5 receive pre-prepare from node 0, sn:110, view:0
+Node 5 receive pre-prepare from node 0, sn:115, view:0
+Node 5 receive commitQc from node 0, sn:43, v:0
+Node 5 send prepare to primary 0, sn:108, v:0
+Node 5 receive commitQc from node 0, sn:38, v:0
+Node 5 send prepare to primary 0, sn:109, v:0
+Node 5 receive pre-prepare from node 0, sn:116, view:0
+Node 5 receive pre-prepare from node 0, sn:117, view:0
+Node 5 receive commitQc from node 0, sn:37, v:0
+Node 5 receive commitQc from node 0, sn:40, v:0
+Node 5 receive pre-prepare from node 0, sn:118, view:0
+Node 5 receive prepareQc from node 0, sn:73, v:0 
+sn:26 can be commit in slow path
+Node 5 send commit to primary 0, sn:64, v:0
+Node 5 send commit to primary 0, sn:68, v:0
+Node 5 receive commitQc from node 0, sn:27, v:0
+Node 5 receive commitQc from node 0, sn:39, v:0
+Node 5 send prepare to primary 0, sn:112, v:0
+sn:35 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:119, view:0
+sn:34 can be commit in slow path
+sn:24 can be commit in slow path
+2023-08-28 19:03:29The request with sn: 24 has been executed at node 5!
+TimePast:sn:24,millisecend:7501
+2023-08-28 19:03:29The request with sn: 25 has been executed at node 5!
+TimePast:sn:25,millisecend:7481
+2023-08-28 19:03:29The request with sn: 26 has been executed at node 5!
+TimePast:sn:26,millisecend:7434
+sn:32 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:36, v:0
+Node 5 send prepare to primary 0, sn:111, v:0
+sn:30 can be commit in slow path
+sn:31 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:75, v:0 
+Node 5 receive commitQc from node 0, sn:29, v:0
+sn:28 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:76, v:0 
+Node 5 send prepare to primary 0, sn:114, v:0
+Node 5 send prepare to primary 0, sn:113, v:0
+Node 5 receive pre-prepare from node 0, sn:120, view:0
+Node 5 send commit to primary 0, sn:69, v:0
+Node 5 send commit to primary 0, sn:67, v:0
+Node 5 receive prepareQc from node 0, sn:82, v:0 
+Node 5 receive prepareQc from node 0, sn:72, v:0 
+Node 5 send prepare to primary 0, sn:110, v:0
+Node 5 send prepare to primary 0, sn:115, v:0
+sn:43 can be commit in slow path
+sn:38 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:74, v:0 
+Node 5 send commit to primary 0, sn:63, v:0
+Node 5 send prepare to primary 0, sn:116, v:0
+Node 5 receive prepareQc from node 0, sn:78, v:0 
+Node 5 receive commitQc from node 0, sn:41, v:0
+Node 5 send prepare to primary 0, sn:117, v:0
+Node 5 send commit to primary 0, sn:66, v:0
+sn:37 can be commit in slow path
+Node 5 send prepare to primary 0, sn:118, v:0
+sn:40 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:42, v:0
+Node 5 receive prepareQc from node 0, sn:79, v:0 
+sn:27 can be commit in slow path
+2023-08-28 19:03:29The request with sn: 27 has been executed at node 5!
+TimePast:sn:27,millisecend:7907
+2023-08-28 19:03:29The request with sn: 28 has been executed at node 5!
+TimePast:sn:28,millisecend:7883
+Node 5 send commit to primary 0, sn:70, v:0
+Node 5 receive pre-prepare from node 0, sn:122, view:0
+Node 5 send commit to primary 0, sn:65, v:0
+Node 5 receive commitQc from node 0, sn:46, v:0
+sn:39 can be commit in slow path
+Node 5 send prepare to primary 0, sn:119, v:0
+Node 5 receive commitQc from node 0, sn:48, v:0
+Node 5 receive commitQc from node 0, sn:44, v:0
+Node 5 receive prepareQc from node 0, sn:77, v:0 
+Node 5 receive prepareQc from node 0, sn:84, v:0 
+Node 5 receive commitQc from node 0, sn:45, v:0
+sn:36 can be commit in slow path
+sn:29 can be commit in slow path
+2023-08-28 19:03:30The request with sn: 29 has been executed at node 5!
+TimePast:sn:29,millisecend:7985
+2023-08-28 19:03:30The request with sn: 30 has been executed at node 5!
+TimePast:sn:30,millisecend:7965
+2023-08-28 19:03:30The request with sn: 31 has been executed at node 5!
+TimePast:sn:31,millisecend:7943
+2023-08-28 19:03:30The request with sn: 32 has been executed at node 5!
+TimePast:sn:32,millisecend:7914
+Node 5 receive commitQc from node 0, sn:33, v:0
+Node 5 receive pre-prepare from node 0, sn:121, view:0
+Node 5 receive prepareQc from node 0, sn:83, v:0 
+Node 5 receive prepareQc from node 0, sn:80, v:0 
+Node 5 receive commitQc from node 0, sn:47, v:0
+Node 5 send prepare to primary 0, sn:120, v:0
+Node 5 send commit to primary 0, sn:71, v:0
+Node 5 receive pre-prepare from node 0, sn:124, view:0
+Node 5 receive pre-prepare from node 0, sn:125, view:0
+sn:41 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:94, v:0 
+Node 5 send commit to primary 0, sn:73, v:0
+Node 5 receive prepareQc from node 0, sn:87, v:0 
+Node 5 receive prepareQc from node 0, sn:81, v:0 
+Node 5 receive prepareQc from node 0, sn:86, v:0 
+Node 5 receive pre-prepare from node 0, sn:126, view:0
+sn:42 can be commit in slow path
+Checkpoint sequence number outside watermarks: seqNo 30, low-mark 30
+Node 5 receive prepareQc from node 0, sn:95, v:0 
+Node 5 receive prepareQc from node 0, sn:90, v:0 
+Node 5 send prepare to primary 0, sn:122, v:0
+Node 5 receive pre-prepare from node 0, sn:128, view:0
+Node 5 receive prepareQc from node 0, sn:89, v:0 
+Node 5 receive prepareQc from node 0, sn:93, v:0 
+Node 5 receive prepareQc from node 0, sn:88, v:0 
+Node 5 receive prepareQc from node 0, sn:92, v:0 
+sn:46 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:85, v:0 
+Node 5 receive pre-prepare from node 0, sn:123, view:0
+sn:44 can be commit in slow path
+sn:48 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:129, view:0
+Node 5 receive pre-prepare from node 0, sn:127, view:0
+Node 5 receive prepareQc from node 0, sn:91, v:0 
+sn:45 can be commit in slow path
+sn:33 can be commit in slow path
+2023-08-28 19:03:30The request with sn: 33 has been executed at node 5!
+TimePast:sn:33,millisecend:8468
+2023-08-28 19:03:30The request with sn: 34 has been executed at node 5!
+TimePast:sn:34,millisecend:8431
+2023-08-28 19:03:30The request with sn: 35 has been executed at node 5!
+TimePast:sn:35,millisecend:8322
+2023-08-28 19:03:30The request with sn: 36 has been executed at node 5!
+TimePast:sn:36,millisecend:8296
+2023-08-28 19:03:30The request with sn: 37 has been executed at node 5!
+TimePast:sn:37,millisecend:8295
+2023-08-28 19:03:30The request with sn: 38 has been executed at node 5!
+TimePast:sn:38,millisecend:8269
+2023-08-28 19:03:30The request with sn: 39 has been executed at node 5!
+TimePast:sn:39,millisecend:8263
+2023-08-28 19:03:30The request with sn: 40 has been executed at node 5!
+TimePast:sn:40,millisecend:8244
+2023-08-28 19:03:30The request with sn: 41 has been executed at node 5!
+TimePast:sn:41,millisecend:7855
+2023-08-28 19:03:30The request with sn: 42 has been executed at node 5!
+TimePast:sn:42,millisecend:7803
+2023-08-28 19:03:30The request with sn: 43 has been executed at node 5!
+TimePast:sn:43,millisecend:7789
+2023-08-28 19:03:30The request with sn: 44 has been executed at node 5!
+TimePast:sn:44,millisecend:7664
+2023-08-28 19:03:30The request with sn: 45 has been executed at node 5!
+TimePast:sn:45,millisecend:7636
+2023-08-28 19:03:30The request with sn: 46 has been executed at node 5!
+TimePast:sn:46,millisecend:7527
+Node 5 send commit to primary 0, sn:75, v:0
+Node 5 send commit to primary 0, sn:76, v:0
+Node 5 receive pre-prepare from node 0, sn:130, view:0
+Node 5 send prepare to primary 0, sn:121, v:0
+sn:47 can be commit in slow path
+2023-08-28 19:03:30The request with sn: 47 has been executed at node 5!
+TimePast:sn:47,millisecend:7570
+2023-08-28 19:03:30The request with sn: 48 has been executed at node 5!
+TimePast:sn:48,millisecend:7434
+Node 5 send commit to primary 0, sn:82, v:0
+Node 5 send commit to primary 0, sn:72, v:0
+Node 5 send prepare to primary 0, sn:124, v:0
+Node 5 send prepare to primary 0, sn:125, v:0
+Node 5 send commit to primary 0, sn:74, v:0
+Node 5 send commit to primary 0, sn:78, v:0
+Node 5 receive prepareQc from node 0, sn:99, v:0 
+Node 5 receive commitQc from node 0, sn:50, v:0
+Node 5 receive commitQc from node 0, sn:49, v:0
+Node 5 receive pre-prepare from node 0, sn:132, view:0
+Node 5 receive prepareQc from node 0, sn:97, v:0 
+Node 5 send commit to primary 0, sn:79, v:0
+Node 5 receive commitQc from node 0, sn:60, v:0
+Node 5 send prepare to primary 0, sn:126, v:0
+Node 5 receive pre-prepare from node 0, sn:131, view:0
+Node 5 receive prepareQc from node 0, sn:98, v:0 
+Node 5 receive pre-prepare from node 0, sn:133, view:0
+Node 5 send prepare to primary 0, sn:128, v:0
+Node 5 send prepare to primary 0, sn:123, v:0
+Checkpoint sequence number outside watermarks: seqNo 40, low-mark 40
+Node 5 send prepare to primary 0, sn:129, v:0
+Node 5 send commit to primary 0, sn:77, v:0
+Node 5 send commit to primary 0, sn:84, v:0
+Node 5 send prepare to primary 0, sn:127, v:0
+Node 5 send prepare to primary 0, sn:130, v:0
+Node 5 send commit to primary 0, sn:83, v:0
+Node 5 send commit to primary 0, sn:80, v:0
+Node 5 receive commitQc from node 0, sn:51, v:0
+Node 5 receive pre-prepare from node 0, sn:135, view:0
+Node 5 receive pre-prepare from node 0, sn:136, view:0
+Node 5 receive prepareQc from node 0, sn:96, v:0 
+Node 5 receive commitQc from node 0, sn:53, v:0
+Checkpoint sequence number outside watermarks: seqNo 10, low-mark 40
+Node 5 receive commitQc from node 0, sn:52, v:0
+Node 5 receive prepareQc from node 0, sn:100, v:0 
+Checkpoint sequence number outside watermarks: seqNo 20, low-mark 40
+Node 5 send commit to primary 0, sn:94, v:0
+Node 5 receive pre-prepare from node 0, sn:134, view:0
+sn:49 can be commit in slow path
+2023-08-28 19:03:31The request with sn: 49 has been executed at node 5!
+TimePast:sn:49,millisecend:8197
+sn:50 can be commit in slow path
+2023-08-28 19:03:31The request with sn: 50 has been executed at node 5!
+TimePast:sn:50,millisecend:8211
+Node 5 send commit to primary 0, sn:87, v:0
+Node 5 send commit to primary 0, sn:81, v:0
+Node 5 send prepare to primary 0, sn:132, v:0
+Node 5 send commit to primary 0, sn:86, v:0
+Node 5 receive prepareQc from node 0, sn:102, v:0 
+Node 5 send commit to primary 0, sn:95, v:0
+Node 5 send prepare to primary 0, sn:131, v:0
+sn:60 can be commit in slow path
+Node 5 send commit to primary 0, sn:90, v:0
+Node 5 send prepare to primary 0, sn:133, v:0
+Node 5 receive pre-prepare from node 0, sn:139, view:0
+Node 5 send commit to primary 0, sn:88, v:0
+Node 5 receive prepareQc from node 0, sn:103, v:0 
+Node 5 send commit to primary 0, sn:89, v:0
+Node 5 receive pre-prepare from node 0, sn:138, view:0
+Node 5 send commit to primary 0, sn:93, v:0
+Node 5 send commit to primary 0, sn:85, v:0
+Node 5 send commit to primary 0, sn:92, v:0
+Node 5 send commit to primary 0, sn:91, v:0
+Node 5 receive prepareQc from node 0, sn:105, v:0 
+Node 5 receive commitQc from node 0, sn:54, v:0
+Node 5 receive prepareQc from node 0, sn:107, v:0 
+Node 5 receive commitQc from node 0, sn:55, v:0
+Node 5 receive prepareQc from node 0, sn:101, v:0 
+Node 5 receive pre-prepare from node 0, sn:140, view:0
+Node 5 receive prepareQc from node 0, sn:104, v:0 
+Node 5 receive prepareQc from node 0, sn:108, v:0 
+Node 5 receive prepareQc from node 0, sn:106, v:0 
+sn:51 can be commit in slow path
+2023-08-28 19:03:32The request with sn: 51 has been executed at node 5!
+TimePast:sn:51,millisecend:8402
+Node 5 receive pre-prepare from node 0, sn:143, view:0
+Node 5 receive pre-prepare from node 0, sn:141, view:0
+Node 5 send prepare to primary 0, sn:135, v:0
+Node 5 send prepare to primary 0, sn:136, v:0
+sn:53 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:137, view:0
+Node 5 receive commitQc from node 0, sn:58, v:0
+sn:52 can be commit in slow path
+2023-08-28 19:03:32The request with sn: 52 has been executed at node 5!
+TimePast:sn:52,millisecend:8438
+2023-08-28 19:03:32The request with sn: 53 has been executed at node 5!
+TimePast:sn:53,millisecend:8285
+Node 5 receive prepareQc from node 0, sn:111, v:0 
+Node 5 send prepare to primary 0, sn:134, v:0
+Node 5 receive pre-prepare from node 0, sn:145, view:0
+Node 5 send commit to primary 0, sn:99, v:0
+Node 5 receive pre-prepare from node 0, sn:144, view:0
+Node 5 send commit to primary 0, sn:97, v:0
+Node 5 receive pre-prepare from node 0, sn:142, view:0
+Node 5 receive prepareQc from node 0, sn:109, v:0 
+Node 5 send commit to primary 0, sn:98, v:0
+Node 5 send prepare to primary 0, sn:139, v:0
+Node 5 send prepare to primary 0, sn:138, v:0
+Node 5 receive prepareQc from node 0, sn:114, v:0 
+Node 5 receive prepareQc from node 0, sn:113, v:0 
+Node 5 receive pre-prepare from node 0, sn:147, view:0
+Node 5 receive pre-prepare from node 0, sn:148, view:0
+Node 5 receive commitQc from node 0, sn:59, v:0
+Node 5 receive pre-prepare from node 0, sn:146, view:0
+sn:54 can be commit in slow path
+2023-08-28 19:03:32The request with sn: 54 has been executed at node 5!
+TimePast:sn:54,millisecend:8540
+Node 5 send prepare to primary 0, sn:140, v:0
+sn:55 can be commit in slow path
+2023-08-28 19:03:32The request with sn: 55 has been executed at node 5!
+TimePast:sn:55,millisecend:8537
+Node 5 receive pre-prepare from node 0, sn:149, view:0
+Checkpoint sequence number outside watermarks: seqNo 50, low-mark 50
+Node 5 receive pre-prepare from node 0, sn:150, view:0
+Node 5 receive prepareQc from node 0, sn:110, v:0 
+Node 5 receive commitQc from node 0, sn:62, v:0
+Node 5 receive pre-prepare from node 0, sn:151, view:0
+Node 5 send prepare to primary 0, sn:143, v:0
+Node 5 send prepare to primary 0, sn:141, v:0
+Node 5 receive pre-prepare from node 0, sn:152, view:0
+Node 5 send prepare to primary 0, sn:137, v:0
+Node 5 send commit to primary 0, sn:96, v:0
+Node 5 send commit to primary 0, sn:100, v:0
+sn:58 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:153, view:0
+Node 5 receive prepareQc from node 0, sn:112, v:0 
+Node 5 send prepare to primary 0, sn:145, v:0
+Node 5 receive pre-prepare from node 0, sn:154, view:0
+Node 5 send prepare to primary 0, sn:144, v:0
+Node 5 send prepare to primary 0, sn:142, v:0
+Node 5 send commit to primary 0, sn:102, v:0
+Node 5 send commit to primary 0, sn:103, v:0
+Node 5 receive commitQc from node 0, sn:56, v:0
+Node 5 receive prepareQc from node 0, sn:115, v:0 
+Node 5 receive prepareQc from node 0, sn:116, v:0 
+Node 5 receive commitQc from node 0, sn:61, v:0
+Node 5 send prepare to primary 0, sn:147, v:0
+Node 5 send prepare to primary 0, sn:148, v:0
+sn:59 can be commit in slow path
+Node 5 send commit to primary 0, sn:105, v:0
+Node 5 send prepare to primary 0, sn:146, v:0
+Node 5 send commit to primary 0, sn:107, v:0
+Node 5 send prepare to primary 0, sn:149, v:0
+Node 5 send commit to primary 0, sn:101, v:0
+Node 5 send commit to primary 0, sn:108, v:0
+Node 5 send commit to primary 0, sn:104, v:0
+Node 5 send prepare to primary 0, sn:150, v:0
+Node 5 send commit to primary 0, sn:106, v:0
+Node 5 receive prepareQc from node 0, sn:119, v:0 
+Node 5 send prepare to primary 0, sn:151, v:0
+sn:62 can be commit in slow path
+Node 5 send prepare to primary 0, sn:152, v:0
+Node 5 receive pre-prepare from node 0, sn:156, view:0
+Node 5 receive prepareQc from node 0, sn:120, v:0 
+Checkpoint sequence number outside watermarks: seqNo 30, low-mark 50
+Node 5 receive prepareQc from node 0, sn:121, v:0 
+Node 5 receive commitQc from node 0, sn:63, v:0
+Node 5 receive commitQc from node 0, sn:67, v:0
+Node 5 send commit to primary 0, sn:111, v:0
+Node 5 receive commitQc from node 0, sn:57, v:0
+Node 5 receive pre-prepare from node 0, sn:159, view:0
+Node 5 send prepare to primary 0, sn:153, v:0
+Node 5 receive commitQc from node 0, sn:65, v:0
+Node 5 receive commitQc from node 0, sn:70, v:0
+Node 5 receive commitQc from node 0, sn:69, v:0
+Node 5 receive commitQc from node 0, sn:68, v:0
+Node 5 receive pre-prepare from node 0, sn:157, view:0
+Node 5 receive commitQc from node 0, sn:64, v:0
+Node 5 receive pre-prepare from node 0, sn:158, view:0
+Node 5 send prepare to primary 0, sn:154, v:0
+Node 5 receive commitQc from node 0, sn:66, v:0
+Node 5 send commit to primary 0, sn:109, v:0
+Node 5 receive pre-prepare from node 0, sn:155, view:0
+Node 5 receive prepareQc from node 0, sn:117, v:0 
+Node 5 receive prepareQc from node 0, sn:118, v:0 
+Node 5 receive pre-prepare from node 0, sn:160, view:0
+sn:61 can be commit in slow path
+sn:56 can be commit in slow path
+2023-08-28 19:03:33The request with sn: 56 has been executed at node 5!
+TimePast:sn:56,millisecend:9513
+Node 5 send commit to primary 0, sn:113, v:0
+Node 5 send commit to primary 0, sn:114, v:0
+Node 5 receive pre-prepare from node 0, sn:163, view:0
+Node 5 receive pre-prepare from node 0, sn:162, view:0
+Node 5 send commit to primary 0, sn:110, v:0
+Node 5 receive prepareQc from node 0, sn:122, v:0 
+Node 5 receive pre-prepare from node 0, sn:165, view:0
+Node 5 receive pre-prepare from node 0, sn:161, view:0
+Node 5 receive prepareQc from node 0, sn:126, v:0 
+Node 5 send prepare to primary 0, sn:156, v:0
+Node 5 send prepare to primary 0, sn:159, v:0
+sn:68 can be commit in slow path
+sn:67 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:164, view:0
+Node 5 send prepare to primary 0, sn:157, v:0
+Node 5 send commit to primary 0, sn:112, v:0
+sn:63 can be commit in slow path
+sn:66 can be commit in slow path
+sn:70 can be commit in slow path
+sn:69 can be commit in slow path
+sn:65 can be commit in slow path
+Node 5 send prepare to primary 0, sn:158, v:0
+sn:57 can be commit in slow path
+2023-08-28 19:03:34The request with sn: 57 has been executed at node 5!
+TimePast:sn:57,millisecend:9941
+2023-08-28 19:03:34The request with sn: 58 has been executed at node 5!
+TimePast:sn:58,millisecend:9931
+2023-08-28 19:03:34The request with sn: 59 has been executed at node 5!
+TimePast:sn:59,millisecend:9876
+2023-08-28 19:03:34The request with sn: 60 has been executed at node 5!
+TimePast:sn:60,millisecend:9828
+2023-08-28 19:03:34The request with sn: 61 has been executed at node 5!
+TimePast:sn:61,millisecend:9783
+2023-08-28 19:03:34The request with sn: 62 has been executed at node 5!
+TimePast:sn:62,millisecend:9756
+2023-08-28 19:03:34The request with sn: 63 has been executed at node 5!
+TimePast:sn:63,millisecend:9575
+Node 5 send prepare to primary 0, sn:155, v:0
+sn:64 can be commit in slow path
+2023-08-28 19:03:34The request with sn: 64 has been executed at node 5!
+TimePast:sn:64,millisecend:9251
+2023-08-28 19:03:34The request with sn: 65 has been executed at node 5!
+TimePast:sn:65,millisecend:9149
+2023-08-28 19:03:34The request with sn: 66 has been executed at node 5!
+TimePast:sn:66,millisecend:9130
+2023-08-28 19:03:34The request with sn: 67 has been executed at node 5!
+TimePast:sn:67,millisecend:9127
+2023-08-28 19:03:34The request with sn: 68 has been executed at node 5!
+TimePast:sn:68,millisecend:9017
+2023-08-28 19:03:34The request with sn: 69 has been executed at node 5!
+TimePast:sn:69,millisecend:8939
+2023-08-28 19:03:34The request with sn: 70 has been executed at node 5!
+TimePast:sn:70,millisecend:8788
+Node 5 receive prepareQc from node 0, sn:123, v:0 
+Checkpoint sequence number outside watermarks: seqNo 40, low-mark 70
+Node 5 receive commitQc from node 0, sn:71, v:0
+Node 5 receive commitQc from node 0, sn:73, v:0
+Checkpoint sequence number outside watermarks: seqNo 60, low-mark 70
+Node 5 send prepare to primary 0, sn:160, v:0
+Node 5 receive prepareQc from node 0, sn:128, v:0 
+Node 5 receive prepareQc from node 0, sn:125, v:0 
+Node 5 send commit to primary 0, sn:116, v:0
+Node 5 send commit to primary 0, sn:115, v:0
+Node 5 receive prepareQc from node 0, sn:132, v:0 
+Node 5 send prepare to primary 0, sn:163, v:0
+Node 5 send prepare to primary 0, sn:162, v:0
+Node 5 receive prepareQc from node 0, sn:127, v:0 
+Node 5 receive commitQc from node 0, sn:72, v:0
+Node 5 receive commitQc from node 0, sn:79, v:0
+Node 5 receive prepareQc from node 0, sn:131, v:0 
+Node 5 receive prepareQc from node 0, sn:130, v:0 
+Node 5 receive prepareQc from node 0, sn:124, v:0 
+Node 5 receive commitQc from node 0, sn:75, v:0
+Node 5 receive prepareQc from node 0, sn:129, v:0 
+Node 5 send commit to primary 0, sn:119, v:0
+Node 5 send prepare to primary 0, sn:165, v:0
+Node 5 send prepare to primary 0, sn:161, v:0
+Node 5 receive commitQc from node 0, sn:82, v:0
+Node 5 receive commitQc from node 0, sn:76, v:0
+Node 5 receive prepareQc from node 0, sn:133, v:0 
+Node 5 receive commitQc from node 0, sn:84, v:0
+Checkpoint sequence number outside watermarks: seqNo 60, low-mark 70
+Checkpoint sequence number outside watermarks: seqNo 70, low-mark 70
+Checkpoint sequence number outside watermarks: seqNo 50, low-mark 70
+Node 5 receive prepareQc from node 0, sn:134, v:0 
+Node 5 send commit to primary 0, sn:121, v:0
+Node 5 send prepare to primary 0, sn:164, v:0
+Node 5 receive pre-prepare from node 0, sn:166, view:0
+Node 5 send commit to primary 0, sn:120, v:0
+Node 5 send commit to primary 0, sn:117, v:0
+Node 5 receive commitQc from node 0, sn:83, v:0
+Node 5 receive pre-prepare from node 0, sn:167, view:0
+Node 5 receive pre-prepare from node 0, sn:168, view:0
+Node 5 receive commitQc from node 0, sn:74, v:0
+sn:73 can be commit in slow path
+sn:71 can be commit in slow path
+2023-08-28 19:03:34The request with sn: 71 has been executed at node 5!
+TimePast:sn:71,millisecend:9360
+Node 5 send commit to primary 0, sn:118, v:0
+Node 5 receive commitQc from node 0, sn:87, v:0
+Node 5 receive pre-prepare from node 0, sn:169, view:0
+Node 5 receive commitQc from node 0, sn:80, v:0
+Node 5 receive commitQc from node 0, sn:81, v:0
+Node 5 receive commitQc from node 0, sn:94, v:0
+Node 5 receive prepareQc from node 0, sn:135, v:0 
+Node 5 receive commitQc from node 0, sn:78, v:0
+Node 5 receive commitQc from node 0, sn:77, v:0
+sn:72 can be commit in slow path
+2023-08-28 19:03:34The request with sn: 72 has been executed at node 5!
+TimePast:sn:72,millisecend:9332
+2023-08-28 19:03:34The request with sn: 73 has been executed at node 5!
+TimePast:sn:73,millisecend:9288
+Node 5 receive pre-prepare from node 0, sn:170, view:0
+sn:79 can be commit in slow path
+sn:75 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:171, view:0
+Node 5 send commit to primary 0, sn:122, v:0
+sn:76 can be commit in slow path
+sn:82 can be commit in slow path
+sn:84 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:172, view:0
+Node 5 send commit to primary 0, sn:126, v:0
+Node 5 send prepare to primary 0, sn:166, v:0
+Node 5 receive commitQc from node 0, sn:86, v:0
+Node 5 receive prepareQc from node 0, sn:140, v:0 
+Node 5 send commit to primary 0, sn:128, v:0
+Node 5 receive commitQc from node 0, sn:88, v:0
+Node 5 send commit to primary 0, sn:125, v:0
+Node 5 send prepare to primary 0, sn:168, v:0
+Node 5 send prepare to primary 0, sn:167, v:0
+Node 5 send commit to primary 0, sn:123, v:0
+sn:74 can be commit in slow path
+2023-08-28 19:03:35The request with sn: 74 has been executed at node 5!
+TimePast:sn:74,millisecend:9679
+2023-08-28 19:03:35The request with sn: 75 has been executed at node 5!
+TimePast:sn:75,millisecend:9668
+2023-08-28 19:03:35The request with sn: 76 has been executed at node 5!
+TimePast:sn:76,millisecend:9652
+sn:83 can be commit in slow path
+sn:80 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:174, view:0
+Node 5 send prepare to primary 0, sn:169, v:0
+Node 5 send commit to primary 0, sn:132, v:0
+sn:87 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:89, v:0
+Node 5 receive commitQc from node 0, sn:92, v:0
+Node 5 receive pre-prepare from node 0, sn:173, view:0
+sn:81 can be commit in slow path
+sn:94 can be commit in slow path
+sn:78 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:95, v:0
+Node 5 receive commitQc from node 0, sn:91, v:0
+Node 5 receive commitQc from node 0, sn:93, v:0
+Node 5 receive commitQc from node 0, sn:85, v:0
+Node 5 send commit to primary 0, sn:127, v:0
+Node 5 receive prepareQc from node 0, sn:137, v:0 
+Node 5 send commit to primary 0, sn:130, v:0
+Node 5 receive prepareQc from node 0, sn:141, v:0 
+Node 5 receive prepareQc from node 0, sn:138, v:0 
+Node 5 send prepare to primary 0, sn:170, v:0
+Node 5 send commit to primary 0, sn:131, v:0
+Node 5 send commit to primary 0, sn:124, v:0
+Node 5 receive commitQc from node 0, sn:90, v:0
+Node 5 send commit to primary 0, sn:129, v:0
+sn:77 can be commit in slow path
+2023-08-28 19:03:35The request with sn: 77 has been executed at node 5!
+TimePast:sn:77,millisecend:9819
+2023-08-28 19:03:35The request with sn: 78 has been executed at node 5!
+TimePast:sn:78,millisecend:9761
+2023-08-28 19:03:35The request with sn: 79 has been executed at node 5!
+TimePast:sn:79,millisecend:9735
+2023-08-28 19:03:35The request with sn: 80 has been executed at node 5!
+TimePast:sn:80,millisecend:9668
+2023-08-28 19:03:35The request with sn: 81 has been executed at node 5!
+TimePast:sn:81,millisecend:9654
+2023-08-28 19:03:35The request with sn: 82 has been executed at node 5!
+TimePast:sn:82,millisecend:9638
+2023-08-28 19:03:35The request with sn: 83 has been executed at node 5!
+TimePast:sn:83,millisecend:9577
+2023-08-28 19:03:35The request with sn: 84 has been executed at node 5!
+TimePast:sn:84,millisecend:9472
+Node 5 send prepare to primary 0, sn:171, v:0
+Node 5 receive prepareQc from node 0, sn:136, v:0 
+Node 5 send commit to primary 0, sn:133, v:0
+Node 5 send prepare to primary 0, sn:172, v:0
+Node 5 receive prepareQc from node 0, sn:139, v:0 
+Node 5 receive pre-prepare from node 0, sn:175, view:0
+Node 5 receive pre-prepare from node 0, sn:176, view:0
+Node 5 send commit to primary 0, sn:134, v:0
+Node 5 receive prepareQc from node 0, sn:143, v:0 
+Node 5 receive prepareQc from node 0, sn:145, v:0 
+Node 5 receive pre-prepare from node 0, sn:178, view:0
+sn:86 can be commit in slow path
+Checkpoint sequence number outside watermarks: seqNo 80, low-mark 80
+Node 5 receive commitQc from node 0, sn:99, v:0
+Node 5 receive prepareQc from node 0, sn:148, v:0 
+Node 5 receive prepareQc from node 0, sn:144, v:0 
+sn:88 can be commit in slow path
+Node 5 send prepare to primary 0, sn:174, v:0
+Node 5 receive commitQc from node 0, sn:97, v:0
+Node 5 receive prepareQc from node 0, sn:142, v:0 
+sn:92 can be commit in slow path
+sn:89 can be commit in slow path
+Node 5 send prepare to primary 0, sn:173, v:0
+Node 5 receive pre-prepare from node 0, sn:179, view:0
+Node 5 send commit to primary 0, sn:135, v:0
+sn:91 can be commit in slow path
+sn:93 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:177, view:0
+sn:95 can be commit in slow path
+sn:85 can be commit in slow path
+2023-08-28 19:03:35The request with sn: 85 has been executed at node 5!
+TimePast:sn:85,millisecend:9909
+2023-08-28 19:03:35The request with sn: 86 has been executed at node 5!
+TimePast:sn:86,millisecend:9891
+2023-08-28 19:03:35The request with sn: 87 has been executed at node 5!
+TimePast:sn:87,millisecend:9769
+2023-08-28 19:03:35The request with sn: 88 has been executed at node 5!
+TimePast:sn:88,millisecend:9758
+2023-08-28 19:03:35The request with sn: 89 has been executed at node 5!
+TimePast:sn:89,millisecend:9723
+sn:90 can be commit in slow path
+2023-08-28 19:03:36The request with sn: 90 has been executed at node 5!
+TimePast:sn:90,millisecend:9729
+2023-08-28 19:03:36The request with sn: 91 has been executed at node 5!
+TimePast:sn:91,millisecend:9702
+2023-08-28 19:03:36The request with sn: 92 has been executed at node 5!
+TimePast:sn:92,millisecend:9620
+2023-08-28 19:03:36The request with sn: 93 has been executed at node 5!
+TimePast:sn:93,millisecend:9499
+2023-08-28 19:03:36The request with sn: 94 has been executed at node 5!
+TimePast:sn:94,millisecend:9458
+2023-08-28 19:03:36The request with sn: 95 has been executed at node 5!
+TimePast:sn:95,millisecend:9427
+Node 5 receive commitQc from node 0, sn:98, v:0
+Node 5 receive pre-prepare from node 0, sn:180, view:0
+Node 5 receive pre-prepare from node 0, sn:182, view:0
+Node 5 send prepare to primary 0, sn:175, v:0
+Node 5 receive pre-prepare from node 0, sn:183, view:0
+Node 5 send prepare to primary 0, sn:176, v:0
+Node 5 receive pre-prepare from node 0, sn:181, view:0
+Node 5 receive commitQc from node 0, sn:100, v:0
+Node 5 receive commitQc from node 0, sn:96, v:0
+Node 5 receive pre-prepare from node 0, sn:184, view:0
+Node 5 send prepare to primary 0, sn:178, v:0
+sn:99 can be commit in slow path
+Node 5 send commit to primary 0, sn:140, v:0
+Node 5 receive pre-prepare from node 0, sn:186, view:0
+Node 5 receive pre-prepare from node 0, sn:185, view:0
+Node 5 receive prepareQc from node 0, sn:147, v:0 
+sn:97 can be commit in slow path
+Checkpoint sequence number outside watermarks: seqNo 90, low-mark 90
+Node 5 send prepare to primary 0, sn:179, v:0
+Node 5 receive prepareQc from node 0, sn:153, v:0 
+Node 5 receive commitQc from node 0, sn:103, v:0
+Node 5 send commit to primary 0, sn:137, v:0
+Node 5 send prepare to primary 0, sn:177, v:0
+Node 5 send commit to primary 0, sn:141, v:0
+Node 5 receive prepareQc from node 0, sn:154, v:0 
+Node 5 send commit to primary 0, sn:138, v:0
+Node 5 receive prepareQc from node 0, sn:152, v:0 
+Node 5 receive pre-prepare from node 0, sn:187, view:0
+Node 5 receive prepareQc from node 0, sn:151, v:0 
+Node 5 send commit to primary 0, sn:136, v:0
+Node 5 send prepare to primary 0, sn:180, v:0
+sn:98 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:156, v:0 
+Node 5 send prepare to primary 0, sn:182, v:0
+Node 5 receive prepareQc from node 0, sn:149, v:0 
+Node 5 send prepare to primary 0, sn:183, v:0
+Node 5 receive pre-prepare from node 0, sn:190, view:0
+Node 5 send commit to primary 0, sn:139, v:0
+Node 5 send prepare to primary 0, sn:181, v:0
+Node 5 send commit to primary 0, sn:145, v:0
+Node 5 send commit to primary 0, sn:143, v:0
+sn:100 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:188, view:0
+Node 5 send prepare to primary 0, sn:184, v:0
+sn:96 can be commit in slow path
+2023-08-28 19:03:36The request with sn: 96 has been executed at node 5!
+TimePast:sn:96,millisecend:10107
+2023-08-28 19:03:36The request with sn: 97 has been executed at node 5!
+TimePast:sn:97,millisecend:10084
+2023-08-28 19:03:36The request with sn: 98 has been executed at node 5!
+TimePast:sn:98,millisecend:9972
+2023-08-28 19:03:36The request with sn: 99 has been executed at node 5!
+TimePast:sn:99,millisecend:9945
+2023-08-28 19:03:36The request with sn: 100 has been executed at node 5!
+TimePast:sn:100,millisecend:9841
+Node 5 receive prepareQc from node 0, sn:146, v:0 
+Node 5 receive commitQc from node 0, sn:106, v:0
+Node 5 receive commitQc from node 0, sn:102, v:0
+Node 5 receive pre-prepare from node 0, sn:189, view:0
+Node 5 receive prepareQc from node 0, sn:150, v:0 
+Node 5 send commit to primary 0, sn:148, v:0
+Node 5 send commit to primary 0, sn:144, v:0
+Node 5 send prepare to primary 0, sn:185, v:0
+Node 5 receive commitQc from node 0, sn:101, v:0
+Node 5 send prepare to primary 0, sn:186, v:0
+Node 5 send commit to primary 0, sn:142, v:0
+Node 5 receive commitQc from node 0, sn:105, v:0
+Node 5 receive prepareQc from node 0, sn:155, v:0 
+sn:103 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:192, view:0
+Node 5 send prepare to primary 0, sn:187, v:0
+Checkpoint sequence number outside watermarks: seqNo 100, low-mark 100
+Node 5 receive commitQc from node 0, sn:107, v:0
+Node 5 receive pre-prepare from node 0, sn:191, view:0
+Node 5 send prepare to primary 0, sn:190, v:0
+Node 5 receive commitQc from node 0, sn:108, v:0
+Checkpoint sequence number outside watermarks: seqNo 60, low-mark 100
+Node 5 receive prepareQc from node 0, sn:158, v:0 
+Node 5 send prepare to primary 0, sn:188, v:0
+Node 5 receive pre-prepare from node 0, sn:196, view:0
+Node 5 receive pre-prepare from node 0, sn:194, view:0
+Node 5 receive pre-prepare from node 0, sn:197, view:0
+sn:102 can be commit in slow path
+Node 5 send prepare to primary 0, sn:189, v:0
+sn:106 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:159, v:0 
+Node 5 receive pre-prepare from node 0, sn:195, view:0
+sn:101 can be commit in slow path
+2023-08-28 19:03:37The request with sn: 101 has been executed at node 5!
+TimePast:sn:101,millisecend:10330
+2023-08-28 19:03:37The request with sn: 102 has been executed at node 5!
+TimePast:sn:102,millisecend:10242
+2023-08-28 19:03:37The request with sn: 103 has been executed at node 5!
+TimePast:sn:103,millisecend:10214
+Node 5 send commit to primary 0, sn:147, v:0
+Node 5 receive commitQc from node 0, sn:104, v:0
+Node 5 receive commitQc from node 0, sn:111, v:0
+Node 5 receive pre-prepare from node 0, sn:198, view:0
+Node 5 receive commitQc from node 0, sn:112, v:0
+Node 5 receive commitQc from node 0, sn:114, v:0
+Node 5 send commit to primary 0, sn:153, v:0
+sn:105 can be commit in slow path
+Node 5 send prepare to primary 0, sn:192, v:0
+Node 5 send commit to primary 0, sn:154, v:0
+Node 5 send commit to primary 0, sn:152, v:0
+Node 5 receive pre-prepare from node 0, sn:200, view:0
+Node 5 receive prepareQc from node 0, sn:157, v:0 
+Node 5 send commit to primary 0, sn:151, v:0
+sn:107 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:161, v:0 
+Node 5 receive prepareQc from node 0, sn:160, v:0 
+Node 5 send commit to primary 0, sn:156, v:0
+Node 5 receive commitQc from node 0, sn:113, v:0
+Node 5 send commit to primary 0, sn:149, v:0
+Node 5 send prepare to primary 0, sn:191, v:0
+Node 5 receive prepareQc from node 0, sn:163, v:0 
+Node 5 receive commitQc from node 0, sn:109, v:0
+Node 5 receive prepareQc from node 0, sn:165, v:0 
+sn:108 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:119, v:0
+Node 5 receive commitQc from node 0, sn:110, v:0
+Node 5 send prepare to primary 0, sn:196, v:0
+Node 5 send prepare to primary 0, sn:194, v:0
+Node 5 receive commitQc from node 0, sn:115, v:0
+Node 5 receive prepareQc from node 0, sn:166, v:0 
+Node 5 send prepare to primary 0, sn:197, v:0
+Node 5 send commit to primary 0, sn:146, v:0
+Checkpoint sequence number outside watermarks: seqNo 70, low-mark 100
+Node 5 receive prepareQc from node 0, sn:168, v:0 
+Node 5 send commit to primary 0, sn:150, v:0
+Node 5 send prepare to primary 0, sn:195, v:0
+sn:104 can be commit in slow path
+2023-08-28 19:03:38The request with sn: 104 has been executed at node 5!
+TimePast:sn:104,millisecend:10754
+2023-08-28 19:03:38The request with sn: 105 has been executed at node 5!
+TimePast:sn:105,millisecend:10654
+2023-08-28 19:03:38The request with sn: 106 has been executed at node 5!
+TimePast:sn:106,millisecend:10546
+2023-08-28 19:03:38The request with sn: 107 has been executed at node 5!
+TimePast:sn:107,millisecend:10528
+2023-08-28 19:03:38The request with sn: 108 has been executed at node 5!
+TimePast:sn:108,millisecend:10367
+Node 5 receive pre-prepare from node 0, sn:199, view:0
+Node 5 receive prepareQc from node 0, sn:164, v:0 
+sn:111 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:117, v:0
+Node 5 receive commitQc from node 0, sn:121, v:0
+Node 5 send prepare to primary 0, sn:198, v:0
+sn:112 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:116, v:0
+Node 5 receive pre-prepare from node 0, sn:202, view:0
+sn:114 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:193, view:0
+Node 5 receive commitQc from node 0, sn:122, v:0
+Node 5 receive prepareQc from node 0, sn:172, v:0 
+Node 5 send commit to primary 0, sn:155, v:0
+Node 5 receive prepareQc from node 0, sn:162, v:0 
+Node 5 receive prepareQc from node 0, sn:170, v:0 
+Node 5 receive commitQc from node 0, sn:126, v:0
+Node 5 receive commitQc from node 0, sn:120, v:0
+Checkpoint sequence number outside watermarks: seqNo 80, low-mark 100
+Node 5 receive commitQc from node 0, sn:118, v:0
+Node 5 receive prepareQc from node 0, sn:169, v:0 
+Node 5 send prepare to primary 0, sn:200, v:0
+Node 5 receive prepareQc from node 0, sn:167, v:0 
+Node 5 receive pre-prepare from node 0, sn:201, view:0
+sn:113 can be commit in slow path
+sn:109 can be commit in slow path
+2023-08-28 19:03:38The request with sn: 109 has been executed at node 5!
+TimePast:sn:109,millisecend:10542
+sn:119 can be commit in slow path
+sn:110 can be commit in slow path
+2023-08-28 19:03:38The request with sn: 110 has been executed at node 5!
+TimePast:sn:110,millisecend:10548
+2023-08-28 19:03:38The request with sn: 111 has been executed at node 5!
+TimePast:sn:111,millisecend:10532
+2023-08-28 19:03:38The request with sn: 112 has been executed at node 5!
+TimePast:sn:112,millisecend:10399
+2023-08-28 19:03:38The request with sn: 113 has been executed at node 5!
+TimePast:sn:113,millisecend:10266
+2023-08-28 19:03:38The request with sn: 114 has been executed at node 5!
+TimePast:sn:114,millisecend:10236
+Node 5 send commit to primary 0, sn:158, v:0
+Node 5 receive prepareQc from node 0, sn:171, v:0 
+Node 5 receive commitQc from node 0, sn:128, v:0
+sn:115 can be commit in slow path
+2023-08-28 19:03:38The request with sn: 115 has been executed at node 5!
+TimePast:sn:115,millisecend:10241
+Node 5 receive commitQc from node 0, sn:125, v:0
+Node 5 send commit to primary 0, sn:159, v:0
+Node 5 receive pre-prepare from node 0, sn:204, view:0
+Node 5 receive pre-prepare from node 0, sn:205, view:0
+sn:117 can be commit in slow path
+sn:121 can be commit in slow path
+Node 5 send prepare to primary 0, sn:199, v:0
+Node 5 send prepare to primary 0, sn:202, v:0
+Node 5 receive commitQc from node 0, sn:131, v:0
+Node 5 receive prepareQc from node 0, sn:174, v:0 
+Node 5 receive commitQc from node 0, sn:129, v:0
+Node 5 receive commitQc from node 0, sn:133, v:0
+Node 5 receive commitQc from node 0, sn:132, v:0
+sn:116 can be commit in slow path
+2023-08-28 19:03:38The request with sn: 116 has been executed at node 5!
+TimePast:sn:116,millisecend:10416
+2023-08-28 19:03:38The request with sn: 117 has been executed at node 5!
+TimePast:sn:117,millisecend:10369
+Node 5 send prepare to primary 0, sn:193, v:0
+sn:126 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:203, view:0
+sn:120 can be commit in slow path
+sn:118 can be commit in slow path
+2023-08-28 19:03:38The request with sn: 118 has been executed at node 5!
+TimePast:sn:118,millisecend:10304
+2023-08-28 19:03:38The request with sn: 119 has been executed at node 5!
+TimePast:sn:119,millisecend:10168
+2023-08-28 19:03:38The request with sn: 120 has been executed at node 5!
+TimePast:sn:120,millisecend:10048
+2023-08-28 19:03:38The request with sn: 121 has been executed at node 5!
+TimePast:sn:121,millisecend:9736
+Node 5 send commit to primary 0, sn:157, v:0
+Node 5 receive commitQc from node 0, sn:123, v:0
+Checkpoint sequence number outside watermarks: seqNo 110, low-mark 120
+sn:122 can be commit in slow path
+2023-08-28 19:03:38The request with sn: 122 has been executed at node 5!
+TimePast:sn:122,millisecend:9733
+Node 5 send prepare to primary 0, sn:201, v:0
+Node 5 send commit to primary 0, sn:161, v:0
+Node 5 send commit to primary 0, sn:160, v:0
+Node 5 receive commitQc from node 0, sn:124, v:0
+Node 5 send commit to primary 0, sn:165, v:0
+Node 5 send commit to primary 0, sn:163, v:0
+Node 5 receive commitQc from node 0, sn:130, v:0
+Node 5 receive prepareQc from node 0, sn:173, v:0 
+Node 5 receive prepareQc from node 0, sn:175, v:0 
+Node 5 receive commitQc from node 0, sn:134, v:0
+Node 5 receive prepareQc from node 0, sn:178, v:0 
+Node 5 send commit to primary 0, sn:166, v:0
+Node 5 receive commitQc from node 0, sn:127, v:0
+sn:128 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:206, view:0
+Node 5 send commit to primary 0, sn:168, v:0
+sn:125 can be commit in slow path
+Node 5 send prepare to primary 0, sn:205, v:0
+Checkpoint sequence number outside watermarks: seqNo 120, low-mark 120
+Node 5 receive pre-prepare from node 0, sn:209, view:0
+Node 5 send prepare to primary 0, sn:204, v:0
+Node 5 receive pre-prepare from node 0, sn:208, view:0
+Node 5 send commit to primary 0, sn:164, v:0
+sn:132 can be commit in slow path
+Node 5 send commit to primary 0, sn:162, v:0
+Node 5 receive pre-prepare from node 0, sn:207, view:0
+sn:129 can be commit in slow path
+sn:133 can be commit in slow path
+Node 5 send commit to primary 0, sn:169, v:0
+Node 5 send prepare to primary 0, sn:203, v:0
+Node 5 send commit to primary 0, sn:170, v:0
+sn:131 can be commit in slow path
+Node 5 send commit to primary 0, sn:172, v:0
+Node 5 send commit to primary 0, sn:167, v:0
+Node 5 receive pre-prepare from node 0, sn:210, view:0
+sn:123 can be commit in slow path
+2023-08-28 19:03:39The request with sn: 123 has been executed at node 5!
+TimePast:sn:123,millisecend:10183
+sn:124 can be commit in slow path
+2023-08-28 19:03:39The request with sn: 124 has been executed at node 5!
+TimePast:sn:124,millisecend:10281
+2023-08-28 19:03:39The request with sn: 125 has been executed at node 5!
+TimePast:sn:125,millisecend:9923
+2023-08-28 19:03:39The request with sn: 126 has been executed at node 5!
+TimePast:sn:126,millisecend:9855
+Checkpoint sequence number outside watermarks: seqNo 90, low-mark 120
+Checkpoint sequence number outside watermarks: seqNo 100, low-mark 120
+Node 5 receive prepareQc from node 0, sn:180, v:0 
+sn:130 can be commit in slow path
+sn:134 can be commit in slow path
+Node 5 send commit to primary 0, sn:171, v:0
+Node 5 receive prepareQc from node 0, sn:179, v:0 
+Node 5 receive prepareQc from node 0, sn:177, v:0 
+Node 5 send prepare to primary 0, sn:206, v:0
+sn:127 can be commit in slow path
+2023-08-28 19:03:39The request with sn: 127 has been executed at node 5!
+TimePast:sn:127,millisecend:9953
+2023-08-28 19:03:39The request with sn: 128 has been executed at node 5!
+TimePast:sn:128,millisecend:9919
+2023-08-28 19:03:39The request with sn: 129 has been executed at node 5!
+TimePast:sn:129,millisecend:9900
+2023-08-28 19:03:39The request with sn: 130 has been executed at node 5!
+TimePast:sn:130,millisecend:9864
+2023-08-28 19:03:39The request with sn: 131 has been executed at node 5!
+TimePast:sn:131,millisecend:9699
+2023-08-28 19:03:39The request with sn: 132 has been executed at node 5!
+TimePast:sn:132,millisecend:9460
+2023-08-28 19:03:39The request with sn: 133 has been executed at node 5!
+TimePast:sn:133,millisecend:9378
+2023-08-28 19:03:39The request with sn: 134 has been executed at node 5!
+TimePast:sn:134,millisecend:9149
+Node 5 receive prepareQc from node 0, sn:183, v:0 
+Node 5 receive commitQc from node 0, sn:135, v:0
+Node 5 receive pre-prepare from node 0, sn:215, view:0
+Node 5 receive prepareQc from node 0, sn:182, v:0 
+Node 5 send prepare to primary 0, sn:209, v:0
+Node 5 receive prepareQc from node 0, sn:176, v:0 
+Node 5 send prepare to primary 0, sn:208, v:0
+Node 5 receive pre-prepare from node 0, sn:214, view:0
+Node 5 receive prepareQc from node 0, sn:181, v:0 
+Node 5 receive pre-prepare from node 0, sn:211, view:0
+Node 5 receive pre-prepare from node 0, sn:216, view:0
+Node 5 send commit to primary 0, sn:174, v:0
+Node 5 send prepare to primary 0, sn:207, v:0
+Node 5 receive prepareQc from node 0, sn:184, v:0 
+Node 5 send prepare to primary 0, sn:210, v:0
+Node 5 receive commitQc from node 0, sn:136, v:0
+Node 5 receive prepareQc from node 0, sn:186, v:0 
+Node 5 receive commitQc from node 0, sn:140, v:0
+Node 5 receive pre-prepare from node 0, sn:218, view:0
+Node 5 receive pre-prepare from node 0, sn:219, view:0
+Node 5 receive prepareQc from node 0, sn:185, v:0 
+Node 5 receive prepareQc from node 0, sn:187, v:0 
+Node 5 receive commitQc from node 0, sn:137, v:0
+Node 5 receive commitQc from node 0, sn:138, v:0
+Node 5 receive pre-prepare from node 0, sn:217, view:0
+Node 5 receive pre-prepare from node 0, sn:213, view:0
+Node 5 receive pre-prepare from node 0, sn:220, view:0
+Node 5 receive pre-prepare from node 0, sn:212, view:0
+Node 5 send commit to primary 0, sn:175, v:0
+Node 5 send commit to primary 0, sn:173, v:0
+Checkpoint sequence number outside watermarks: seqNo 130, low-mark 130
+Node 5 receive commitQc from node 0, sn:141, v:0
+Node 5 send commit to primary 0, sn:178, v:0
+sn:135 can be commit in slow path
+2023-08-28 19:03:40The request with sn: 135 has been executed at node 5!
+TimePast:sn:135,millisecend:9728
+Node 5 send prepare to primary 0, sn:215, v:0
+Node 5 receive pre-prepare from node 0, sn:223, view:0
+Node 5 receive pre-prepare from node 0, sn:221, view:0
+Node 5 receive prepareQc from node 0, sn:190, v:0 
+Node 5 receive commitQc from node 0, sn:145, v:0
+Node 5 send prepare to primary 0, sn:214, v:0
+Node 5 receive prepareQc from node 0, sn:189, v:0 
+Node 5 send prepare to primary 0, sn:211, v:0
+Node 5 receive pre-prepare from node 0, sn:224, view:0
+Node 5 receive prepareQc from node 0, sn:188, v:0 
+Node 5 send prepare to primary 0, sn:216, v:0
+Node 5 receive pre-prepare from node 0, sn:222, view:0
+Node 5 receive pre-prepare from node 0, sn:225, view:0
+sn:136 can be commit in slow path
+2023-08-28 19:03:40The request with sn: 136 has been executed at node 5!
+TimePast:sn:136,millisecend:9961
+Node 5 receive commitQc from node 0, sn:143, v:0
+sn:140 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:191, v:0 
+Node 5 send prepare to primary 0, sn:218, v:0
+Node 5 receive pre-prepare from node 0, sn:226, view:0
+Node 5 send prepare to primary 0, sn:219, v:0
+sn:138 can be commit in slow path
+sn:137 can be commit in slow path
+2023-08-28 19:03:40The request with sn: 137 has been executed at node 5!
+TimePast:sn:137,millisecend:9959
+2023-08-28 19:03:40The request with sn: 138 has been executed at node 5!
+TimePast:sn:138,millisecend:9688
+Node 5 send prepare to primary 0, sn:217, v:0
+Node 5 send prepare to primary 0, sn:213, v:0
+Node 5 receive commitQc from node 0, sn:142, v:0
+Node 5 receive prepareQc from node 0, sn:195, v:0 
+Node 5 send prepare to primary 0, sn:220, v:0
+Node 5 send commit to primary 0, sn:180, v:0
+Node 5 send prepare to primary 0, sn:212, v:0
+sn:141 can be commit in slow path
+Node 5 send commit to primary 0, sn:177, v:0
+Node 5 send commit to primary 0, sn:179, v:0
+Node 5 receive commitQc from node 0, sn:147, v:0
+Node 5 send commit to primary 0, sn:183, v:0
+Node 5 receive commitQc from node 0, sn:139, v:0
+Node 5 receive prepareQc from node 0, sn:194, v:0 
+Node 5 receive pre-prepare from node 0, sn:229, view:0
+Node 5 send prepare to primary 0, sn:223, v:0
+Node 5 send commit to primary 0, sn:182, v:0
+Node 5 receive pre-prepare from node 0, sn:228, view:0
+Node 5 send commit to primary 0, sn:176, v:0
+Node 5 send prepare to primary 0, sn:221, v:0
+Node 5 receive pre-prepare from node 0, sn:227, view:0
+sn:145 can be commit in slow path
+Node 5 send commit to primary 0, sn:181, v:0
+Node 5 send prepare to primary 0, sn:224, v:0
+Node 5 receive commitQc from node 0, sn:153, v:0
+Node 5 receive commitQc from node 0, sn:144, v:0
+Node 5 send commit to primary 0, sn:184, v:0
+Node 5 send prepare to primary 0, sn:222, v:0
+Node 5 send prepare to primary 0, sn:225, v:0
+Node 5 receive pre-prepare from node 0, sn:230, view:0
+Node 5 receive prepareQc from node 0, sn:192, v:0 
+Node 5 receive commitQc from node 0, sn:154, v:0
+Node 5 receive prepareQc from node 0, sn:196, v:0 
+Node 5 send commit to primary 0, sn:186, v:0
+sn:143 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:148, v:0
+Node 5 receive prepareQc from node 0, sn:193, v:0 
+Node 5 receive commitQc from node 0, sn:146, v:0
+Node 5 receive prepareQc from node 0, sn:198, v:0 
+Node 5 send prepare to primary 0, sn:226, v:0
+Node 5 send commit to primary 0, sn:187, v:0
+Node 5 send commit to primary 0, sn:185, v:0
+Node 5 receive pre-prepare from node 0, sn:231, view:0
+sn:142 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:149, v:0
+Node 5 receive commitQc from node 0, sn:151, v:0
+Node 5 receive prepareQc from node 0, sn:199, v:0 
+Node 5 receive commitQc from node 0, sn:152, v:0
+Node 5 receive pre-prepare from node 0, sn:232, view:0
+sn:147 can be commit in slow path
+sn:139 can be commit in slow path
+2023-08-28 19:03:41The request with sn: 139 has been executed at node 5!
+TimePast:sn:139,millisecend:10432
+2023-08-28 19:03:41The request with sn: 140 has been executed at node 5!
+TimePast:sn:140,millisecend:10425
+2023-08-28 19:03:41The request with sn: 141 has been executed at node 5!
+TimePast:sn:141,millisecend:10324
+2023-08-28 19:03:41The request with sn: 142 has been executed at node 5!
+TimePast:sn:142,millisecend:10257
+2023-08-28 19:03:41The request with sn: 143 has been executed at node 5!
+TimePast:sn:143,millisecend:10198
+Node 5 receive prepareQc from node 0, sn:197, v:0 
+Node 5 send prepare to primary 0, sn:229, v:0
+Node 5 receive commitQc from node 0, sn:158, v:0
+Node 5 receive commitQc from node 0, sn:156, v:0
+Node 5 send prepare to primary 0, sn:228, v:0
+Node 5 send prepare to primary 0, sn:227, v:0
+Node 5 send commit to primary 0, sn:190, v:0
+Node 5 receive prepareQc from node 0, sn:200, v:0 
+Node 5 send commit to primary 0, sn:188, v:0
+Node 5 receive prepareQc from node 0, sn:201, v:0 
+Node 5 receive pre-prepare from node 0, sn:233, view:0
+Node 5 send commit to primary 0, sn:189, v:0
+sn:153 can be commit in slow path
+sn:144 can be commit in slow path
+2023-08-28 19:03:41The request with sn: 144 has been executed at node 5!
+TimePast:sn:144,millisecend:10370
+2023-08-28 19:03:41The request with sn: 145 has been executed at node 5!
+TimePast:sn:145,millisecend:10244
+Node 5 receive commitQc from node 0, sn:150, v:0
+Node 5 send prepare to primary 0, sn:230, v:0
+sn:154 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:234, view:0
+Node 5 receive pre-prepare from node 0, sn:235, view:0
+Node 5 send commit to primary 0, sn:191, v:0
+sn:148 can be commit in slow path
+sn:146 can be commit in slow path
+2023-08-28 19:03:41The request with sn: 146 has been executed at node 5!
+TimePast:sn:146,millisecend:10369
+2023-08-28 19:03:41The request with sn: 147 has been executed at node 5!
+TimePast:sn:147,millisecend:10287
+2023-08-28 19:03:41The request with sn: 148 has been executed at node 5!
+TimePast:sn:148,millisecend:10198
+Checkpoint sequence number outside watermarks: seqNo 140, low-mark 140
+Node 5 send prepare to primary 0, sn:231, v:0
+Node 5 send commit to primary 0, sn:195, v:0
+Checkpoint sequence number outside watermarks: seqNo 110, low-mark 140
+Node 5 receive prepareQc from node 0, sn:202, v:0 
+sn:149 can be commit in slow path
+2023-08-28 19:03:42The request with sn: 149 has been executed at node 5!
+TimePast:sn:149,millisecend:10292
+sn:151 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:236, view:0
+Node 5 send prepare to primary 0, sn:232, v:0
+sn:152 can be commit in slow path
+Node 5 send commit to primary 0, sn:194, v:0
+sn:156 can be commit in slow path
+sn:158 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:155, v:0
+Node 5 receive commitQc from node 0, sn:159, v:0
+Node 5 receive pre-prepare from node 0, sn:237, view:0
+Node 5 send prepare to primary 0, sn:233, v:0
+Node 5 receive commitQc from node 0, sn:163, v:0
+Node 5 receive prepareQc from node 0, sn:204, v:0 
+Node 5 receive prepareQc from node 0, sn:203, v:0 
+sn:150 can be commit in slow path
+2023-08-28 19:03:42The request with sn: 150 has been executed at node 5!
+TimePast:sn:150,millisecend:10477
+Node 5 send commit to primary 0, sn:192, v:0
+Node 5 receive commitQc from node 0, sn:157, v:0
+2023-08-28 19:03:42The request with sn: 151 has been executed at node 5!
+TimePast:sn:151,millisecend:10438
+2023-08-28 19:03:42The request with sn: 152 has been executed at node 5!
+TimePast:sn:152,millisecend:10430
+2023-08-28 19:03:42The request with sn: 153 has been executed at node 5!
+TimePast:sn:153,millisecend:10359
+2023-08-28 19:03:42The request with sn: 154 has been executed at node 5!
+TimePast:sn:154,millisecend:10342
+Node 5 send commit to primary 0, sn:196, v:0
+Node 5 send prepare to primary 0, sn:235, v:0
+Node 5 send prepare to primary 0, sn:234, v:0
+Node 5 receive prepareQc from node 0, sn:206, v:0 
+Checkpoint sequence number outside watermarks: seqNo 120, low-mark 150
+Node 5 send commit to primary 0, sn:193, v:0
+Node 5 receive prepareQc from node 0, sn:209, v:0 
+Node 5 send commit to primary 0, sn:198, v:0
+Node 5 receive commitQc from node 0, sn:166, v:0
+Node 5 receive prepareQc from node 0, sn:207, v:0 
+Checkpoint sequence number outside watermarks: seqNo 130, low-mark 150
+Node 5 receive prepareQc from node 0, sn:205, v:0 
+Node 5 send prepare to primary 0, sn:236, v:0
+Node 5 send commit to primary 0, sn:199, v:0
+Node 5 receive pre-prepare from node 0, sn:240, view:0
+Checkpoint sequence number outside watermarks: seqNo 150, low-mark 150
+Node 5 send commit to primary 0, sn:197, v:0
+Node 5 receive pre-prepare from node 0, sn:239, view:0
+Node 5 receive pre-prepare from node 0, sn:242, view:0
+sn:159 can be commit in slow path
+sn:155 can be commit in slow path
+2023-08-28 19:03:42The request with sn: 155 has been executed at node 5!
+TimePast:sn:155,millisecend:10324
+2023-08-28 19:03:42The request with sn: 156 has been executed at node 5!
+TimePast:sn:156,millisecend:10210
+Node 5 receive commitQc from node 0, sn:172, v:0
+Node 5 receive commitQc from node 0, sn:169, v:0
+Node 5 receive commitQc from node 0, sn:170, v:0
+Node 5 receive commitQc from node 0, sn:164, v:0
+Node 5 send commit to primary 0, sn:200, v:0
+Node 5 receive commitQc from node 0, sn:162, v:0
+Node 5 receive prepareQc from node 0, sn:210, v:0 
+Node 5 receive commitQc from node 0, sn:161, v:0
+Node 5 receive pre-prepare from node 0, sn:241, view:0
+Node 5 send prepare to primary 0, sn:237, v:0
+Node 5 send commit to primary 0, sn:201, v:0
+Node 5 receive prepareQc from node 0, sn:208, v:0 
+Node 5 receive commitQc from node 0, sn:165, v:0
+Node 5 receive commitQc from node 0, sn:168, v:0
+sn:163 can be commit in slow path
+sn:157 can be commit in slow path
+2023-08-28 19:03:43The request with sn: 157 has been executed at node 5!
+TimePast:sn:157,millisecend:10363
+2023-08-28 19:03:43The request with sn: 158 has been executed at node 5!
+TimePast:sn:158,millisecend:10332
+2023-08-28 19:03:43The request with sn: 159 has been executed at node 5!
+TimePast:sn:159,millisecend:10321
+Node 5 receive pre-prepare from node 0, sn:238, view:0
+Node 5 receive commitQc from node 0, sn:160, v:0
+Node 5 receive commitQc from node 0, sn:167, v:0
+Node 5 receive pre-prepare from node 0, sn:243, view:0
+Node 5 receive pre-prepare from node 0, sn:244, view:0
+sn:166 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:171, v:0
+Node 5 send commit to primary 0, sn:202, v:0
+Node 5 receive prepareQc from node 0, sn:215, v:0 
+Node 5 send prepare to primary 0, sn:240, v:0
+Node 5 receive pre-prepare from node 0, sn:245, view:0
+Node 5 send prepare to primary 0, sn:242, v:0
+Node 5 send prepare to primary 0, sn:239, v:0
+sn:164 can be commit in slow path
+sn:169 can be commit in slow path
+sn:170 can be commit in slow path
+sn:172 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:211, v:0 
+sn:161 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:246, view:0
+sn:162 can be commit in slow path
+Node 5 send prepare to primary 0, sn:241, v:0
+sn:165 can be commit in slow path
+Node 5 send commit to primary 0, sn:203, v:0
+Node 5 send commit to primary 0, sn:204, v:0
+sn:168 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:214, v:0 
+Node 5 receive commitQc from node 0, sn:174, v:0
+Node 5 send prepare to primary 0, sn:238, v:0
+Node 5 receive pre-prepare from node 0, sn:248, view:0
+sn:160 can be commit in slow path
+2023-08-28 19:03:43The request with sn: 160 has been executed at node 5!
+TimePast:sn:160,millisecend:10883
+2023-08-28 19:03:43The request with sn: 161 has been executed at node 5!
+TimePast:sn:161,millisecend:10744
+2023-08-28 19:03:43The request with sn: 162 has been executed at node 5!
+TimePast:sn:162,millisecend:10704
+2023-08-28 19:03:43The request with sn: 163 has been executed at node 5!
+TimePast:sn:163,millisecend:10704
+2023-08-28 19:03:43The request with sn: 164 has been executed at node 5!
+TimePast:sn:164,millisecend:10562
+2023-08-28 19:03:43The request with sn: 165 has been executed at node 5!
+TimePast:sn:165,millisecend:10557
+2023-08-28 19:03:43The request with sn: 166 has been executed at node 5!
+TimePast:sn:166,millisecend:10228
+Node 5 receive pre-prepare from node 0, sn:247, view:0
+Node 5 send commit to primary 0, sn:206, v:0
+Node 5 send prepare to primary 0, sn:243, v:0
+sn:167 can be commit in slow path
+2023-08-28 19:03:43The request with sn: 167 has been executed at node 5!
+TimePast:sn:167,millisecend:10203
+2023-08-28 19:03:43The request with sn: 168 has been executed at node 5!
+TimePast:sn:168,millisecend:10183
+2023-08-28 19:03:43The request with sn: 169 has been executed at node 5!
+TimePast:sn:169,millisecend:9696
+2023-08-28 19:03:43The request with sn: 170 has been executed at node 5!
+TimePast:sn:170,millisecend:9524
+Node 5 send commit to primary 0, sn:209, v:0
+Node 5 receive prepareQc from node 0, sn:219, v:0 
+Node 5 receive prepareQc from node 0, sn:216, v:0 
+Node 5 receive prepareQc from node 0, sn:218, v:0 
+Node 5 receive pre-prepare from node 0, sn:249, view:0
+Node 5 send prepare to primary 0, sn:244, v:0
+Node 5 send commit to primary 0, sn:207, v:0
+Node 5 receive prepareQc from node 0, sn:217, v:0 
+Node 5 receive pre-prepare from node 0, sn:250, view:0
+sn:171 can be commit in slow path
+2023-08-28 19:03:43The request with sn: 171 has been executed at node 5!
+TimePast:sn:171,millisecend:9578
+2023-08-28 19:03:43The request with sn: 172 has been executed at node 5!
+TimePast:sn:172,millisecend:9540
+Node 5 receive pre-prepare from node 0, sn:251, view:0
+Node 5 receive pre-prepare from node 0, sn:252, view:0
+Node 5 send commit to primary 0, sn:205, v:0
+Node 5 send prepare to primary 0, sn:245, v:0
+Node 5 receive prepareQc from node 0, sn:223, v:0 
+Node 5 receive commitQc from node 0, sn:173, v:0
+Checkpoint sequence number outside watermarks: seqNo 170, low-mark 170
+Checkpoint sequence number outside watermarks: seqNo 160, low-mark 170
+Node 5 send commit to primary 0, sn:210, v:0
+Node 5 send prepare to primary 0, sn:246, v:0
+Node 5 send commit to primary 0, sn:208, v:0
+Node 5 receive pre-prepare from node 0, sn:253, view:0
+Node 5 receive prepareQc from node 0, sn:212, v:0 
+sn:174 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:254, view:0
+Node 5 receive prepareQc from node 0, sn:221, v:0 
+Node 5 send prepare to primary 0, sn:248, v:0
+Node 5 send prepare to primary 0, sn:247, v:0
+Node 5 receive pre-prepare from node 0, sn:256, view:0
+Node 5 receive pre-prepare from node 0, sn:255, view:0
+Node 5 send prepare to primary 0, sn:249, v:0
+Node 5 receive commitQc from node 0, sn:175, v:0
+Node 5 send prepare to primary 0, sn:250, v:0
+Node 5 receive prepareQc from node 0, sn:224, v:0 
+Node 5 receive prepareQc from node 0, sn:220, v:0 
+Node 5 receive prepareQc from node 0, sn:213, v:0 
+Node 5 send prepare to primary 0, sn:251, v:0
+Node 5 send commit to primary 0, sn:215, v:0
+Node 5 send prepare to primary 0, sn:252, v:0
+Node 5 receive pre-prepare from node 0, sn:257, view:0
+Node 5 receive commitQc from node 0, sn:178, v:0
+Checkpoint sequence number outside watermarks: seqNo 140, low-mark 170
+Node 5 receive commitQc from node 0, sn:183, v:0
+Node 5 receive commitQc from node 0, sn:176, v:0
+Node 5 receive prepareQc from node 0, sn:225, v:0 
+Node 5 receive prepareQc from node 0, sn:229, v:0 
+Node 5 receive commitQc from node 0, sn:182, v:0
+sn:173 can be commit in slow path
+2023-08-28 19:03:44The request with sn: 173 has been executed at node 5!
+TimePast:sn:173,millisecend:10164
+2023-08-28 19:03:44The request with sn: 174 has been executed at node 5!
+TimePast:sn:174,millisecend:9938
+Node 5 send commit to primary 0, sn:211, v:0
+Node 5 receive prepareQc from node 0, sn:222, v:0 
+Node 5 receive pre-prepare from node 0, sn:259, view:0
+Node 5 receive commitQc from node 0, sn:181, v:0
+Node 5 receive pre-prepare from node 0, sn:260, view:0
+Node 5 send prepare to primary 0, sn:253, v:0
+Node 5 send commit to primary 0, sn:214, v:0
+Node 5 send prepare to primary 0, sn:254, v:0
+Node 5 receive prepareQc from node 0, sn:227, v:0 
+Node 5 receive commitQc from node 0, sn:180, v:0
+Node 5 receive commitQc from node 0, sn:177, v:0
+Node 5 receive commitQc from node 0, sn:179, v:0
+Node 5 send commit to primary 0, sn:219, v:0
+Node 5 send prepare to primary 0, sn:256, v:0
+Node 5 send prepare to primary 0, sn:255, v:0
+Node 5 send commit to primary 0, sn:218, v:0
+Node 5 send commit to primary 0, sn:216, v:0
+Node 5 send commit to primary 0, sn:217, v:0
+sn:175 can be commit in slow path
+2023-08-28 19:03:44The request with sn: 175 has been executed at node 5!
+TimePast:sn:175,millisecend:10165
+Node 5 receive commitQc from node 0, sn:189, v:0
+Node 5 receive commitQc from node 0, sn:188, v:0
+Node 5 receive commitQc from node 0, sn:184, v:0
+Node 5 receive prepareQc from node 0, sn:228, v:0 
+Node 5 send prepare to primary 0, sn:257, v:0
+sn:178 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:186, v:0
+Node 5 send commit to primary 0, sn:223, v:0
+sn:176 can be commit in slow path
+2023-08-28 19:03:45The request with sn: 176 has been executed at node 5!
+TimePast:sn:176,millisecend:10293
+sn:183 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:230, v:0 
+Node 5 receive pre-prepare from node 0, sn:258, view:0
+sn:182 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:226, v:0 
+Node 5 receive pre-prepare from node 0, sn:261, view:0
+Node 5 send prepare to primary 0, sn:259, v:0
+Node 5 send prepare to primary 0, sn:260, v:0
+Node 5 receive prepareQc from node 0, sn:233, v:0 
+sn:181 can be commit in slow path
+Node 5 send commit to primary 0, sn:212, v:0
+Node 5 receive prepareQc from node 0, sn:234, v:0 
+Node 5 receive prepareQc from node 0, sn:231, v:0 
+Node 5 receive commitQc from node 0, sn:187, v:0
+Node 5 send commit to primary 0, sn:221, v:0
+sn:180 can be commit in slow path
+sn:177 can be commit in slow path
+2023-08-28 19:03:45The request with sn: 177 has been executed at node 5!
+TimePast:sn:177,millisecend:10470
+2023-08-28 19:03:45The request with sn: 178 has been executed at node 5!
+TimePast:sn:178,millisecend:10402
+Node 5 receive commitQc from node 0, sn:190, v:0
+Node 5 receive commitQc from node 0, sn:191, v:0
+Node 5 receive prepareQc from node 0, sn:232, v:0 
+Node 5 receive commitQc from node 0, sn:185, v:0
+Node 5 receive prepareQc from node 0, sn:235, v:0 
+Node 5 receive pre-prepare from node 0, sn:265, view:0
+Node 5 receive pre-prepare from node 0, sn:262, view:0
+sn:179 can be commit in slow path
+2023-08-28 19:03:45The request with sn: 179 has been executed at node 5!
+TimePast:sn:179,millisecend:10445
+2023-08-28 19:03:45The request with sn: 180 has been executed at node 5!
+TimePast:sn:180,millisecend:10205
+2023-08-28 19:03:45The request with sn: 181 has been executed at node 5!
+TimePast:sn:181,millisecend:10076
+2023-08-28 19:03:45The request with sn: 182 has been executed at node 5!
+TimePast:sn:182,millisecend:9990
+2023-08-28 19:03:45The request with sn: 183 has been executed at node 5!
+TimePast:sn:183,millisecend:9933
+Checkpoint sequence number outside watermarks: seqNo 150, low-mark 180
+Node 5 send commit to primary 0, sn:213, v:0
+Node 5 send commit to primary 0, sn:224, v:0
+Node 5 receive prepareQc from node 0, sn:236, v:0 
+Node 5 send commit to primary 0, sn:220, v:0
+sn:189 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:263, view:0
+sn:188 can be commit in slow path
+sn:184 can be commit in slow path
+2023-08-28 19:03:45The request with sn: 184 has been executed at node 5!
+TimePast:sn:184,millisecend:9980
+sn:186 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:264, view:0
+Node 5 receive pre-prepare from node 0, sn:267, view:0
+Node 5 receive commitQc from node 0, sn:198, v:0
+Node 5 receive commitQc from node 0, sn:194, v:0
+Node 5 send commit to primary 0, sn:229, v:0
+Node 5 receive pre-prepare from node 0, sn:266, view:0
+Node 5 send commit to primary 0, sn:225, v:0
+Node 5 send prepare to primary 0, sn:258, v:0
+Node 5 send commit to primary 0, sn:222, v:0
+Node 5 send prepare to primary 0, sn:261, v:0
+Node 5 receive commitQc from node 0, sn:192, v:0
+Node 5 receive prepareQc from node 0, sn:239, v:0 
+Node 5 receive pre-prepare from node 0, sn:269, view:0
+Checkpoint sequence number outside watermarks: seqNo 180, low-mark 180
+Node 5 receive commitQc from node 0, sn:195, v:0
+sn:187 can be commit in slow path
+Node 5 send commit to primary 0, sn:227, v:0
+sn:190 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:268, view:0
+sn:191 can be commit in slow path
+sn:185 can be commit in slow path
+2023-08-28 19:03:45The request with sn: 185 has been executed at node 5!
+TimePast:sn:185,millisecend:10266
+2023-08-28 19:03:45The request with sn: 186 has been executed at node 5!
+TimePast:sn:186,millisecend:10243
+2023-08-28 19:03:45The request with sn: 187 has been executed at node 5!
+TimePast:sn:187,millisecend:10095
+2023-08-28 19:03:45The request with sn: 188 has been executed at node 5!
+TimePast:sn:188,millisecend:10023
+2023-08-28 19:03:45The request with sn: 189 has been executed at node 5!
+TimePast:sn:189,millisecend:9968
+2023-08-28 19:03:45The request with sn: 190 has been executed at node 5!
+TimePast:sn:190,millisecend:9919
+2023-08-28 19:03:45The request with sn: 191 has been executed at node 5!
+TimePast:sn:191,millisecend:9702
+Node 5 receive commitQc from node 0, sn:193, v:0
+Node 5 send prepare to primary 0, sn:262, v:0
+Node 5 send prepare to primary 0, sn:265, v:0
+Node 5 receive prepareQc from node 0, sn:240, v:0 
+Node 5 receive commitQc from node 0, sn:196, v:0
+Node 5 receive pre-prepare from node 0, sn:271, view:0
+Node 5 receive pre-prepare from node 0, sn:273, view:0
+Node 5 receive pre-prepare from node 0, sn:272, view:0
+Node 5 send commit to primary 0, sn:228, v:0
+Node 5 send prepare to primary 0, sn:263, v:0
+Node 5 receive pre-prepare from node 0, sn:270, view:0
+Node 5 receive prepareQc from node 0, sn:241, v:0 
+Node 5 send prepare to primary 0, sn:264, v:0
+Node 5 receive prepareQc from node 0, sn:237, v:0 
+Node 5 send prepare to primary 0, sn:267, v:0
+sn:198 can be commit in slow path
+sn:194 can be commit in slow path
+Node 5 send prepare to primary 0, sn:266, v:0
+Node 5 receive prepareQc from node 0, sn:242, v:0 
+Node 5 receive pre-prepare from node 0, sn:274, view:0
+Node 5 send commit to primary 0, sn:230, v:0
+Node 5 send commit to primary 0, sn:226, v:0
+Node 5 receive commitQc from node 0, sn:197, v:0
+Node 5 receive commitQc from node 0, sn:202, v:0
+Checkpoint sequence number outside watermarks: seqNo 160, low-mark 190
+Checkpoint sequence number outside watermarks: seqNo 190, low-mark 190
+Node 5 send prepare to primary 0, sn:269, v:0
+sn:192 can be commit in slow path
+2023-08-28 19:03:46The request with sn: 192 has been executed at node 5!
+TimePast:sn:192,millisecend:10003
+Node 5 send commit to primary 0, sn:233, v:0
+Node 5 receive prepareQc from node 0, sn:238, v:0 
+sn:195 can be commit in slow path
+Node 5 send commit to primary 0, sn:234, v:0
+Node 5 receive commitQc from node 0, sn:199, v:0
+Node 5 send commit to primary 0, sn:231, v:0
+Node 5 receive commitQc from node 0, sn:207, v:0
+Node 5 receive prepareQc from node 0, sn:243, v:0 
+Node 5 receive commitQc from node 0, sn:201, v:0
+Checkpoint sequence number outside watermarks: seqNo 170, low-mark 190
+Node 5 receive pre-prepare from node 0, sn:275, view:0
+Node 5 send prepare to primary 0, sn:268, v:0
+Node 5 send commit to primary 0, sn:232, v:0
+Node 5 receive prepareQc from node 0, sn:252, v:0 
+Node 5 receive commitQc from node 0, sn:200, v:0
+Node 5 send commit to primary 0, sn:235, v:0
+Node 5 receive pre-prepare from node 0, sn:277, view:0
+sn:193 can be commit in slow path
+2023-08-28 19:03:46The request with sn: 193 has been executed at node 5!
+TimePast:sn:193,millisecend:9997
+2023-08-28 19:03:46The request with sn: 194 has been executed at node 5!
+TimePast:sn:194,millisecend:9923
+2023-08-28 19:03:46The request with sn: 195 has been executed at node 5!
+TimePast:sn:195,millisecend:9922
+sn:196 can be commit in slow path
+2023-08-28 19:03:46The request with sn: 196 has been executed at node 5!
+TimePast:sn:196,millisecend:9893
+Node 5 receive pre-prepare from node 0, sn:278, view:0
+Node 5 send prepare to primary 0, sn:271, v:0
+Node 5 receive prepareQc from node 0, sn:244, v:0 
+Node 5 receive commitQc from node 0, sn:204, v:0
+Node 5 receive pre-prepare from node 0, sn:276, view:0
+Node 5 receive prepareQc from node 0, sn:246, v:0 
+Node 5 send prepare to primary 0, sn:273, v:0
+Node 5 send commit to primary 0, sn:236, v:0
+Node 5 send prepare to primary 0, sn:272, v:0
+Node 5 receive commitQc from node 0, sn:206, v:0
+Node 5 send prepare to primary 0, sn:270, v:0
+Node 5 receive commitQc from node 0, sn:203, v:0
+Node 5 receive commitQc from node 0, sn:209, v:0
+Node 5 receive prepareQc from node 0, sn:251, v:0 
+Node 5 receive prepareQc from node 0, sn:245, v:0 
+Node 5 send prepare to primary 0, sn:274, v:0
+sn:197 can be commit in slow path
+2023-08-28 19:03:46The request with sn: 197 has been executed at node 5!
+TimePast:sn:197,millisecend:10153
+2023-08-28 19:03:46The request with sn: 198 has been executed at node 5!
+TimePast:sn:198,millisecend:10135
+sn:202 can be commit in slow path
+Node 5 send commit to primary 0, sn:239, v:0
+Node 5 receive prepareQc from node 0, sn:248, v:0 
+sn:199 can be commit in slow path
+2023-08-28 19:03:47The request with sn: 199 has been executed at node 5!
+TimePast:sn:199,millisecend:10051
+sn:207 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:247, v:0 
+sn:201 can be commit in slow path
+Node 5 send prepare to primary 0, sn:275, v:0
+Node 5 receive prepareQc from node 0, sn:256, v:0 
+Node 5 receive commitQc from node 0, sn:223, v:0
+Node 5 receive pre-prepare from node 0, sn:279, view:0
+Node 5 receive commitQc from node 0, sn:205, v:0
+sn:200 can be commit in slow path
+2023-08-28 19:03:47The request with sn: 200 has been executed at node 5!
+TimePast:sn:200,millisecend:10133
+2023-08-28 19:03:47The request with sn: 201 has been executed at node 5!
+TimePast:sn:201,millisecend:9858
+2023-08-28 19:03:47The request with sn: 202 has been executed at node 5!
+TimePast:sn:202,millisecend:9820
+Node 5 send prepare to primary 0, sn:277, v:0
+Node 5 receive prepareQc from node 0, sn:254, v:0 
+Node 5 receive commitQc from node 0, sn:219, v:0
+Node 5 receive commitQc from node 0, sn:208, v:0
+Node 5 receive commitQc from node 0, sn:210, v:0
+Node 5 receive commitQc from node 0, sn:216, v:0
+Node 5 receive commitQc from node 0, sn:214, v:0
+Node 5 send prepare to primary 0, sn:278, v:0
+Node 5 receive commitQc from node 0, sn:211, v:0
+Node 5 receive commitQc from node 0, sn:217, v:0
+Node 5 receive prepareQc from node 0, sn:259, v:0 
+Node 5 send commit to primary 0, sn:240, v:0
+sn:204 can be commit in slow path
+Node 5 send prepare to primary 0, sn:276, v:0
+Node 5 receive prepareQc from node 0, sn:249, v:0 
+Checkpoint sequence number outside watermarks: seqNo 180, low-mark 200
+Node 5 receive prepareQc from node 0, sn:258, v:0 
+Node 5 receive prepareQc from node 0, sn:257, v:0 
+Node 5 receive prepareQc from node 0, sn:255, v:0 
+Node 5 receive pre-prepare from node 0, sn:280, view:0
+sn:206 can be commit in slow path
+Node 5 send commit to primary 0, sn:241, v:0
+Node 5 receive prepareQc from node 0, sn:250, v:0 
+Node 5 send commit to primary 0, sn:237, v:0
+sn:209 can be commit in slow path
+sn:203 can be commit in slow path
+2023-08-28 19:03:47The request with sn: 203 has been executed at node 5!
+TimePast:sn:203,millisecend:9613
+2023-08-28 19:03:47The request with sn: 204 has been executed at node 5!
+TimePast:sn:204,millisecend:9487
+Node 5 receive prepareQc from node 0, sn:260, v:0 
+Node 5 send commit to primary 0, sn:242, v:0
+Node 5 receive prepareQc from node 0, sn:253, v:0 
+Node 5 receive commitQc from node 0, sn:215, v:0
+Node 5 receive commitQc from node 0, sn:218, v:0
+Node 5 receive pre-prepare from node 0, sn:282, view:0
+Checkpoint sequence number outside watermarks: seqNo 200, low-mark 200
+Node 5 send commit to primary 0, sn:238, v:0
+Node 5 receive pre-prepare from node 0, sn:281, view:0
+Node 5 send commit to primary 0, sn:243, v:0
+sn:223 can be commit in slow path
+Node 5 send commit to primary 0, sn:252, v:0
+Node 5 send prepare to primary 0, sn:279, v:0
+sn:205 can be commit in slow path
+2023-08-28 19:03:47The request with sn: 205 has been executed at node 5!
+TimePast:sn:205,millisecend:9737
+2023-08-28 19:03:47The request with sn: 206 has been executed at node 5!
+TimePast:sn:206,millisecend:9412
+2023-08-28 19:03:47The request with sn: 207 has been executed at node 5!
+TimePast:sn:207,millisecend:9354
+sn:214 can be commit in slow path
+sn:219 can be commit in slow path
+Node 5 send commit to primary 0, sn:244, v:0
+sn:216 can be commit in slow path
+sn:208 can be commit in slow path
+2023-08-28 19:03:47The request with sn: 208 has been executed at node 5!
+TimePast:sn:208,millisecend:9367
+2023-08-28 19:03:47The request with sn: 209 has been executed at node 5!
+TimePast:sn:209,millisecend:9286
+Node 5 receive pre-prepare from node 0, sn:284, view:0
+sn:217 can be commit in slow path
+sn:210 can be commit in slow path
+2023-08-28 19:03:47The request with sn: 210 has been executed at node 5!
+TimePast:sn:210,millisecend:8957
+sn:211 can be commit in slow path
+2023-08-28 19:03:47The request with sn: 211 has been executed at node 5!
+TimePast:sn:211,millisecend:8898
+Node 5 send commit to primary 0, sn:246, v:0
+Node 5 send prepare to primary 0, sn:280, v:0
+Node 5 send commit to primary 0, sn:245, v:0
+Node 5 send commit to primary 0, sn:251, v:0
+sn:215 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:285, view:0
+Node 5 receive commitQc from node 0, sn:212, v:0
+Node 5 receive prepareQc from node 0, sn:267, v:0 
+sn:218 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:283, view:0
+Node 5 send prepare to primary 0, sn:282, v:0
+Node 5 receive pre-prepare from node 0, sn:288, view:0
+Node 5 receive pre-prepare from node 0, sn:287, view:0
+Node 5 send commit to primary 0, sn:248, v:0
+Node 5 receive prepareQc from node 0, sn:264, v:0 
+Node 5 send prepare to primary 0, sn:281, v:0
+Node 5 send commit to primary 0, sn:247, v:0
+Node 5 receive commitQc from node 0, sn:221, v:0
+Checkpoint sequence number outside watermarks: seqNo 210, low-mark 210
+Node 5 receive pre-prepare from node 0, sn:289, view:0
+Node 5 send commit to primary 0, sn:256, v:0
+Node 5 receive prepareQc from node 0, sn:261, v:0 
+Node 5 receive commitQc from node 0, sn:225, v:0
+Node 5 receive commitQc from node 0, sn:224, v:0
+Node 5 receive prepareQc from node 0, sn:263, v:0 
+Node 5 send commit to primary 0, sn:259, v:0
+Node 5 send commit to primary 0, sn:254, v:0
+Node 5 send prepare to primary 0, sn:284, v:0
+Node 5 receive commitQc from node 0, sn:213, v:0
+Node 5 receive pre-prepare from node 0, sn:290, view:0
+Node 5 send commit to primary 0, sn:249, v:0
+Node 5 send commit to primary 0, sn:258, v:0
+Node 5 receive commitQc from node 0, sn:229, v:0
+Node 5 receive pre-prepare from node 0, sn:291, view:0
+Node 5 receive pre-prepare from node 0, sn:292, view:0
+Node 5 receive pre-prepare from node 0, sn:286, view:0
+Node 5 receive commitQc from node 0, sn:220, v:0
+Node 5 send commit to primary 0, sn:257, v:0
+Node 5 send commit to primary 0, sn:255, v:0
+Node 5 receive prepareQc from node 0, sn:266, v:0 
+Node 5 receive prepareQc from node 0, sn:270, v:0 
+Checkpoint sequence number outside watermarks: seqNo 190, low-mark 210
+Node 5 send commit to primary 0, sn:250, v:0
+Node 5 receive prepareQc from node 0, sn:262, v:0 
+Node 5 receive prepareQc from node 0, sn:269, v:0 
+Node 5 receive prepareQc from node 0, sn:265, v:0 
+Node 5 receive commitQc from node 0, sn:222, v:0
+Node 5 send commit to primary 0, sn:260, v:0
+Node 5 send commit to primary 0, sn:253, v:0
+Node 5 send prepare to primary 0, sn:283, v:0
+sn:212 can be commit in slow path
+2023-08-28 19:03:48The request with sn: 212 has been executed at node 5!
+TimePast:sn:212,millisecend:9710
+Node 5 send prepare to primary 0, sn:285, v:0
+Node 5 send prepare to primary 0, sn:288, v:0
+Node 5 send prepare to primary 0, sn:287, v:0
+Node 5 receive pre-prepare from node 0, sn:294, view:0
+sn:221 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:293, view:0
+Node 5 send prepare to primary 0, sn:289, v:0
+sn:224 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:295, view:0
+sn:225 can be commit in slow path
+Node 5 send prepare to primary 0, sn:290, v:0
+sn:229 can be commit in slow path
+sn:213 can be commit in slow path
+2023-08-28 19:03:49The request with sn: 213 has been executed at node 5!
+TimePast:sn:213,millisecend:9954
+2023-08-28 19:03:49The request with sn: 214 has been executed at node 5!
+TimePast:sn:214,millisecend:9847
+2023-08-28 19:03:49The request with sn: 215 has been executed at node 5!
+TimePast:sn:215,millisecend:9807
+2023-08-28 19:03:49The request with sn: 216 has been executed at node 5!
+TimePast:sn:216,millisecend:9792
+2023-08-28 19:03:49The request with sn: 217 has been executed at node 5!
+TimePast:sn:217,millisecend:9682
+2023-08-28 19:03:49The request with sn: 218 has been executed at node 5!
+TimePast:sn:218,millisecend:9671
+2023-08-28 19:03:49The request with sn: 219 has been executed at node 5!
+TimePast:sn:219,millisecend:9583
+Node 5 send prepare to primary 0, sn:291, v:0
+Node 5 send prepare to primary 0, sn:286, v:0
+Node 5 send prepare to primary 0, sn:292, v:0
+sn:220 can be commit in slow path
+2023-08-28 19:03:49The request with sn: 220 has been executed at node 5!
+TimePast:sn:220,millisecend:9601
+2023-08-28 19:03:49The request with sn: 221 has been executed at node 5!
+TimePast:sn:221,millisecend:9561
+Node 5 receive commitQc from node 0, sn:227, v:0
+Node 5 receive pre-prepare from node 0, sn:296, view:0
+sn:222 can be commit in slow path
+2023-08-28 19:03:49The request with sn: 222 has been executed at node 5!
+TimePast:sn:222,millisecend:9659
+2023-08-28 19:03:49The request with sn: 223 has been executed at node 5!
+TimePast:sn:223,millisecend:9536
+2023-08-28 19:03:49The request with sn: 224 has been executed at node 5!
+TimePast:sn:224,millisecend:9369
+2023-08-28 19:03:49The request with sn: 225 has been executed at node 5!
+TimePast:sn:225,millisecend:9350
+Node 5 receive commitQc from node 0, sn:230, v:0
+Node 5 send commit to primary 0, sn:267, v:0
+Node 5 receive prepareQc from node 0, sn:272, v:0 
+Node 5 receive prepareQc from node 0, sn:276, v:0 
+Node 5 send commit to primary 0, sn:264, v:0
+Node 5 send prepare to primary 0, sn:294, v:0
+Node 5 send prepare to primary 0, sn:293, v:0
+Node 5 receive prepareQc from node 0, sn:275, v:0 
+Node 5 receive prepareQc from node 0, sn:268, v:0 
+Checkpoint sequence number outside watermarks: seqNo 220, low-mark 220
+Node 5 receive commitQc from node 0, sn:232, v:0
+Node 5 receive prepareQc from node 0, sn:271, v:0 
+Node 5 send prepare to primary 0, sn:295, v:0
+Node 5 send commit to primary 0, sn:261, v:0
+Node 5 send commit to primary 0, sn:263, v:0
+Node 5 receive commitQc from node 0, sn:226, v:0
+Node 5 receive prepareQc from node 0, sn:279, v:0 
+Node 5 receive commitQc from node 0, sn:231, v:0
+Node 5 receive commitQc from node 0, sn:239, v:0
+Node 5 receive pre-prepare from node 0, sn:297, view:0
+Node 5 receive commitQc from node 0, sn:234, v:0
+Node 5 receive prepareQc from node 0, sn:278, v:0 
+Checkpoint sequence number outside watermarks: seqNo 200, low-mark 220
+sn:227 can be commit in slow path
+Node 5 send commit to primary 0, sn:266, v:0
+Node 5 send commit to primary 0, sn:270, v:0
+Node 5 send commit to primary 0, sn:262, v:0
+Node 5 receive commitQc from node 0, sn:235, v:0
+Node 5 receive prepareQc from node 0, sn:274, v:0 
+Node 5 receive commitQc from node 0, sn:228, v:0
+Node 5 receive prepareQc from node 0, sn:277, v:0 
+Node 5 receive commitQc from node 0, sn:236, v:0
+Node 5 receive commitQc from node 0, sn:233, v:0
+Node 5 receive commitQc from node 0, sn:240, v:0
+Node 5 receive prepareQc from node 0, sn:273, v:0 
+Node 5 send prepare to primary 0, sn:296, v:0
+Node 5 send commit to primary 0, sn:269, v:0
+Node 5 send commit to primary 0, sn:265, v:0
+sn:230 can be commit in slow path
+Checkpoint sequence number outside watermarks: seqNo 210, low-mark 220
+Node 5 receive commitQc from node 0, sn:241, v:0
+Node 5 receive pre-prepare from node 0, sn:298, view:0
+sn:232 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:284, v:0 
+Node 5 receive prepareQc from node 0, sn:282, v:0 
+Node 5 receive commitQc from node 0, sn:243, v:0
+Node 5 receive prepareQc from node 0, sn:280, v:0 
+sn:231 can be commit in slow path
+Node 5 receive prepareQc from node 0, sn:281, v:0 
+sn:226 can be commit in slow path
+2023-08-28 19:03:50The request with sn: 226 has been executed at node 5!
+TimePast:sn:226,millisecend:10140
+2023-08-28 19:03:50The request with sn: 227 has been executed at node 5!
+TimePast:sn:227,millisecend:9906
+sn:239 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:299, view:0
+Node 5 receive commitQc from node 0, sn:242, v:0
+Node 5 send prepare to primary 0, sn:297, v:0
+Node 5 receive commitQc from node 0, sn:237, v:0
+sn:234 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:300, view:0
+sn:228 can be commit in slow path
+2023-08-28 19:03:50The request with sn: 228 has been executed at node 5!
+TimePast:sn:228,millisecend:10068
+2023-08-28 19:03:50The request with sn: 229 has been executed at node 5!
+TimePast:sn:229,millisecend:10029
+2023-08-28 19:03:50The request with sn: 230 has been executed at node 5!
+TimePast:sn:230,millisecend:9860
+2023-08-28 19:03:50The request with sn: 231 has been executed at node 5!
+TimePast:sn:231,millisecend:9702
+2023-08-28 19:03:50The request with sn: 232 has been executed at node 5!
+TimePast:sn:232,millisecend:9658
+sn:236 can be commit in slow path
+sn:235 can be commit in slow path
+sn:233 can be commit in slow path
+2023-08-28 19:03:50The request with sn: 233 has been executed at node 5!
+TimePast:sn:233,millisecend:9546
+2023-08-28 19:03:50The request with sn: 234 has been executed at node 5!
+TimePast:sn:234,millisecend:9401
+2023-08-28 19:03:50The request with sn: 235 has been executed at node 5!
+TimePast:sn:235,millisecend:9198
+2023-08-28 19:03:50The request with sn: 236 has been executed at node 5!
+TimePast:sn:236,millisecend:9072
+sn:240 can be commit in slow path
+Node 5 receive commitQc from node 0, sn:244, v:0
+Node 5 send commit to primary 0, sn:272, v:0
+sn:241 can be commit in slow path
+Node 5 receive pre-prepare from node 0, sn:301, view:0
+Node 5 send commit to primary 0, sn:276, v:0
+Node 5 receive pre-prepare from node 0, sn:302, view:0
+Node 5 send prepare to primary 0, sn:298, v:0
+Node 5 receive commitQc from node 0, sn:238, v:0
+Node 5 send commit to primary 0, sn:275, v:0
+Node 5 send commit to primary 0, sn:268, v:0
+Node 5 send commit to primary 0, sn:271, v:0
+Node 5 receive pre-prepare from node 0, sn:303, view:0
+Node 5 receive commitQc from node 0, sn:252, v:0
+sn:243 can be commit in slow path
+Node 5 send commit to primary 0, sn:279, v:0
+Checkpoint sequence number outside watermarks: seqNo 230, low-mark 230
+Node 5 receive commitQc from node 0, sn:246, v:0
+Node 5 send prepare to primary 0, sn:299, v:0
+Node 5 receive pre-prepare from node 0, sn:305, view:0
+Node 5 receive pre-prepare from node 0, sn:304, view:0
+sn:242 can be commit in slow path
