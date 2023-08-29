@@ -53,15 +53,19 @@ func (n *Node) broadcastPrePrepareMsg(reqBatch *RequestBatch, err chan error) {
 	Id := MsgId{ppm.SN, ppm.View}
 
 	BatchString := hex.EncodeToString(ppm.BatchHash)
+	n.prepTimerLock.Lock()
 	n.prepareTimer[Id] = &fastTimer{
 		false,
 		time.NewTimer(time.Millisecond * time.Duration(n.fastTimeout)),
 	}
+
+	timer := n.prepareTimer[Id]
+	n.prepTimerLock.Unlock()
 	go func() {
 		select {
-		case <-n.prepareTimer[Id].timeControl.C:
-			n.prepareTimer[Id].stop = true
-			n.prepareTimer[Id].timeControl.Stop()
+		case <-timer.timeControl.C:
+			timer.stop = true
+			timer.timeControl.Stop()
 			//if prepared, send prepareQc
 			n.checkIfPrepareQc(Id, BatchString)
 		}
@@ -78,7 +82,7 @@ func (n *Node) broadcastPrePrepareMsg(reqBatch *RequestBatch, err chan error) {
 
 // handle the prepreparemsg
 func (n *Node) handlePrePrepareMsg(ppm *PrePrepareMsg, err chan error) {
-
+	time.Sleep(time.Duration(n.Simlatency) * time.Millisecond)
 	fmt.Printf("Node %d receive pre-prepare from node %d, sn:%d, view:%d\n", n.replicaId, ppm.ReplicaId, ppm.SN, ppm.View)
 
 	preprep := ppm //prepreparemsg
@@ -101,10 +105,10 @@ func (n *Node) handlePrePrepareMsg(ppm *PrePrepareMsg, err chan error) {
 		return
 	}
 
-	if !n.inWatermarks(preprep.SN) {
-		fmt.Printf("The sequence %d of preprepare is out of the watermark\n", preprep.SN)
-		return
-	}
+	// if !n.inWatermarks(preprep.SN) {
+	// 	fmt.Printf("The sequence %d of preprepare is out of the watermark\n", preprep.SN)
+	// 	return
+	// }
 
 	Id := MsgId{preprep.SN, preprep.View}
 
@@ -122,8 +126,9 @@ func (n *Node) handlePrePrepareMsg(ppm *PrePrepareMsg, err chan error) {
 	}
 
 	// store the prepreparemsg locally
-
+	n.reqBatchLock.Lock()
 	n.reqBatch[Id] = preprep.ReqBatch
+	n.reqBatchLock.Unlock()
 	cert.reqBatchStage = received
 	cert.reqBatchDigest = preprep.BatchHash
 	cert.prePrepareStore = preprep
@@ -172,12 +177,13 @@ func (n *Node) createPrepareMsg(sn RequestSN) *PrepareMsg {
 
 // send prepareMsg to leader
 func (n *Node) sendPrepareMsg(sn RequestSN, err chan error) {
+	time.Sleep(time.Duration(n.Simlatency) * time.Millisecond)
 	pm := n.createPrepareMsg(sn)
 	leaderId := n.primary(n.currenView)
 	leadAddr := n.clusterAddr[leaderId] + ":" + strconv.Itoa(n.clusterPort[leaderId])
 
-	// fmt.Printf("Node %d send prepare to primary %d, sn:%d, v:%d\n",
-	// 	n.replicaId, leaderId, pm.Vote.SN, pm.Vote.View)
+	fmt.Printf("Node %d send prepare to primary %d, sn:%d, v:%d\n",
+		n.replicaId, leaderId, pm.Vote.SN, pm.Vote.View)
 
 	if errBC := n.sendToLeader(PrepareType, pm, leadAddr); errBC != nil {
 		err <- errBC
@@ -186,12 +192,13 @@ func (n *Node) sendPrepareMsg(sn RequestSN, err chan error) {
 }
 
 func (n *Node) sendCommitMsg(pqc *PrepareQc, err chan error) {
+	time.Sleep(time.Duration(n.Simlatency) * time.Millisecond)
 	cm := n.createCommitMsg(pqc)
 	leaderId := n.primary(n.currenView)
 	leadAddr := n.clusterAddr[leaderId] + ":" + strconv.Itoa(n.clusterPort[leaderId])
 
-	// fmt.Printf("Node %d send commit to primary %d, sn:%d, v:%d\n",
-	// 	n.replicaId, leaderId, cm.Vote.SN, cm.Vote.View)
+	fmt.Printf("Node %d send commit to primary %d, sn:%d, v:%d\n",
+		n.replicaId, leaderId, cm.Vote.SN, cm.Vote.View)
 
 	if errBC := n.sendToLeader(CommitType, cm, leadAddr); errBC != nil {
 		err <- errBC
@@ -219,14 +226,14 @@ func (n *Node) handlePrepareMsg(pm *PrepareMsg, err chan error) {
 		return
 	}
 
-	if !n.inWatermarks(pm.Vote.SN) {
-		fmt.Printf("The sequence %d of PrepareMsg is out of the watermark\n", pm.Vote.SN)
-		return
-	}
+	// if !n.inWatermarks(pm.Vote.SN) {
+	// 	fmt.Printf("The sequence %d of PrepareMsg is out of the watermark\n", pm.Vote.SN)
+	// 	return
+	// }
 
 	prepare := pm //prepareMsg
 	// check if a corresponding prepreparemsg has been received before
-	n.checkIfPrePrepared(MsgId{prepare.Vote.SN, n.currenView})
+	//n.checkIfPrePrepared(MsgId{prepare.Vote.SN, n.currenView})
 
 	// check if a preparemsg with the same sn has been received from the same sender before
 	cert := n.getCert(MsgId{prepare.Vote.SN, n.currenView})
@@ -235,7 +242,9 @@ func (n *Node) handlePrepareMsg(pm *PrepareMsg, err chan error) {
 		fmt.Printf("a prepare with the same sn %d  has been received from node: %d before\n", prepare.Vote.SN, prepare.ReplicaId)
 		return
 	}
+	cert.msglock.Lock()
 	cert.prePareStore[prepare.ReplicaId] = prepare
+	cert.msglock.Unlock()
 	n.handlePrepareVote(prepare)
 }
 
@@ -246,14 +255,15 @@ func (n *Node) handlePrepareVote(pm *PrepareMsg) {
 		pm.Vote.View,
 	}
 	//cert := n.getCert(Id)
+	n.partialSigPrepareLock.Lock()
 	_, ok := n.partialSigInPrepare[Id]
 	if !ok {
 		n.partialSigInPrepare[Id] = make(map[string]map[uint32][]byte)
 		//n.fastPartialSigInPrepare[Id] = make(map[string]map[uint32][]byte)
 	}
-
+	n.partialSigPrepareLock.Unlock()
 	BatchString := hex.EncodeToString(pm.Vote.BatchHash)
-
+	n.partialSigPrepareLock.Lock()
 	_, ok = n.partialSigInPrepare[Id][BatchString]
 	if !ok {
 		n.partialSigInPrepare[Id][BatchString] = make(map[uint32][]byte)
@@ -262,21 +272,25 @@ func (n *Node) handlePrepareVote(pm *PrepareMsg) {
 
 	n.partialSigInPrepare[Id][BatchString][pm.ReplicaId] = pm.PartialSig
 	//n.fastPartialSigInPrepare[Id][BatchString][pm.ReplicaId] = pm.FastPartialSig
-
+	n.partialSigPrepareLock.Unlock()
 	n.checkIfPrepareQc(Id, BatchString)
 
 }
 func (n *Node) checkIfPrepareQc(Id MsgId, BatchString string) {
 
 	cert := n.getCert(Id)
-
-	if len(n.partialSigInPrepare[Id][BatchString]) >= n.t && !cert.prepareQcStage {
+	n.partialSigPrepareLock.Lock()
+	if len(n.partialSigInPrepare[Id][BatchString]) >= n.tprep && !cert.prepareQcStage {
+		n.partialSigPrepareLock.Unlock()
 		cert.prepareQcStage = true
 		prepareQcMsg := n.createPrepareQc(Id, BatchString)
 		// fmt.Printf("Node %d broadcast prepareQc, sn:%d, v:%d\n",
 		// 	n.replicaId, prepareQcMsg.SN, prepareQcMsg.View)
+
 		n.broadcast(PrepareQcType, prepareQcMsg, nil, prepareQcMsg.SN)
+		return
 	}
+	n.partialSigPrepareLock.Unlock()
 }
 
 func (n *Node) createPrepareQc(Id MsgId, BatchString string) *PrepareQc {
@@ -289,9 +303,11 @@ func (n *Node) createPrepareQc(Id MsgId, BatchString string) *PrepareQc {
 	}
 
 	var partialSigs [][]byte
+	n.partialSigPrepareLock.Lock()
 	for _, sig := range n.partialSigInPrepare[Id][BatchString] {
 		partialSigs = append(partialSigs, sig)
 	}
+	n.partialSigPrepareLock.Unlock()
 
 	prepareQc := PrepareQc{
 		ReplicaId:    n.replicaId,
@@ -301,7 +317,7 @@ func (n *Node) createPrepareQc(Id MsgId, BatchString string) *PrepareQc {
 		ThresholdSig: nil,
 	}
 
-	Sig, err := n.createThresholdSig(voteMsg, partialSigs, n.tsPubKey, n.t, n.replicaCount)
+	Sig, err := n.createThresholdSig(voteMsg, partialSigs, n.tsPubKey, n.tprep, n.replicaCount)
 	if err != nil {
 		return nil
 	}
@@ -343,17 +359,17 @@ func (n *Node) createFastPrepareQc(Id MsgId, BatchString string) *FastPrepareQc 
 
 func (n *Node) handlePrepareQc(pqc *PrepareQc, err chan error) {
 
-	//fmt.Printf("Node %d receive prepareQc from node %d, sn:%d, v:%d \n", n.replicaId, pqc.ReplicaId, pqc.SN, pqc.View)
-
+	fmt.Printf("Node %d receive prepareQc from node %d, sn:%d, v:%d \n", n.replicaId, pqc.ReplicaId, pqc.SN, pqc.View)
+	time.Sleep(time.Duration(n.Simlatency) * time.Millisecond)
 	if !n.activeView {
 		fmt.Printf("Node is in viewchange and ignores the prepareQc msg")
 		return
 	}
 
-	if !n.inWatermarks(pqc.SN) {
-		fmt.Printf("The sequence %d of prepareQc is out of the watermark\n", pqc.SN)
-		return
-	}
+	// if !n.inWatermarks(pqc.SN) {
+	// 	fmt.Printf("The sequence %d of prepareQc is out of the watermark\n", pqc.SN)
+	// 	return
+	// }
 
 	if pqc.ReplicaId != n.primary(n.currenView) {
 		fmt.Println("PrepareQc from a non-leader node")
@@ -430,17 +446,17 @@ func (n *Node) createCommitMsg(pqc *PrepareQc) *CommitMsg {
 // handle the commitmsg
 func (n *Node) handleCommitMsg(cmsg *CommitMsg, err chan error) {
 
-	//fmt.Printf("Node %d receive commit of from node %d, sn:%d, v:%d\n", n.replicaId, cmsg.ReplicaId, cmsg.Vote.SN, cmsg.Vote.View)
+	fmt.Printf("Node %d receive commit of from node %d, sn:%d, v:%d\n", n.replicaId, cmsg.ReplicaId, cmsg.Vote.SN, cmsg.Vote.View)
 
 	if !n.activeView {
 		fmt.Printf("Node is in viewchange and ignores the commit msg")
 		return
 	}
 
-	if !n.inWatermarks(cmsg.Vote.SN) {
-		fmt.Printf("The sequence %d of CommitMsg is out of the watermark\n", cmsg.Vote.SN)
-		return
-	}
+	// if !n.inWatermarks(cmsg.Vote.SN) {
+	// 	fmt.Printf("The sequence %d of CommitMsg is out of the watermark\n", cmsg.Vote.SN)
+	// 	return
+	// }
 
 	msg := cmsg
 	Id := MsgId{
@@ -448,7 +464,7 @@ func (n *Node) handleCommitMsg(cmsg *CommitMsg, err chan error) {
 		msg.Vote.View,
 	}
 	// check if a corresponding prepreparemsg has been received before
-	n.checkIfPrePrepared(Id)
+	//n.checkIfPrePrepared(Id)
 	cert := n.getCert(Id)
 	// check if a commitmsg with the same sn has been received before
 	if _, ok := cert.commitStore[msg.ReplicaId]; ok {
@@ -457,7 +473,9 @@ func (n *Node) handleCommitMsg(cmsg *CommitMsg, err chan error) {
 		return
 		//Todo send viewchange
 	} else {
+		cert.msglock.Lock()
 		cert.commitStore[msg.ReplicaId] = msg
+		cert.msglock.Unlock()
 		n.handleCommitVote(msg)
 	}
 
@@ -472,16 +490,17 @@ func (n *Node) handleCommitVote(cm *CommitMsg) {
 		cm.Vote.View,
 	}
 	cert := n.getCert(Id)
-
+	n.partialSigCommitLock.Lock()
 	_, ok := n.partialSigInCommit[Id]
 	if !ok {
 		n.partialSigInCommit[Id] = make(map[string]map[uint32][]byte)
 	}
+	n.partialSigCommitLock.Unlock()
 
 	VoteBytes, _ := dataHashByte(cm.Vote)
 
 	VoteString := hex.EncodeToString(VoteBytes)
-
+	n.partialSigCommitLock.Lock()
 	_, ok = n.partialSigInCommit[Id][VoteString]
 
 	if !ok {
@@ -489,16 +508,18 @@ func (n *Node) handleCommitVote(cm *CommitMsg) {
 	}
 
 	n.partialSigInCommit[Id][VoteString][cm.ReplicaId] = cm.PartialSig
-	if len(n.partialSigInCommit[Id][VoteString]) >= n.t && !cert.commitQcStage {
+	if len(n.partialSigInCommit[Id][VoteString]) >= n.tcommit && !cert.commitQcStage {
 
-		commitQcMsg := n.createCommitQc(Id, cm.Vote)
 		cert.commitQcStage = true
-
+		n.partialSigCommitLock.Unlock()
+		commitQcMsg := n.createCommitQc(Id, cm.Vote)
 		// fmt.Printf("Node %d broadcast commitQc, sn:%d, v:%d\n",
 		// 	n.replicaId, commitQcMsg.SN, commitQcMsg.View)
 
 		n.broadcast(CommitQcType, commitQcMsg, nil, commitQcMsg.SN)
+		return
 	}
+	n.partialSigCommitLock.Unlock()
 }
 
 func (n *Node) createCommitQc(Id MsgId, vote PrepareQc) *CommitQc {
@@ -509,9 +530,11 @@ func (n *Node) createCommitQc(Id MsgId, vote PrepareQc) *CommitQc {
 	voteMsg := vote
 
 	var partialSigs [][]byte
+	n.partialSigCommitLock.Lock()
 	for _, sig := range n.partialSigInCommit[Id][VoteString] {
 		partialSigs = append(partialSigs, sig)
 	}
+	n.partialSigCommitLock.Unlock()
 
 	commitQc := CommitQc{
 		ReplicaId:    n.replicaId,
@@ -521,7 +544,7 @@ func (n *Node) createCommitQc(Id MsgId, vote PrepareQc) *CommitQc {
 		ThresholdSig: nil,
 	}
 
-	Sig, err := n.createThresholdSig(voteMsg, partialSigs, n.tsPubKey, n.t, n.replicaCount)
+	Sig, err := n.createThresholdSig(voteMsg, partialSigs, n.tsPubKey, n.tcommit, n.replicaCount)
 	if err != nil {
 		panic(err)
 		return nil
@@ -571,17 +594,17 @@ func (n *Node) handleFastPrepareQc(fpqc *FastPrepareQc, err chan error) {
 }
 func (n *Node) handleCommitQc(cqc *CommitQc, err chan error) {
 
-	//fmt.Printf("Node %d receive commitQc from node %d, sn:%d, v:%d\n", n.replicaId, cqc.ReplicaId, cqc.SN, cqc.View)
-
+	fmt.Printf("Node %d receive commitQc from node %d, sn:%d, v:%d\n", n.replicaId, cqc.ReplicaId, cqc.SN, cqc.View)
+	time.Sleep(time.Duration(n.Simlatency) * time.Millisecond)
 	if !n.activeView {
 		fmt.Printf("Node is in viewchange and ignores the commitQc msg")
 		return
 	}
 
-	if !n.inWatermarks(cqc.SN) {
-		fmt.Printf("The sequence %d of commitQc is out of the watermark\n", cqc.SN)
-		return
-	}
+	// if !n.inWatermarks(cqc.SN) {
+	// 	fmt.Printf("The sequence %d of commitQc is out of the watermark\n", cqc.SN)
+	// 	return
+	// }
 
 	if cqc.ReplicaId != n.primary(n.currenView) {
 		fmt.Println("CommitQc from a non-leader node")
@@ -652,6 +675,8 @@ func (n *Node) checkIfCommitted(Id MsgId, err chan error) {
 
 func (n *Node) executeRequest(Id MsgId, err chan error) {
 	//buffer the command
+
+	n.executeLock.Lock()
 	n.execReqIdBuffer[Id.Sn] = Id
 	n.execReqBuffer[Id.Sn] = n.getCert(Id).reqBatchDigest
 	if n.exeSn.lastExec < Id.Sn {
@@ -670,7 +695,10 @@ func (n *Node) executeRequest(Id MsgId, err chan error) {
 
 		}
 		n.exeSn.num.Unlock()
+		n.executeLock.Unlock()
+		return
 	}
+	n.executeLock.Unlock()
 }
 
 func (n *Node) checkIfCreateChkpt(sn RequestSN, err chan error) {
@@ -712,7 +740,7 @@ func (n *Node) recvCheckpoint(chkpt *CheckpointMsg, err chan error) {
 		fmt.Printf("Checkpoint sequence number outside watermarks: seqNo %d, low-mark %d\n", chkpt.SeqN, n.h)
 		return
 	}
-
+	n.checkPointLock.Lock()
 	if n.checkpointStore[chkpt.SeqN] == nil {
 
 		n.checkpointStore[chkpt.SeqN] = make(map[CheckpointMsg]bool)
@@ -735,7 +763,7 @@ func (n *Node) recvCheckpoint(chkpt *CheckpointMsg, err chan error) {
 			}
 		}
 	}
-
+	n.checkPointLock.Unlock()
 	if count := len(diffValues); count > n.f+1 {
 		fmt.Printf("Network unable to find stable certificate for seqNo %d (%d different values observed already)\n",
 			chkpt.SeqN, count)

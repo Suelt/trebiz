@@ -2,7 +2,7 @@
 import os
 import time
 #ResultPath is the path where the results are stored
-ResultsPath = "D:/VirtualBox/ubuntu/result"
+ResultsPath = "/home/kuokhane/shareWithPC/code/go/trebiz/ansible/result"
 
 def get_filelist(dir, Filelist):
     if os.path.isfile(dir):

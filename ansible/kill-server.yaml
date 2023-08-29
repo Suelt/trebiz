@@ -1,7 +1,8 @@
 - hosts: remote
-  remote_user: hh
-  gather_facts: false
+  remote_user: kuokhane
+  gather_facts: true
   tasks:
     - name: kill trebiz
       shell: killall trebiz
+      become: yes
       ignore_errors: yes

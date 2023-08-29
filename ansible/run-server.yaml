@@ -3,19 +3,19 @@
   tasks:
     - name: create testbed dirs
       file:
-        path: /home/fastpath1/trebiz{{inventory_hostname}}/trebiz{{item}}/testbed
+        path: /home/fastpath2/trebiz{{inventory_hostname}}/trebiz{{item}}/testbed
         state: directory
       become: yes
-      loop: [0]
+      loop: [0, 1]
       loop_control:
         loop_var: item
 
     - name: run trebiz as a daemon
-      shell: "(nohup ./trebiz> /home/trebiz{{inventory_hostname}}/trebiz{{item}}/testbed/{{inventory_hostname}}_{{item}}.txt 2>&1 &)"
+      shell: "(nohup ./trebiz> /home/fastpath2/trebiz{{inventory_hostname}}/trebiz{{item}}/testbed/{{inventory_hostname}}_{{item}}.txt 2>&1 &)"
       args:
-        chdir: /home/fastpath1/trebiz{{inventory_hostname}}/trebiz{{item}}/trebiz
+        chdir: /home/fastpath2/trebiz{{inventory_hostname}}/trebiz{{item}}/trebiz
       become: yes
-      loop: [0]
+      loop: [0, 1]
       loop_control:
         loop_var: item
 

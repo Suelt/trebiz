@@ -1,11 +1,14 @@
 - hosts: remote
-  remote_user: hh
+  remote_user: kuokhane
   tasks:
     - name: fetch the results
       fetch:
-        src: /home/hh/testbed/{{inventory_hostname}}_{{item}}.txt
+        src: /home/fastpath2/trebiz{{inventory_hostname}}/trebiz{{item}}/testbed/{{inventory_hostname}}_{{item}}.txt
         #The results will be fetched into the "result" folder from the remote hosts
-        dest: /vagrant/result/
-      loop:
-        - 0
+        dest: /home/kuokhane/shareWithPC/code/go/trebiz/ansible/result/{{inventory_hostname}}_{{item}}.txt
+        become: yes
+      loop: [0, 1]
+      loop_control:
+        loop_var: item
+      ignore_errors: yes
 

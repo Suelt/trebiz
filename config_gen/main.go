@@ -156,9 +156,29 @@ func main() {
 		}
 	}
 
+	simLatencyMap := make(map[string]float64)
+	simLatencyInterface := viperRead.GetStringMap("sim_latency")
+	for name, latency := range simLatencyInterface {
+		if latencyAsFloat, ok := latency.(float64); ok {
+			simLatencyMap[name] = latencyAsFloat
+		} else {
+			panic("sim_latency contains a non-float value")
+		}
+	}
+	var latencySum float64
+	for _, value := range simLatencyMap {
+
+		latencySum += value
+	}
+	latencySum /= float64(nodeNumber)
+	latency_mean := viperRead.GetFloat64("latency_mean")
+	for name, value := range simLatencyMap {
+		simLatencyMap[name] = value * latency_mean / latencySum
+	}
+
 	//generate threshold keys
 	TotalNodeNum := (nodeNumber-1)*ProcessCount + 1
-	numT := TotalNodeNum - TotalNodeNum/3
+	numT := TotalNodeNum - TotalNodeNum/3 - 1
 	shares, pubPoly := sign.GenTSKeys(numT, TotalNodeNum)
 
 	bg := viperRead.GetInt("bgnum")
@@ -203,7 +223,7 @@ func main() {
 			}
 
 			viperWrite.SetConfigFile(fmt.Sprintf("%s_%s.yaml", name, index))
-
+			viperWrite.Set("sim_latency", simLatencyMap["node"+fmt.Sprintf("%d", replicaId)])
 			shareAsBytes, err := sign.EncodeTSPartialKey(shares[replicaId])
 			if err != nil {
 				panic("encode the share")
@@ -246,6 +266,9 @@ func main() {
 
 			//viperWrite.Set("fastqcquorum", fastNum)
 			viperWrite.Set("viewChangeQuorum", viewChangeQuorum)
+			viperWrite.Set("commitquorum", 2*ProcessCount+1)
+			viperWrite.Set("prepquorum", 2*ProcessCount+1)
+
 			// viperWrite.Set("prePrepareSubsetCount", prePrepareSubsetCount)
 			if judgeNodeType(replicaId, bgnodes) {
 				viperWrite.Set("nodetype", 1)

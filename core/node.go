@@ -53,6 +53,8 @@ type MsgCert struct {
 	prePrepareStore *PrePrepareMsg
 	prePareStore    map[uint32]*PrepareMsg
 	commitStore     map[uint32]*CommitMsg
+
+	msglock sync.Mutex
 }
 
 const (
@@ -107,12 +109,15 @@ type Node struct {
 	reqBatch map[MsgId]RequestBatch // record the request of each batch
 
 	partialSigInPrepare     map[MsgId]map[string]map[uint32][]byte //key voteString, replicaId
+	partialSigPrepareLock   sync.Mutex
 	fastPartialSigInPrepare map[MsgId]map[string]map[uint32][]byte //key voteString, replicaId
 	partialSigInCommit      map[MsgId]map[string]map[uint32][]byte //key voteString, replicaId
+	partialSigCommitLock    sync.Mutex
 	reqCertStore            map[MsgId]*MsgCert
 
 	f               int                                  // byzantine nodes
-	t               int                                  // Quorum threshold
+	tprep           int                                  // Quorum threshold
+	tcommit         int                                  // Quorum threshold
 	h               uint32                               // low watermark
 	T               uint32                               // checkpoint period
 	K               uint32                               //h+k is the high watermark
@@ -131,12 +136,25 @@ type Node struct {
 	viewChangeQuorum      int
 	prePrepareSubsetCount int
 	prepareTimer          map[MsgId]*fastTimer
-	nodeType              int
-	evilPR                int
-	SameIpTimeout         int
+
+	nodeType      int
+	evilPR        int
+	SameIpTimeout int
 
 	HardcodedBatch   []*Request
 	HardcodedPayload []byte
+
+	Simlatency float64
+
+	reqBatchLock sync.Mutex
+
+	certMapLock sync.Mutex
+
+	prepTimerLock sync.Mutex
+
+	checkPointLock sync.Mutex
+
+	executeLock sync.Mutex
 }
 
 func NewNode(conf *config.Config) *Node {
@@ -168,12 +186,18 @@ func NewNode(conf *config.Config) *Node {
 	n.publicKey = conf.PublicKeyMap
 	n.tsPriKey = conf.TsPriKey
 	n.tsPubKey = conf.TsPubKey
+	n.tprep = conf.PrepQuorum
+	n.tcommit = conf.CommitQuorum
+
+	fmt.Println(n.tprep, n.tcommit)
+
+	n.Simlatency = conf.Simlatency
 	// n.fastPriKey = conf.FastPriKey
 	// n.fastPubKey = conf.FastPubKey
 
 	n.replicaCount = len(n.clusterAddr)
 	n.f = int(math.Ceil(float64(n.replicaCount)) / 3.0)
-	n.t = 2*n.f + 1
+
 	n.h = 0
 	n.T = conf.CheckPointT
 	n.K = conf.LogK
@@ -208,8 +232,8 @@ func NewNode(conf *config.Config) *Node {
 	n.LastNewVewTimeout = time.Duration(conf.ViewChangeTimeout) * time.Millisecond
 	n.autoViewChange = conf.AutoViewChange
 
-	hardcodedBytes := make([]byte, 100)
-	for i := 0; i < 100; i++ {
+	hardcodedBytes := make([]byte, 1000)
+	for i := 0; i < 512; i++ {
 		hardcodedBytes[i] = byte(i)
 	}
 	for i := 0; i < n.rHandler.BatchSize-1; i++ {
@@ -286,7 +310,8 @@ func (n *Node) StartPBFT(ch chan error) {
 					fmt.Printf("node %d receive invalid PrePrepareMsg from node %d\n", n.replicaId, msg.ReplicaId)
 					panic(err)
 				} else {
-					n.handlePrePrepareMsg(msg, ch)
+
+					go n.handlePrePrepareMsg(msg, ch)
 				}
 
 			case *PrepareMsg:
@@ -296,7 +321,8 @@ func (n *Node) StartPBFT(ch chan error) {
 					fmt.Printf("node %d receive invalid PrepareMsg from node %d\n", n.replicaId, msg.ReplicaId)
 					panic(err)
 				} else {
-					n.handlePrepareMsg(msg, ch)
+
+					go n.handlePrepareMsg(msg, ch)
 				}
 
 			case *CommitMsg:
@@ -306,7 +332,8 @@ func (n *Node) StartPBFT(ch chan error) {
 					fmt.Printf("node %d receive invalid CommitMsg from node %d\n", n.replicaId, msg.ReplicaId)
 					panic(err)
 				} else {
-					n.handleCommitMsg(msg, ch)
+
+					go n.handleCommitMsg(msg, ch)
 				}
 			case *PrepareQc:
 
@@ -315,7 +342,8 @@ func (n *Node) StartPBFT(ch chan error) {
 					fmt.Printf("node %d receive invalid prepareQc from node %d\n", n.replicaId, msg.ReplicaId)
 					panic(err)
 				} else {
-					n.handlePrepareQc(msg, ch)
+
+					go n.handlePrepareQc(msg, ch)
 				}
 			// case *FastPrepareQc:
 			// 	ok, err := n.verifyRsaSignature(msg, msg.ReplicaId, rpc.Sig)
@@ -331,7 +359,8 @@ func (n *Node) StartPBFT(ch chan error) {
 					fmt.Printf("node %d receive invalid commitQc from node %d\n", n.replicaId, msg.ReplicaId)
 					panic(err)
 				} else {
-					n.handleCommitQc(msg, ch)
+
+					go n.handleCommitQc(msg, ch)
 				}
 			case *CheckpointMsg:
 
@@ -340,7 +369,8 @@ func (n *Node) StartPBFT(ch chan error) {
 					fmt.Printf("node %d receive invalid CheckpointMsg from node %d\n", n.replicaId, msg.ReplicaId)
 					panic(err)
 				} else {
-					n.recvCheckpoint(msg, ch)
+
+					go n.recvCheckpoint(msg, ch)
 				}
 
 			case *ViewChangeMsg:
@@ -382,14 +412,17 @@ func (n *Node) StartPBFT(ch chan error) {
 // Given a digest/view/seq, is there an entry in the certLog?
 // If so, return it. If not, create it.
 func (n *Node) getCert(idx MsgId) (cert *MsgCert) {
+	n.certMapLock.Lock()
 	cert, ok := n.reqCertStore[idx]
 	if ok {
+		n.certMapLock.Unlock()
 		return
 	}
 	cert = &MsgCert{}
 	cert.prePareStore = make(map[uint32]*PrepareMsg)
 	cert.commitStore = make(map[uint32]*CommitMsg)
 	n.reqCertStore[idx] = cert
+	n.certMapLock.Unlock()
 	return
 }
 
@@ -564,7 +597,7 @@ func (n *Node) sendBatch() {
 	}
 
 	fmt.Printf("batch len:%d\n", len(RequestBatch.Batch))
-
+	//fmt.Println(RequestBatch.Batch[15].Cmd)
 	n.reqPool.BatchStore = n.reqPool.BatchStore[endNum:]
 	n.reqPool.BatchStoreLock.Unlock()
 
@@ -582,19 +615,22 @@ func (n *Node) ReceiveNewRequestForTest(requestNum int) {
 
 func (n *Node) HandleReqBatchLoop() {
 
-	n.rHandler.TimeOutControl = time.NewTimer(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
 	n.reqPool.BatchStoreLock.Lock()
 	n.reqPool.BatchStore = append(n.reqPool.BatchStore, n.HardcodedBatch...)
 	n.reqPool.BatchStoreLock.Unlock()
+	n.rHandler.TimeOutControl = time.NewTimer(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
+
 	for {
 		n.rHandler.Leader = n.clusterAddr[n.primary(n.currenView)]
 		if len(n.reqPool.BatchStore) >= n.rHandler.BatchSize {
 			n.sendBatch()
 			fmt.Println(time.Now().Format("2006-01-02 15:04:05"), "send a batch because of batchSize")
-			n.rHandler.TimeOutControl.Reset(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
+
 			n.reqPool.BatchStoreLock.Lock()
 			n.reqPool.BatchStore = append(n.reqPool.BatchStore, n.HardcodedBatch...)
+
 			n.reqPool.BatchStoreLock.Unlock()
+			n.rHandler.TimeOutControl.Reset(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
 
 		}
 		select {
@@ -604,7 +640,7 @@ func (n *Node) HandleReqBatchLoop() {
 
 				fmt.Printf("an empty batch because of timeout,the primary node packs a batch of size %d\n", n.rHandler.BatchSize)
 				n.rHandler.ReceiveNewRequest(n.HardcodedPayload)
-				n.rHandler.TimeOutControl.Reset(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
+				//n.rHandler.TimeOutControl.Reset(time.Millisecond * time.Duration(n.rHandler.BatchTimeOut))
 			}
 
 		default:

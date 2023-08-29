@@ -1,28 +1,31 @@
 - hosts: remote
-  remote_user: hh
+  remote_user: kuokhane
   tasks:
     - name: copy trebiz
       copy:
         src: /home/kuokhane/shareWithPC/code/go/trebiz
-        dest: /home/fastpath1/trebiz{{inventory_hostname}}/trebiz{{item}}
+        dest: /home/fastpath2/trebiz{{inventory_hostname}}/trebiz{{item}}
       become: yes
-      loop: [0]
+      loop: [0, 1]
       loop_control:
         loop_var: item
+      ignore_errors: yes
 
 
     - name: chmod trebiz
-      shell: chmod +x /home/fastpath1/trebiz{{inventory_hostname}}/trebiz{{item}}/trebiz/trebiz
+      shell: chmod +x /home/fastpath2/trebiz{{inventory_hostname}}/trebiz{{item}}/trebiz/trebiz
       become: yes
-      loop: [0]
+      loop: [0, 1]
       loop_control:
         loop_var: item
+      ignore_errors: yes
 
     - name: copy configuration file
       copy:
         src: /home/kuokhane/shareWithPC/code/go/trebiz/config_gen/{{inventory_hostname}}_{{item}}.yaml
-        dest: /home/fastpath1/trebiz{{inventory_hostname}}/trebiz{{item}}/trebiz/config.yaml
+        dest: /home/fastpath2/trebiz{{inventory_hostname}}/trebiz{{item}}/trebiz/config.yaml
       become: yes
-      loop: [0]
+      loop: [0, 1]
       loop_control:
         loop_var: item
+      ignore_errors: yes

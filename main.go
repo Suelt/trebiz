@@ -10,6 +10,11 @@ import (
 
 func main() {
 
+	a := 1
+	b := 2
+	c := a
+	a = b
+	a = c
 	conf, cerr := config.LoadConfig("", "config")
 	if cerr != nil {
 		panic(cerr)
@@ -48,7 +53,7 @@ func main() {
 	}
 
 	// wait for each node to start
-	time.Sleep(time.Second * 15)
+	time.Sleep(time.Second * 9)
 
 	if err = node.StartConnect(); err != nil {
 		panic(err)

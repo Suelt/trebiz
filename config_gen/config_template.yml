@@ -18,7 +18,7 @@ rpc_listen_port: 9500
 #the number of client commands that should be batched together in a block
 batchSize: 1000
 #the rate at which the leader produces a block, in milliseconds
-batchtimeout: 200
+batchtimeout: 8
 autoviewchange: 0
 viewChangetimeout: 5000
 lastnewvewtimeout: 5000
@@ -28,6 +28,17 @@ maxpool: 3
 
 
 bgnum: 0
-processcount: 1
+processcount: 2
 
-sim_latency: 10
+sim_latency: 
+
+  node0: 12.90003439
+  node1: 50.81495819
+  node2: 78.43729271
+  node3: 128.2671843
+  node4: 317.2057826
+  node5: 721.6515553
+  node6: 1197.683285
+
+
+latency_mean: 500

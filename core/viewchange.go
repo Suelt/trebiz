@@ -47,7 +47,7 @@ func (n *Node) sendViewChange(err chan error) {
 	n.LastNewVewTimeout = n.LastNewVewTimeout * 2
 }
 
-//store preprepare
+// store preprepare
 func (n *Node) calPQset() (map[RequestSN]*PrePrepareMsg, map[RequestSN]*PrepareQc) {
 
 	pset := make(map[RequestSN]*PrePrepareMsg)
@@ -71,12 +71,12 @@ func (n *Node) calPQset() (map[RequestSN]*PrePrepareMsg, map[RequestSN]*PrepareQ
 	return pset, qset
 }
 
-//prepared at with a sequence number higher than . Each
-//set contains a valid pre-Prepare message (withoutthe
-//corresponding client message) and 2f
-//+1 matching, valid
-//Prepare messages signed by different backups with the
-//same view, sequence number, and the digest of .
+// prepared at with a sequence number higher than . Each
+// set contains a valid pre-Prepare message (withoutthe
+// corresponding client message) and 2f
+// +1 matching, valid
+// Prepare messages signed by different backups with the
+// same view, sequence number, and the digest of .
 func (n *Node) correctViewChange(vc *ViewChangeMsg) bool {
 
 	//verify preprepare
@@ -309,11 +309,14 @@ func (n *Node) processNewView(err chan error) {
 				false,
 				time.NewTimer(time.Millisecond * time.Duration(n.fastTimeout)),
 			}
+			n.prepTimerLock.Lock()
+			timer := n.prepareTimer[Id]
+			n.prepTimerLock.Unlock()
 			go func() {
 				select {
-				case <-n.prepareTimer[Id].timeControl.C:
-					n.prepareTimer[Id].stop = true
-					n.prepareTimer[Id].timeControl.Stop()
+				case <-timer.timeControl.C:
+					timer.stop = true
+					timer.timeControl.Stop()
 					//if prepared, send prepareQc
 					n.checkIfPrepareQc(Id, BatchString)
 				}
