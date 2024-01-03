@@ -8,4 +8,5 @@ require (
 	github.com/spf13/viper v1.10.1
 	github.com/urfave/cli v1.22.9
 	go.dedis.ch/kyber/v3 v3.0.13
+	github.com/zllai/go-MerklePatriciaTree v0.0.0-20190826154110-1538c9c6c9e6
 )

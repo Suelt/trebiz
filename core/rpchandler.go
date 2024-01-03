@@ -20,6 +20,7 @@ type Pool struct {
 }
 
 type Request struct {
+	// cmd represents the transaction id
 	Cmd []byte
 }
 

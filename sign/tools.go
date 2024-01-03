@@ -31,7 +31,6 @@ func dataHashByte(data []byte) ([]byte, error) {
 }
 
 func SignWithPrikey(data []byte, priKey ed25519.PrivateKey) []byte {
-
 	msgHashSum, err := dataHashByte(data)
 	if err != nil {
 		panic(err)
